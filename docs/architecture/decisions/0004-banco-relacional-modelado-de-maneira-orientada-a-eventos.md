@@ -87,9 +87,9 @@ erDiagram
 
 </center>
 
-No entanto, em uma reunião com apresentação em `Miro board`, foi sugerido que esse modelo poderia não apresentar a melhor performance em um cenário de serviço com finalidade financeira, múltiplos acessos, concorrência e necessidade de baixa latência. Além disso, foi apontada uma possível `inconsistência` no modelo, uma vez que eram necessárias duas consultas (um *insert* em `transaction` e *updates* nos `balances`) para registrar uma transação. De fato, a performance em persistência ficava prejudicada.
+No entanto, em uma reunião com apresentação em `Miro Board`, foi sugerido que esse modelo poderia não apresentar a melhor performance em um cenário de serviço com finalidade financeira, concorrência e necessidade de baixa latência. Além disso, foi apontada uma possível `inconsistência` no modelo, uma vez que eram necessárias duas consultas (um *insert* em `transaction` e *updates* nos `balances`) para registrar uma transação. De fato, a performance em persistência ficava prejudicada.
 
-Embora estratégias como o uso de `transações de banco de dados` e `serviços de compensação` sejam boas abordagens para mitigar a `inconsistência`, esta ADR visa repensar e propor uma alternativa mais aderente ao modelo até então definido.
+Embora estratégias como o uso de `transações de banco de dados` e `serviços de compensação` sejam boas abordagens para mitigar a `inconsistência`, este ADR visa repensar e propor uma alternativa mais aderente ao modelo até então definido.
 
 <br/>
 

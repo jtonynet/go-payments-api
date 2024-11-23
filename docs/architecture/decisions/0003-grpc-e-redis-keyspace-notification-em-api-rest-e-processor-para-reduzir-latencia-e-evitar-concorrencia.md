@@ -1,4 +1,4 @@
-# 3. gRPC e Redis Keyspace Notification em API REST e Worker para reduzir Latência e evitar Concorrência
+# 3. gRPC e Redis Keyspace Notification em API REST e Processor para reduzir Latência e evitar Concorrência
 
 Data: 10 de Novembro de 2024
 
@@ -90,7 +90,7 @@ As questões de protocolos e patterns e outras, embora não estejam presentes no
 
 ## Decisão
 
-Vamos utilizar [`Redis Keyspace Notifications`](https://redis.io/docs/latest/develop/use/keyspace-notifications/) para notificar desbloqueio de `locks`, segregar a API de payments em duas, uma API rest e um worker. Utilizar `gRPC` para efetuar a comunicacao entre ambas.
+Vamos utilizar [`Redis Keyspace Notifications`](https://redis.io/docs/latest/develop/use/keyspace-notifications/) para notificar desbloqueio de `locks`, segregar a API de payments em duas, uma API `rest` e um `processor`. Utilizar `gRPC` para efetuar a comunicacao entre ambas.
 
 ### Justificativa
 
@@ -103,11 +103,11 @@ Outros critérios decisivos foram segurança e isolamento.
 #### Redis
 Baixa latência e segurança para armazenar e responder de maneira distribuída ao grande volume de instâncias que o serviço pode alcançar. Solução já testada pelo mercado, amplamente utilizada, de fácil implementação.
 
-#### API REST e worker segregados
-Para garantir segurança e isolamento de nossos processos, mesmo sem utilizarmos a abordagem clássica de filas para `producers` e `workers`, iremos segregar a REST API de pagamento em `payment-rest-api` e `payment-worker-api`. Isso garantirá que os clientes da REST API não tenham acesso direto a quaisquer detalhes da execução da transação. Embora essa abordagem adicione uma complexidade adicional, o ganho obtido é evidente.
+#### API REST e Processor segregados
+Para garantir segurança e isolamento de nossos processos, mesmo sem utilizarmos a abordagem clássica de filas para `producers` e `workers`, iremos segregar a REST API de pagamento em `payment-transaction-rest` e `payment-transaction-processor`. Isso garantirá que os clientes da REST API não tenham acesso direto a quaisquer detalhes da execução da transação. Embora essa abordagem adicione uma complexidade adicional, o ganho obtido é evidente.
 
 #### gRPC
-Como vamos segregar `payment-rest-api` e `payment-worker-api`, precisamos de um protocolo leve e rápido para garantir a comunicação entre essas duas peças de software, sem impactar a latência geral do sistema. `gRPC` é a escolha mais acertada nesse cenário, na época em que este documento foi desenvolvido.
+Como vamos segregar `payment-transaction-rest` e `payment-transaction-processor`, precisamos de um protocolo leve e rápido para garantir a comunicação entre essas duas peças de software, sem impactar a latência geral do sistema. `gRPC` é a escolha mais acertada nesse cenário, na época em que este documento foi desenvolvido.
 
 #### Redis Keyspace Notification
 Ficou evidente, pelo fato de podermos publicar mensagens no momento em que uma chave do nosso `memory-lock` no `Redis` sofresse alguma deleção pelo processo ou pelo `ttl`, que o uso do `Keyspace Notification` seria uma alternativa que nos garantiria a baixa latência esperada. Seu principal `trade-off` é a não garantia da entrega (`fire and forget`). No entanto, sendo essa concorrência rara, o serviço que subscreve o `channel` para receber essa mensagem sendo confiável, e apenas instâncias da nossa API que se encontram com o processamento preso pela condição de corrida irão subscrever o `channel`, essa abordagem se demonstrou sólida e eficiente no cenário proposto.
@@ -116,7 +116,7 @@ Ficou evidente, pelo fato de podermos publicar mensagens no momento em que uma c
 
 #### Novo DIagrama Miro
 Foi inserido maior contexto ao diagrama, para que, sozinho, ele já seja expressivo (embora tenha ficado mais poluído com o texto). Os protocolos entre as APIs foram definidos, e a parte do sistema onde a latência de 100ms mais importa foi evidenciada.  
-A única alteração arquitetural feita nesse diagrama, se comparado ao da reunião, foi mover o `subscriber` para a `payment-worker-api`. Ele faz mais sentido lá, tendo em vista que a chamada gRPC é síncrona.
+A única alteração arquitetural feita nesse diagrama, se comparado ao da reunião, foi mover o `subscriber` para a `payment-transaction-processor`. Ele faz mais sentido lá, tendo em vista que a chamada gRPC é síncrona.
 
 **Patterns Utilizados:**
 - Cache Aside

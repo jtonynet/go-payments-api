@@ -365,19 +365,12 @@ docker compose exec payments-api go test -v -count=1 ./internal/adapter/reposito
 
 Registros e Saldos para teste manual
 
-L1. L2. Account e Saldos por Categoria
+Account 
 > 
 > | __Account:__                                            | __AcountID:__ |
 > |---------------------------------------------------------|---------------|
 > |123e4567-e89b-12d3-a456-426614174000                     | 1             |
 >
-> ---
->
-> | __Categoria__ | __MCCs__           | __Amount Disponível na Categoria__ |
-> |---------------|--------------------|------------------------------------|
-> | FOOD          | 5411, 5412         | 105.01                             |
-> | MEAL          | 5811, 5812         | 110.22                             |
-> | CASH          |                    | 115.33                             |
 
 <br/>
 
@@ -422,6 +415,13 @@ WHERE
 	a.uid = '123e4567-e89b-12d3-a456-426614174000' 
 GROUP BY a.id, a.uid, t.id, t.uid, t.amount, c.id, c.name, c.priority;
 ```
+
+L1. L2. Resultado esperado:
+> | __account_id__ | __account_uid__                      | __transaction_id__ | __transaction_uid__                  | __amount__ | category_id | category_name | priority | codes     |
+> |----------------|--------------------------------------|--------------------|--------------------------------------|------------|-------------|---------------|----------|-----------|
+> |1               | 123e4567-e89b-12d3-a456-426614174000 | 2                  | [NULL]                               | 110.22     | 2           | MEAL          | 2        | 5811,5812 |
+> |1               | 123e4567-e89b-12d3-a456-426614174000 | 3                  | [NULL]                               | 115.33     | 3           | CASH          | 3        |           |
+> |1               | 123e4567-e89b-12d3-a456-426614174000 | 4                  | 9934141b-2fcb-4a4e-a8ad-e2e5b8988206 |105.01      | 1           | FOOD          | 1        | 5411,5412 |
 
 
 _*Com acesso ao banco a partir dos dados de `.env`, para validar. Bem como a [Documentação da API](#api-docs) (Swagger) pode ser utilizado para proceder as `requests`. <br/> **Utilize o campo `name` real da tabela `merchant`, o github pode formatar de maneira incorreta esse dado no markdown._

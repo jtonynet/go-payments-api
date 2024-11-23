@@ -380,6 +380,7 @@ L3. Merchants com mapeamentos MCC incorretos
 > |------------------------------------------|--------------------|----------------------------|
 > | UBER EATS                   SAO PAULO BR | 5412               | FOOD                       |
 > | PAG*JoseDaSilva          RIO DE JANEI BR | 5812               | MEAL                       |
+_*Utilize o campo `name` real da tabela `merchant`, o github pode formatar de maneira incorreta esse dado no markdown._
 
 <br/>
 
@@ -421,10 +422,10 @@ L1. L2. Resultado esperado:
 > |----------------|--------------------------------------|--------------------|--------------------------------------|------------|-------------|---------------|----------|-----------|
 > |1               | 123e4567-e89b-12d3-a456-426614174000 | 2                  | [NULL]                               | 110.22     | 2           | MEAL          | 2        | 5811,5812 |
 > |1               | 123e4567-e89b-12d3-a456-426614174000 | 3                  | [NULL]                               | 115.33     | 3           | CASH          | 3        |           |
-> |1               | 123e4567-e89b-12d3-a456-426614174000 | 4                  | 9934141b-2fcb-4a4e-a8ad-e2e5b8988206 |105.01      | 1           | FOOD          | 1        | 5411,5412 |
+> |1               | 123e4567-e89b-12d3-a456-426614174000 | 4                  | 00000000-0000-0000-0000-000000000000 |105.01      | 1           | FOOD          | 1        | 5411,5412 |
 
 
-_*Com acesso ao banco a partir dos dados de `.env`, para validar. Bem como a [Documentação da API](#api-docs) (Swagger) pode ser utilizado para proceder as `requests`. <br/> **Utilize o campo `name` real da tabela `merchant`, o github pode formatar de maneira incorreta esse dado no markdown._
+_*Com acesso ao banco a partir dos dados de `.env`, para validar. Bem como a [Documentação da API](#api-docs) (Swagger) pode ser utilizado para proceder as `requests`._
 
 <br/>
 

@@ -21,7 +21,7 @@ type AllRepos struct {
 func GetAll(conn database.Conn) (AllRepos, error) {
 	repos := AllRepos{}
 
-	strategy, err := conn.GetStrategy(context.TODO())
+	strategy, err := conn.GetStrategy(context.Background())
 	if err != nil {
 		return AllRepos{}, fmt.Errorf("error when instantiating merchant repository: %v", err)
 	}
@@ -49,7 +49,7 @@ func GetAll(conn database.Conn) (AllRepos, error) {
 func NewCachedMerchant(cacheConn inMemoryDatabase.Client, mRepository port.MerchantRepository) (port.MerchantRepository, error) {
 	var mr port.MerchantRepository
 
-	strategy, err := cacheConn.GetStrategy(context.TODO())
+	strategy, err := cacheConn.GetStrategy(context.Background())
 	if err != nil {
 		return mr, fmt.Errorf("error: dont retrieve cache strategy: %v", err)
 	}
@@ -65,7 +65,7 @@ func NewCachedMerchant(cacheConn inMemoryDatabase.Client, mRepository port.Merch
 func NewMemoryLock(lockConn inMemoryDatabase.Client, pubsub pubSub.PubSub) (port.MemoryLockRepository, error) {
 	var mlr port.MemoryLockRepository
 
-	strategy, err := lockConn.GetStrategy(context.TODO())
+	strategy, err := lockConn.GetStrategy(context.Background())
 	if err != nil {
 		return mlr, fmt.Errorf("error: dont retrieve memory lock strategy: %v", err)
 	}

@@ -119,7 +119,7 @@ func newAccountRepoFake(db DBfake) port.AccountRepository {
 }
 
 func (arf *AccountRepoFake) FindByUID(_ context.Context, uid uuid.UUID) (port.AccountEntity, error) {
-	accountEntity, err := arf.db.AccountRepoFindByUID(context.TODO(), uid)
+	accountEntity, err := arf.db.AccountRepoFindByUID(context.Background(), uid)
 	return accountEntity, err
 }
 
@@ -208,11 +208,11 @@ func newMemoryLockRepoFake(memoryDB InMemoryDBfake) port.MemoryLockRepository {
 }
 
 func (m *MemoryLockRepoFake) Lock(_ context.Context, timeoutSLA port.TimeoutSLA, mle port.MemoryLockEntity) (port.MemoryLockEntity, error) {
-	return m.memoryDB.MemoryLockRepoLock(context.TODO(), mle)
+	return m.memoryDB.MemoryLockRepoLock(context.Background(), mle)
 }
 
 func (m *MemoryLockRepoFake) Unlock(_ context.Context, key string) error {
-	return m.memoryDB.MemoryLockRepoUnlock(context.TODO(), key)
+	return m.memoryDB.MemoryLockRepoUnlock(context.Background(), key)
 }
 
 type PaymentSuite struct {

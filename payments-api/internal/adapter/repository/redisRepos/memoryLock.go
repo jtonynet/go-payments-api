@@ -67,7 +67,7 @@ func (ml *MemoryLock) Unlock(ctx context.Context, key string) error {
 }
 
 func (ml *MemoryLock) isUnlocked(mle port.MemoryLockEntity) (bool, error) {
-	locked, err := ml.get(context.TODO(), mle.Key)
+	locked, err := ml.get(context.Background(), mle.Key)
 	if err == nil {
 		elapsedTime := time.Now().UnixMilli() - locked.Timestamp
 		return false, fmt.Errorf("key is already locked by another process, held for %v ms", elapsedTime)
@@ -77,7 +77,7 @@ func (ml *MemoryLock) isUnlocked(mle port.MemoryLockEntity) (bool, error) {
 }
 
 func (ml *MemoryLock) get(_ context.Context, key string) (port.MemoryLockEntity, error) {
-	timestampStr, err := ml.lockConn.Get(context.TODO(), key)
+	timestampStr, err := ml.lockConn.Get(context.Background(), key)
 	if err != nil {
 		return port.MemoryLockEntity{}, err
 	}

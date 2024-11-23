@@ -50,7 +50,7 @@ func (suite *RepositoriesSuite) SetupSuite() {
 		log.Fatalf("error connecting to database: %v", err)
 	}
 
-	if conn.Readiness(context.TODO()) != nil {
+	if conn.Readiness(context.Background()) != nil {
 		log.Fatalf("error connecting to database: %v", err)
 	}
 
@@ -72,14 +72,14 @@ func (suite *RepositoriesSuite) SetupSuite() {
 
 func (suite *RepositoriesSuite) loadDBtestData(conn database.Conn) {
 
-	strategy, err := conn.GetStrategy(context.TODO())
+	strategy, err := conn.GetStrategy(context.Background())
 	if err != nil {
 		log.Fatalf("error retrieving database strategy to charge test data")
 	}
 
 	switch strategy {
 	case "gorm":
-		db, err := conn.GetDB(context.TODO())
+		db, err := conn.GetDB(context.Background())
 		if err != nil {
 			log.Fatalf("error retrieving database conn DB to charge test data")
 		}
@@ -153,7 +153,7 @@ func (suite *RepositoriesSuite) loadDBtestData(conn database.Conn) {
 }
 
 func (suite *RepositoriesSuite) AccountRepositoryFindByUIDsuccess() {
-	accountEntity, err := suite.AccountRepo.FindByUID(context.TODO(), accountUID)
+	accountEntity, err := suite.AccountRepo.FindByUID(context.Background(), accountUID)
 	assert.Equal(suite.T(), accountEntity.ID, uint(1))
 	assert.NoError(suite.T(), err)
 
@@ -171,12 +171,12 @@ func (suite *RepositoriesSuite) AccountRepositorySaveTransactionsSuccess() {
 		CategoryID:   merchant1CategoryToMap,
 	}
 
-	err := suite.AccountRepo.SaveTransactions(context.TODO(), transactionEntities)
+	err := suite.AccountRepo.SaveTransactions(context.Background(), transactionEntities)
 	assert.NoError(suite.T(), err)
 }
 
 func (suite *RepositoriesSuite) MerchantRepositoryFindByNameSuccess() {
-	merchantEntity, err := suite.MerchantRepo.FindByName(context.TODO(), merchant1NameToMap)
+	merchantEntity, err := suite.MerchantRepo.FindByName(context.Background(), merchant1NameToMap)
 	assert.Equal(suite.T(), merchantEntity.MCC, merchant1CorrectMccToMap)
 	assert.NoError(suite.T(), err)
 }

@@ -21,7 +21,7 @@ type Account struct {
 }
 
 func NewGormAccount(conn database.Conn) (port.AccountRepository, error) {
-	db, err := conn.GetDB(context.TODO())
+	db, err := conn.GetDB(context.Background())
 	if err != nil {
 		return nil, fmt.Errorf("account repository failure on conn.GetDB()")
 	}

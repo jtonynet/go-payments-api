@@ -64,7 +64,7 @@ func (suite *GinRouterSuite) SetupSuite() {
 	}
 
 	suite.loadDBtestData(conn)
-	suite.router, suite.apiGroup = setupRouterAndGroup(cfg.API, app)
+	suite.router, suite.apiGroup = setupRouterAndGroup(cfg.API, *app)
 
 	suite.apiGroup.POST("/payment", ginHandler.PaymentExecution)
 }

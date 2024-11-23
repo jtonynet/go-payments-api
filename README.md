@@ -702,6 +702,7 @@ Via de regra, o que foi discutido naquela reunião deve ser implementado.
 - [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - [ADR - Architecture Decision Records](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions)
 - [Mermaid Diagrams](https://mermaid.js.org)
+- [Miro Diagrams](https://miro.com/)
 
 <br/>
 
@@ -800,7 +801,7 @@ Contrate artistas para projetos comerciais ou mais elaborados e aprenda a ser en
 
 - Para o L4, uma solução utilizando filas foi proposta, porém desconsiderada pelo proponente do desafio em uma sessão no `Miro Board` devido à latência adicional gerada. Isso fica explícito no `ADR` [0003: gRPC e Redis Keyspace Notification em API REST e Worker para reduzir latência e evitar concorrência](./docs/architecture/decisions/0003-grpc-e-redis-keyspace-notification-em-api-rest-e-worker-para-reduzir-latencia-e-evitar-concorrencia.md) e em tarefas do `Kanban` que visam implementar parte do que foi discutido no `Miro`.
 
-- Foi realizado um `refactor` na estrutura das tabelas para tornar a aplicação mais robusta, criando um ponto único para inserir `transactions` e atualizar os saldos das `accounts` com base nas `categories`. Essa abordagem baseada em `eventos` visa mitigar impactos de `inconsistência eventual`.
+- Foi realizado um `refactor` na estrutura das tabelas para tornar a aplicação mais robusta, criando um ponto único para inserir `transactions` e atualizar os saldos das `accounts` com base nas `categories`. Essa abordagem garante `imutabilidado`, baseada em `eventos` visa mitigar impactos de `inconsistência eventual`. Como pode ser visto no `ADR` [0004: Banco Relacional Modelado Orientado a Eventos](./docs/architecture/decisions/0004-banco-relacional-modelado-de-maneira-orientada-a-eventos.md)
 
 - Testes adicionais devem ser criados (multiplos cenários de erros nas rotas e serviços). 
 
@@ -826,3 +827,7 @@ docker system prune -a --volumes
 sudo systemctl restart docker
 -->
 
+<!-- 
+Hexagonal Architecture (Alistair Cockburn)  `22-11-2024`
+https://www.youtube.com/live/k0ykTxw7s0Y
+-->

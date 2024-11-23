@@ -61,7 +61,7 @@ type Lock struct {
 	Expiration int    `mapstructure:"LOCK_IN_MEMORY_EXPIRATION_DEFAULT_IN_MS"`
 }
 
-func (l *Lock) ToInMemoryDatabase() (InMemoryDatabase, error) {
+func (l *Lock) ToInMemoryDatabase() InMemoryDatabase {
 	return InMemoryDatabase{
 		Strategy:   l.Strategy,
 		Pass:       l.Pass,
@@ -70,7 +70,7 @@ func (l *Lock) ToInMemoryDatabase() (InMemoryDatabase, error) {
 		DB:         l.DB,
 		Protocol:   l.Protocol,
 		Expiration: l.Expiration,
-	}, nil
+	}
 }
 
 type Cache struct {
@@ -83,7 +83,7 @@ type Cache struct {
 	Expiration int    `mapstructure:"CACHE_IN_MEMORY_EXPIRATION_DEFAULT_IN_MS"`
 }
 
-func (c *Cache) ToInMemoryDatabase() (InMemoryDatabase, error) {
+func (c *Cache) ToInMemoryDatabase() InMemoryDatabase {
 	return InMemoryDatabase{
 		Strategy:   c.Strategy,
 		Pass:       c.Pass,
@@ -92,7 +92,7 @@ func (c *Cache) ToInMemoryDatabase() (InMemoryDatabase, error) {
 		DB:         c.DB,
 		Protocol:   c.Protocol,
 		Expiration: c.Expiration,
-	}, nil
+	}
 }
 
 type Logger struct {

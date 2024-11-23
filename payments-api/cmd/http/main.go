@@ -21,10 +21,10 @@ func main() {
 		log.Fatal("cannot initiate app: ", err)
 	}
 
-	routes, err := router.New(cfg.Router, app)
+	routes, err := router.New(cfg.Router, *app)
 	if err != nil {
 		log.Fatal("cannot initiate routes: ", err)
 	}
-	routes.HandleRequests(context.TODO(), cfg.API)
+	routes.HandleRequests(context.Background(), cfg.API)
 
 }

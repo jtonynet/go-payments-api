@@ -94,7 +94,7 @@ Embora estratégias como o uso de `transações de banco de dados` e `serviços 
 <br/>
 
 ## Decisão
-Uma abordagem baseada em `EDA` (*Event Driven Architecture*), embora não faça completo sentido (um `request transaction` não é um evento de fato, mas uma solicitação de pagamento, ou seja, a origem de um evento), é totalmente aderente ao percebermos que as próprias `transactions` pertencem a uma `account` e podem ser vinculadas a `categories`, `mcc` e `merchant`. Assim, ao armazenar o saldo em seu `amount`, os ganhos em `rastreabilidade`, `latência` e mitigação de inconsistências (apenas uma `query` será necessária para registrar a movimentação) tornam-se evidentes.
+Uma abordagem baseada em `EDA` (*Event Driven Architecture*), embora não faça completo sentido (um `request transaction` não é um evento de fato, mas uma solicitação de pagamento, ou seja, a origem de um evento), é totalmente aderente ao percebermos que as próprias `transactions` pertencem a uma `account` e podem ser vinculadas a `categories`, `mcc` e `merchant`. Assim, ao armazenar o saldo em seu `amount`, os ganhos em `rastreabilidade`, `latência` e mitigação de inconsistências (apenas uma `query` será necessária para registrar a movimentação) que a `imutabilidade` garantem tornam-se evidentes.
 
 A evolução para o modelo a seguir foi proposta:
 
@@ -111,7 +111,6 @@ erDiagram
         timestamp updated_at
         timestamp deleted_at
     }
-
 
     merchants {
         int id PK
@@ -137,7 +136,6 @@ erDiagram
         timestamp deleted_at
     }
 
-
    mccs {
         int id PK
         string mcc
@@ -146,7 +144,6 @@ erDiagram
         datetime updated_at
         timestamp deleted_at
     }
-
 
     categories {
         int id PK
@@ -171,7 +168,6 @@ erDiagram
     categories ||--o{ mccs : has
     categories ||--o{ accounts_categories : defines
     mccs ||--o{ merchants : has
-
 
     accounts_categories }o--|| accounts : has
     transactions }o--|| accounts : performs

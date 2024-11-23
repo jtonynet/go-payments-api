@@ -50,13 +50,13 @@ __[Go Payments API](#header)__<br/>
       - ⚙️[Automatizados](#test-auto)
       - 🧑‍🔧[Manuais](#test-manual)
   6.  📊 [Diagramas](#diagrams)
-      - 📈 [Fluxo](#diagrams-flowchart)
       - 📈 [ER](#diagrams-erchart)
+      - 📈 [Fluxo](#diagrams-flowchart)
   7.  🅻4️⃣ [Questão Aberta L4](#open-question)
-  8.  👏 [Boas Práticas](#best-practices)
-  9.  🧠 [ADR - Architecture Decision Records](#adr)
-  10. 🔢 [Versões](#versions)
-  11. 🧰 [Ferramentas](#tools)
+  8.  🧠 [ADR - Architecture Decision Records](#adr)
+  9. 🔢 [Versões](#versions)
+  10. 🧰 [Ferramentas](#tools)
+  11. 👏 [Boas Práticas](#best-practices)
   12. 🤖 [Uso de IA](#ia)
   13. 🏁 [Conclusão](#conclusion)
 
@@ -179,7 +179,7 @@ Este repositório foi criado com a intenção de propor uma possível solução 
 
 **Segregação de Serviços com gRPC**
 
-Arquitetura projetada para atender ao requisito `L4`, utilizando `Redis Keyspace Notification` para gerenciar locks em cenários de concorrência. O sistema aguarda mensagens de desbloqueio em um canal `pub/sub`, garantindo maior eficiência. A API `REST` está segregada do `Processor`, mantendo um nível adequado de segurança para os serviços internos. A solução foi desenhada para escalar conforme indicado na __Questão Aberta L4__ e na ADR [0003: gRPC e Redis Keyspace Notification em API REST e Processor para reduzir Latência e evitar Concorrência](./docs/architecture/decisions/0003-grpc-e-redis-keyspace-notification-em-api-rest-e-processor-para-reduzir-latencia-e-evitar-concorrencia.md).
+Arquitetura projetada para atender ao requisito `L4`, utilizando `Redis Keyspace Notification` para gerenciar locks em cenários de concorrência. O sistema aguarda mensagens de desbloqueio em um canal `pub/sub`, garantindo maior eficiência. A API `REST` está segregada do `Processor`, mantendo um nível adequado de segurança para os serviços internos. A solução foi desenhada para escalar conforme indicado na __Questão Aberta L4__ e na `ADR` [0003: gRPC e Redis Keyspace Notification em API REST e Processor para reduzir Latência e evitar Concorrência](./docs/architecture/decisions/0003-grpc-e-redis-keyspace-notification-em-api-rest-e-processor-para-reduzir-latencia-e-evitar-concorrencia.md).
 
 
 <center>
@@ -290,7 +290,7 @@ A interface do Swagger pode executar [Testes Manuais](#test-manual) a partir de 
 #### 🐋 Conteinerizado 
 Para rodar os [Testes Automatizados](#test-auto) usando container, é necessário que já esteja [Rodando o Projeto Conteinerizado](#run-containerized).
 
-As configurações para executar os testes de repositório e integração (dependentes de infraestrutura) de maneira _containerizada_ estão no arquivo `./payments-api/.env.TEST`. Não é necessário alterá-lo ou renomeá-lo, pois a API o usará automaticamente se a variável de ambiente `ENV` estiver definida como `teste`.
+As configurações para executar os testes de repositório e integração (dependentes de infraestrutura) de maneira _containerizada_ estão no arquivo `./payments-api/.env.TEST`. Não é necessário alterá-lo ou renomeá-lo, pois a API o usará automaticamente se a variável de ambiente `ENV` estiver definida como `test`.
 
 <br/>
 
@@ -301,10 +301,11 @@ Para rodar os [Testes Automatizados](#test-auto) com a API fora do container, de
 No arquivo `/.env.TEST`, substitua os valores das variáveis de ambiente que contêm comentários no formato `local: valueA | containerized: valueB` pelos valores sugeridos na opção `local`.
 ```bash
 DATABASE_HOST=localhost         ### local: localhost | conteinerized: test-postgres-payments
-DATABASE_PORT=5433              ### local: 5433 | conteinerized: 5432
+DATABASE_PORT=5433              ### local: 5433      | conteinerized: 5432
 
-IN_MEMORY_CACHE_HOST=localhost  ### local: localhost | conteinerized: redis-payments
+PUBSUB_HOST=localhost           ### local: localhost | conteinerized: redis-payments
 IN_MEMORY_LOCK_HOST=localhost   ### local: localhost | conteinerized: redis-payments
+IN_MEMORY_CACHE_HOST=localhost  ### local: localhost | conteinerized: redis-payments
 ```
 <br/>
 
@@ -363,9 +364,9 @@ docker compose exec payments-api go test -v -count=1 ./internal/adapter/reposito
 
 <br/>
 
-Registros e Saldos para teste manual
+Registros e Saldos no banco para teste manual
 
-Account 
+`accounts`
 > 
 > | __Account:__                                            | __AcountID:__ |
 > |---------------------------------------------------------|---------------|
@@ -374,17 +375,7 @@ Account
 
 <br/>
 
-L3. Merchants com mapeamentos MCC incorretos
->
-> | __Merchant__                             | __MCCs__           | __Mapeado para Categoria__ |
-> |------------------------------------------|--------------------|----------------------------|
-> | UBER EATS                   SAO PAULO BR | 5412               | FOOD                       |
-> | PAG*JoseDaSilva          RIO DE JANEI BR | 5812               | MEAL                       |
-_*Utilize o campo `name` real da tabela `merchant`, o github pode formatar de maneira incorreta esse dado no markdown._
-
-<br/>
-
-Query Consulta Balances por Account:
+Query Consulta Balances (saldo mais recente de `transactions` por `categories`) por account:
 ```sql
 SELECT 
 	a.id as account_id, 
@@ -429,6 +420,16 @@ _*Com acesso ao banco a partir dos dados de `.env`, para validar. Bem como a [Do
 
 <br/>
 
+L3. `merchants` com mapeamentos MCC incorretos
+>
+> | __Merchant__                             | __MCCs__           | __Mapeado para Categoria__ |
+> |------------------------------------------|--------------------|----------------------------|
+> | UBER EATS                   SAO PAULO BR | 5412               | FOOD                       |
+> | PAG*JoseDaSilva          RIO DE JANEI BR | 5812               | MEAL                       |
+_*Utilize o campo `name` real da tabela `merchant`, o github pode formatar de maneira incorreta esse dado no markdown._
+
+<br/>
+
 [⤴️ de volta ao índice](#index)
 
 ---
@@ -441,76 +442,6 @@ _*Diagramas Mermaid podem apresentar problemas de visualização em aplicativos 
     diagrams by:
     https://mermaid.js.org/
 -->
-
-<a id="diagrams-flowchart"></a>
-#### 📈 Fluxo
-__Autorização de Pagamento__
-
-```mermaid
-flowchart TD
-    A([▶️<br/>Recebe Transação JSON]) --> B[Mapeia Categoria pelo nome do comerciante]
-    B --> C[Buscar Saldos da Conta]
-    C --> D{Saldo é suficiente <br/> na Categoria?}
-    
-    D -- Sim --> E[Debita Saldo da Categoria]
-    D -- Não --> F{Saldo suficiente na <br/> Categoria e CASH?}
-    
-    F -- Sim --> G[Debita Categoria e CASH]
-    F -- Não --> H{Saldo suficiente em CASH?}
-    
-    H -- Sim --> I[Debita Saldo de CASH]
-    H -- Não --> J[Rejeita Transação com Código 51]
-    
-    E --> K[Registrar Transação Aprovada]
-    G --> K[Registrar Transação Aprovada]
-    I --> K[Registrar Transação Aprovada]
-    
-    K --> P{Ocorreu Erro no Processo da Transação?}
-    P -- Sim --> Q[❌<br/><b>Rejeitada</b><br/> Retorna Código <b>07</b> por Falha Genérica</b>]
-        P -- Não --> M[✅<br/><b>Aprovada</b><br/> Retorna Código <b>00</b>]
-    
-    J --> N[❌<br/><b>Rejeitada</b><br/> Retorna Código <b>51</b> por Saldo Insuficiente</b>]
-
-    N --> O([⏹️<br/>Fim do Processo])
-    M --> O
-    Q --> O
-
-    style M fill:#009933,stroke:#000
-    style N fill:#cc0000,stroke:#000
-    style Q fill:#cc0000,stroke:#000
-```
-_*Diagrama apresenta uma interpretação do sistema_
-
-<a id="diagrams-flowchart-description"></a>
-##### 📝 Descrição
-
-1. **Recebe Transação JSON**: O sistema recebe o payload de transação.
-
-2. **Mapeia MCC pelo Merchant Name**: Busca um relacionamento entre o `merchant` e uma categoria adequada. Caso categoria Não exista segue o fluxo para debitar de CASH
-
-3. **Buscar Saldos da Conta**: A conta e os saldos (FOOD, MEAL, CASH) são buscados no banco de dados 
-
-4. **Saldo é suficiente na Categoria?**: Verifica se o saldo disponível na categoria mapeada (com base no MCC) é suficiente.
-    - Se sim, debita o saldo da categoria correspondente.
-    - Se não, verifica o saldo de CASH.
-
-5. **Saldo suficiente em CASH?**: Se a categoria principal não tiver saldo suficiente, o sistema verifica o saldo de CASH.
-    - Se sim, debita parcial ou totalmente o saldo de CASH.
-    - Se não, rejeita a transação com o código "51" (fundos insuficientes).
-
-6. **Registrar Transação Aprovada**: A transação aprovada é registrada no banco de dados.
-
-7. **Retorna Código "00"**: Se a transação foi aprovada, retorna o código "00" (aprovada).
-
-8. **Retorna Código "51"**: Se a transação foi rejeitada por falta de fundos, retorna o código "51".
-
-<br/>
-
-_*Esse fluxo representa o processo de aprovação, fallback e rejeição da transação com base nos saldos e MCC._
-
----
-
-<br/>
 
 <a id="diagrams-erchart"></a>
 #### 📈 ER
@@ -609,6 +540,77 @@ erDiagram
 
 <br/>
 
+
+---
+
+<a id="diagrams-flowchart"></a>
+#### 📈 Fluxo
+__Autorização de Pagamento__
+
+```mermaid
+flowchart TD
+    A([▶️<br/>Recebe Transação JSON]) --> B[Mapeia Categoria pelo nome do comerciante]
+    B --> C[Buscar Saldos da Conta]
+    C --> D{Saldo é suficiente <br/> na Categoria?}
+    
+    D -- Sim --> E[Debita Saldo da Categoria]
+    D -- Não --> F{Saldo suficiente na <br/> Categoria e CASH?}
+    
+    F -- Sim --> G[Debita Categoria e CASH]
+    F -- Não --> H{Saldo suficiente em CASH?}
+    
+    H -- Sim --> I[Debita Saldo de CASH]
+    H -- Não --> J[Rejeita Transação com Código 51]
+    
+    E --> K[Registrar Transação Aprovada]
+    G --> K[Registrar Transação Aprovada]
+    I --> K[Registrar Transação Aprovada]
+    
+    K --> P{Ocorreu Erro no Processo da Transação?}
+    P -- Sim --> Q[❌<br/><b>Rejeitada</b><br/> Retorna Código <b>07</b> por Falha Genérica</b>]
+        P -- Não --> M[✅<br/><b>Aprovada</b><br/> Retorna Código <b>00</b>]
+    
+    J --> N[❌<br/><b>Rejeitada</b><br/> Retorna Código <b>51</b> por Saldo Insuficiente</b>]
+
+    N --> O([⏹️<br/>Fim do Processo])
+    M --> O
+    Q --> O
+
+    style M fill:#009933,stroke:#000
+    style N fill:#cc0000,stroke:#000
+    style Q fill:#cc0000,stroke:#000
+```
+_*Diagrama apresenta uma interpretação do sistema_
+
+<a id="diagrams-flowchart-description"></a>
+##### 📝 Descrição
+
+1. **Recebe Transação JSON**: O sistema recebe o payload de transação.
+
+2. **Mapeia MCC pelo Merchant Name**: Busca um relacionamento entre o `merchant` e uma categoria adequada. Caso categoria Não exista segue o fluxo para debitar de CASH
+
+3. **Buscar Saldos da Conta**: A conta e os saldos (FOOD, MEAL, CASH) são buscados no banco de dados 
+
+4. **Saldo é suficiente na Categoria?**: Verifica se o saldo disponível na categoria mapeada (com base no MCC) é suficiente.
+    - Se sim, debita o saldo da categoria correspondente.
+    - Se não, verifica o saldo de CASH.
+
+5. **Saldo suficiente em CASH?**: Se a categoria principal não tiver saldo suficiente, o sistema verifica o saldo de CASH.
+    - Se sim, debita parcial ou totalmente o saldo de CASH.
+    - Se não, rejeita a transação com o código "51" (fundos insuficientes).
+
+6. **Registrar Transação Aprovada**: A transação aprovada é registrada no banco de dados.
+
+7. **Retorna Código "00"**: Se a transação foi aprovada, retorna o código "00" (aprovada).
+
+8. **Retorna Código "51"**: Se a transação foi rejeitada por falta de fundos, retorna o código "51".
+
+<br/>
+
+_*Esse fluxo representa o processo de aprovação, fallback e rejeição da transação com base nos saldos e MCC._
+
+<br/>
+
 [⤴️ de volta ao índice](#index)
 
 ---
@@ -629,6 +631,7 @@ Com [`Redis Keyspace Notifications`](https://redis.io/docs/latest/develop/use/ke
 
 Como proposto na questão _"...uma pequena, mas existente probabilidade de ocorrerem duas transações ao mesmo tempo"_, a concorrência excessiva por `account` não deve ocorrer utilizando essa abordagem.
 
+_*Diagramas Mermaid podem apresentar problemas de visualização em aplicativos mobile_
 
 ```mermaid
 flowchart TD
@@ -695,24 +698,6 @@ Via de regra, o que foi discutido naquela reunião deve ser implementado.
 
 ---
 
-<a id="best-practices"></a>
-### 👏 Boas Práticas
-
-- [Swagger](https://swagger.io/)
-- [Github Project - Kanban](https://github.com/users/jtonynet/projects/7/views/1)
-- [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html)
-- [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
-- [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
-- [ADR - Architecture Decision Records](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions)
-- [Mermaid Diagrams](https://mermaid.js.org)
-- [Miro Diagrams](https://miro.com/)
-
-<br/>
-
-[⤴️ de volta ao índice](#index)
-
----
-
 <a id="adr"></a> 
 ### 🧠 ADR - Architecture Decision Records
 
@@ -755,6 +740,7 @@ Para obter mais informações, consulte o [Histórico de Versões](./CHANGELOG.m
   - [Gin-Swagger](https://github.com/swaggo/gin-swagger)
   - [gjson](https://github.com/tidwall/gjson)
   - [uuid](github.com/google/uuid)
+  - [gRPC](https://grpc.io/docs/languages/go/quickstart/)
 
 
 - Infra & Tecnologias
@@ -766,6 +752,24 @@ Para obter mais informações, consulte o [Histórico de Versões](./CHANGELOG.m
 - GUIs:
   - [VsCode](https://code.visualstudio.com/)
   - [DBeaver](https://dbeaver.io/)
+
+<br/>
+
+[⤴️ de volta ao índice](#index)
+
+---
+
+<a id="best-practices"></a>
+### 👏 Boas Práticas
+
+- [Swagger](https://swagger.io/)
+- [Github Project - Kanban](https://github.com/users/jtonynet/projects/7/views/1)
+- [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html)
+- [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
+- [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
+- [ADR - Architecture Decision Records](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions)
+- [Mermaid Diagrams](https://mermaid.js.org)
+- [Miro Diagrams](https://miro.com/)
 
 <br/>
 

@@ -101,14 +101,27 @@ jobs:
 
     - name: Run payment-transaction-processor
       working-directory: ./payments-api
-      run: go run ./cmd/processor/main.go &
+      run: go run ./cmd/processor/main.go
+      background: true
+
+    - name: Verify GRPC Server
+      run: |
+        for i in {1..60}; do
+          if nc -z localhost 9090; then
+            echo "GRPC server is running on port 9090."
+            exit 0
+          fi
+          echo "Waiting for GRPC server on port 9090..."
+          sleep 1
+        done
+        echo "GRPC server did not start on port 9090."
+        exit 1
 
     - name: Install netcat
       run: apk add --no-cache netcat-openbsd
 
     - name: Debug GRPC Server Port
       run: netstat -tuln | grep 9090 || echo "No process is listening on port 9090"
-
 
     - name: Test
       working-directory: ./payments-api

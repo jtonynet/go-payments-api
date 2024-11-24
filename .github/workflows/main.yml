@@ -43,6 +43,11 @@ env:
   GRPC_SERVER_PROCESSOR_HOST: localhost
   GRPC_SERVER_PROCESSOR_PORT: 9090
 
+  LOG_STRATEGY: slog   
+  LOG_LEVEL: error     
+  LOG_OPT_FORMAT: json 
+  LOG_OPT_ADD_SOURCE: 0
+
 jobs:
   test:
     runs-on: ubuntu-latest

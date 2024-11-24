@@ -40,7 +40,7 @@ env:
   CACHE_IN_MEMORY_PROTOCOL: 3
   CACHE_IN_MEMORY_EXPIRATION_DEFAULT_IN_MS: 50000
 
-  GRPC_SERVER_PROCESSOR_HOST: localhost
+  GRPC_SERVER_PROCESSOR_HOST: payment-transaction-processor
   GRPC_SERVER_PROCESSOR_PORT: 9090
 
   LOG_STRATEGY: slog   
@@ -81,6 +81,13 @@ jobs:
         ports:
           - 6379:6379
 
+      payment-transaction-processor:
+        build:
+          context: ./payments-api
+          dockerfile: Dockerfile
+        ports:
+          - 9090:9090
+
     steps:
     - name: Check out repository code
       uses: actions/checkout@v4
@@ -101,7 +108,10 @@ jobs:
 
     - name: Run payment-transaction-processor
       working-directory: ./payments-api
-      run: go run ./cmd/processor/main.go -d &
+      run: docker compose exec payment-transaction-rest go run ./cmd/processor/main.go
+
+    - name: Sleep for 5 seconds
+      run: sleep 5
 
     - name: Test
       working-directory: ./payments-api

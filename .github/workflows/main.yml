@@ -101,7 +101,7 @@ jobs:
 
     - name: Run payment-transaction-processor
       working-directory: ./payments-api
-      run: go run ./cmd/processor/main.go -d
+      run: go run ./cmd/processor/main.go &
 
     - name: Test
       working-directory: ./payments-api

@@ -103,6 +103,19 @@ jobs:
       working-directory: ./payments-api
       run: go run ./cmd/processor/main.go &
 
+    - name: Wait for GRPC Server to be ready
+      run: |
+        for i in {1..10}; do
+          if nc -z localhost 9090; then
+            echo "GRPC server is running on port 9090."
+            exit 0
+          fi
+          echo "Waiting for GRPC server on port 9090..."
+          sleep 1
+        done
+        echo "GRPC server did not start on port 9090."
+        exit 1
+
     - name: Test
       working-directory: ./payments-api
       run: ENV=test go test -v ./internal/adapter/repository/gormRepos ./internal/adapter/repository/redisRepos ./internal/core/service ./internal/adapter/http/router

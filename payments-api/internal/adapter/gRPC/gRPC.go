@@ -10,8 +10,13 @@ import (
 )
 
 func NewPaymentClient(cfg config.GRPC) (protobuffer.PaymentClient, error) {
+	hostAndPort := fmt.Sprintf("%s:%s", cfg.Host, cfg.Port)
+	println("hostAndPort:-----------")
+	println(hostAndPort)
+	println("-----------_-----------")
+
 	gRPCServerConn, err := grpc.Dial(
-		fmt.Sprintf("%s:%s", cfg.Host, cfg.Port),
+		hostAndPort,
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
 	)
 

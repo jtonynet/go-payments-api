@@ -69,11 +69,17 @@ func main() {
 	 Research how to best model this
 	*/
 	println("Running gRPC server")
+	println(fmt.Sprintf("%s:%s", cfg.GRPC.Host, cfg.GRPC.Port))
 
 	listener, err := net.Listen("tcp", fmt.Sprintf("%s:%s", cfg.GRPC.Host, cfg.GRPC.Port))
 	if err != nil {
+		println("-------------")
+		println(err)
+		println("-------------")
 		log.Fatalf("cannot initiate listner: %v", err)
 	}
+
+	println("OK!!!")
 
 	s := grpc.NewServer()
 	protobuffer.RegisterPaymentServer(s, &PaymentServer{

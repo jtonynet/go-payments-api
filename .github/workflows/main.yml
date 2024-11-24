@@ -101,8 +101,7 @@ jobs:
 
     - name: Run payment-transaction-processor
       working-directory: ./payments-api
-      run: go run ./cmd/processor/main.go
-      background: true
+      run: go run ./cmd/processor/main.go & 
 
     - name: Verify GRPC Server
       run: |

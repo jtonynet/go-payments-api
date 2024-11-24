@@ -81,6 +81,13 @@ jobs:
         ports:
           - 6379:6379
 
+      payment-transaction-processor:
+        build:
+          context: ./payments-api
+          dockerfile: Dockerfile.CI.Processor
+        ports:
+          - 9090:9090
+
     steps:
     - name: Check out repository code
       uses: actions/checkout@v4
@@ -99,58 +106,8 @@ jobs:
       working-directory: ./payments-api
       run: go mod download
 
-    - name: Build Docker image for payment-transaction-processor
-      run: |
-        docker build -t payment-transaction-processor ./payments-api
-
-    - name: Run payment-transaction-processor
-      run: |
-        # Rodar o container em segundo plano
-        docker run -d \
-          -e TZ=${{ env.TZ }} \
-          -e ENV=${{ env.ENV }} \
-          -e DATABASE_STRATEGY=${{ env.DATABASE_STRATEGY }} \
-          -e DATABASE_DRIVER=${{ env.DATABASE_DRIVER }} \
-          -e DATABASE_HOST=${{ env.DATABASE_HOST }} \
-          -e DATABASE_USER=${{ env.DATABASE_USER }} \
-          -e DATABASE_PASSWORD=${{ env.DATABASE_PASSWORD }} \
-          -e DATABASE_DB=${{ env.DATABASE_DB }} \
-          -e DATABASE_PORT=${{ env.DATABASE_PORT }} \
-          -e DATABASE_SSLMODE=${{ env.DATABASE_SSLMODE }} \
-          -e PUBSUB_STRATEGY=${{ env.PUBSUB_STRATEGY }} \
-          -e PUBSUB_HOST=${{ env.PUBSUB_HOST }} \
-          -e PUBSUB_PORT=${{ env.PUBSUB_PORT }} \
-          -e PUBSUB_DB=${{ env.PUBSUB_DB }} \
-          -e PUBSUB_PROTOCOL=${{ env.PUBSUB_PROTOCOL }} \
-          -e LOCK_IN_MEMORY_STRATEGY=${{ env.LOCK_IN_MEMORY_STRATEGY }} \
-          -e LOCK_IN_MEMORY_HOST=${{ env.LOCK_IN_MEMORY_HOST }} \
-          -e LOCK_IN_MEMORY_PORT=${{ env.LOCK_IN_MEMORY_PORT }} \
-          -e LOCK_IN_MEMORY_DB=${{ env.LOCK_IN_MEMORY_DB }} \
-          -e LOCK_IN_MEMORY_PROTOCOL=${{ env.LOCK_IN_MEMORY_PROTOCOL }} \
-          -e LOCK_IN_MEMORY_EXPIRATION_DEFAULT_IN_MS=${{ env.LOCK_IN_MEMORY_EXPIRATION_DEFAULT_IN_MS }} \
-          -e CACHE_IN_MEMORY_STRATEGY=${{ env.CACHE_IN_MEMORY_STRATEGY }} \
-          -e CACHE_IN_MEMORY_HOST=${{ env.CACHE_IN_MEMORY_HOST }} \
-          -e CACHE_IN_MEMORY_PORT=${{ env.CACHE_IN_MEMORY_PORT }} \
-          -e CACHE_IN_MEMORY_DB=${{ env.CACHE_IN_MEMORY_DB }} \
-          -e CACHE_IN_MEMORY_PROTOCOL=${{ env.CACHE_IN_MEMORY_PROTOCOL }} \
-          -e CACHE_IN_MEMORY_EXPIRATION_DEFAULT_IN_MS=${{ env.CACHE_IN_MEMORY_EXPIRATION_DEFAULT_IN_MS }} \
-          -e GRPC_SERVER_PROCESSOR_HOST=${{ env.GRPC_SERVER_PROCESSOR_HOST }} \
-          -e GRPC_SERVER_PROCESSOR_PORT=${{ env.GRPC_SERVER_PROCESSOR_PORT }} \
-          -e LOG_STRATEGY=${{ env.LOG_STRATEGY }} \
-          -e LOG_LEVEL=${{ env.LOG_LEVEL }} \
-          -e LOG_OPT_FORMAT=${{ env.LOG_OPT_FORMAT }} \
-          -e LOG_OPT_ADD_SOURCE=${{ env.LOG_OPT_ADD_SOURCE }} \
-          -p 9090:9090 \
-          payment-transaction-processor
-
-    - name: Sleep for 10 seconds
-      run: sleep 10
-
-    - name: Run2 payment-transaction-processor
-      run: docker exec payment-transaction-processor go run ./cmd/processor/main.go
-
-    - name: Sleep for 10 seconds
-      run: sleep 10
+    - name: Wait 5 seconds
+      run: sleep 5
 
     - name: Test
       working-directory: ./payments-api

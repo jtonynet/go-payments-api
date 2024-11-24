@@ -62,7 +62,6 @@ jobs:
           POSTGRES_DB: test_payments_db
           PGTZ: America/Sao_Paulo
           TZ: America/Sao_Paulo
-
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -81,12 +80,12 @@ jobs:
         ports:
           - 6379:6379
 
-      payment-transaction-processor:
-        build:
-          context: ./payments-api
-          dockerfile: Dockerfile.CI.Processor
-        ports:
-          - 9090:9090
+      # payment-transaction-processor:
+      #   build:
+      #     context: ./payments-api
+      #     dockerfile: Dockerfile.CI.Processor
+      #   ports:
+      #     - 9090:9090
 
     steps:
     - name: Check out repository code
@@ -106,8 +105,50 @@ jobs:
       working-directory: ./payments-api
       run: go mod download
 
-    - name: Wait 5 seconds
-      run: sleep 5
+    - name: Build payment-transaction-processor Docker image
+      run: |
+        docker build -t payment-transaction-processor -f ./payments-api/Dockerfile.CI.Processor ./payments-api
+
+      - name: Run payment-transaction-processor container
+        run: |
+          docker run -d \
+            -e TZ=${{ secrets.TZ }} \
+            -e ENV=${{ secrets.ENV }} \
+            -e DATABASE_STRATEGY=${{ secrets.DATABASE_STRATEGY }} \
+            -e DATABASE_DRIVER=${{ secrets.DATABASE_DRIVER }} \
+            -e DATABASE_HOST=${{ secrets.DATABASE_HOST }} \
+            -e DATABASE_USER=${{ secrets.DATABASE_USER }} \
+            -e DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} \
+            -e DATABASE_DB=${{ secrets.DATABASE_DB }} \
+            -e DATABASE_PORT=${{ secrets.DATABASE_PORT }} \
+            -e DATABASE_SSLMODE=${{ secrets.DATABASE_SSLMODE }} \
+            -e PUBSUB_STRATEGY=${{ secrets.PUBSUB_STRATEGY }} \
+            -e PUBSUB_HOST=${{ secrets.PUBSUB_HOST }} \
+            -e PUBSUB_PORT=${{ secrets.PUBSUB_PORT }} \
+            -e PUBSUB_DB=${{ secrets.PUBSUB_DB }} \
+            -e PUBSUB_PROTOCOL=${{ secrets.PUBSUB_PROTOCOL }} \
+            -e LOCK_IN_MEMORY_STRATEGY=${{ secrets.LOCK_IN_MEMORY_STRATEGY }} \
+            -e LOCK_IN_MEMORY_HOST=${{ secrets.LOCK_IN_MEMORY_HOST }} \
+            -e LOCK_IN_MEMORY_PORT=${{ secrets.LOCK_IN_MEMORY_PORT }} \
+            -e LOCK_IN_MEMORY_DB=${{ secrets.LOCK_IN_MEMORY_DB }} \
+            -e LOCK_IN_MEMORY_PROTOCOL=${{ secrets.LOCK_IN_MEMORY_PROTOCOL }} \
+            -e LOCK_IN_MEMORY_EXPIRATION_DEFAULT_IN_MS=${{ secrets.LOCK_IN_MEMORY_EXPIRATION_DEFAULT_IN_MS }} \
+            -e CACHE_IN_MEMORY_STRATEGY=${{ secrets.CACHE_IN_MEMORY_STRATEGY }} \
+            -e CACHE_IN_MEMORY_HOST=${{ secrets.CACHE_IN_MEMORY_HOST }} \
+            -e CACHE_IN_MEMORY_PORT=${{ secrets.CACHE_IN_MEMORY_PORT }} \
+            -e CACHE_IN_MEMORY_DB=${{ secrets.CACHE_IN_MEMORY_DB }} \
+            -e CACHE_IN_MEMORY_PROTOCOL=${{ secrets.CACHE_IN_MEMORY_PROTOCOL }} \
+            -e CACHE_IN_MEMORY_EXPIRATION_DEFAULT_IN_MS=${{ secrets.CACHE_IN_MEMORY_EXPIRATION_DEFAULT_IN_MS }} \
+            -e GRPC_SERVER_PROCESSOR_HOST=${{ secrets.GRPC_SERVER_PROCESSOR_HOST }} \
+            -e GRPC_SERVER_PROCESSOR_PORT=${{ secrets.GRPC_SERVER_PROCESSOR_PORT }} \
+            -e LOG_STRATEGY=${{ secrets.LOG_STRATEGY }} \
+            -e LOG_LEVEL=${{ secrets.LOG_LEVEL }} \
+            -e LOG_OPT_FORMAT=${{ secrets.LOG_OPT_FORMAT }} \
+            -e LOG_OPT_ADD_SOURCE=${{ secrets.LOG_OPT_ADD_SOURCE }} \
+            -p 9090:9090 payment-transaction-processor
+
+    - name: Wait 10 seconds
+      run: sleep 10
 
     - name: Test
       working-directory: ./payments-api

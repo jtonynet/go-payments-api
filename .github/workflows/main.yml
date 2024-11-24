@@ -139,7 +139,8 @@ jobs:
               -e LOG_LEVEL=${{ env.LOG_LEVEL }} \
               -e LOG_OPT_FORMAT=${{ env.LOG_OPT_FORMAT }} \
               -e LOG_OPT_ADD_SOURCE=${{ env.LOG_OPT_ADD_SOURCE }} \
-              -p 9090:9090 payment-transaction-processor
+              -p 9090:9090 payment-transaction-processor \
+              go run ./cmd/processor/main.go
 
     - name: Sleep for 10 seconds
       run: sleep 10

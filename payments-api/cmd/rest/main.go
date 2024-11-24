@@ -16,7 +16,7 @@ func main() {
 		log.Fatal("cannot load config: ", err)
 	}
 
-	app, err := bootstrap.NewApp(cfg)
+	app, err := bootstrap.NewRESTApp(cfg)
 	if err != nil {
 		log.Fatal("cannot initiate app: ", err)
 	}

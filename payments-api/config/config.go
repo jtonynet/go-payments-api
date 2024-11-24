@@ -102,6 +102,11 @@ type Logger struct {
 	AddSource bool   `mapstructure:"LOG_OPT_ADD_SOURCE_BOOL"`
 }
 
+type GRPC struct {
+	Host string `mapstructure:"GRPC_SERVER_PROCESSOR_HOST"`
+	Port string `mapstructure:"GRPC_SERVER_PROCESSOR_PORT"`
+}
+
 type Config struct {
 	API      API      `mapstructure:",squash"`
 	Database Database `mapstructure:",squash"`
@@ -110,6 +115,7 @@ type Config struct {
 	Lock     Lock     `mapstructure:",squash"`
 	Cache    Cache    `mapstructure:",squash"`
 	Logger   Logger   `mapstructure:",squash"`
+	GRPC     GRPC     `mapstructure:",squash"`
 }
 
 func LoadConfig(path string) (*Config, error) {

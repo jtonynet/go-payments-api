@@ -78,7 +78,7 @@ erDiagram
     }
 
     categories ||--o{ balances : defines
-    accounts ||--o{ transactions : performs
+    accounts ||--o{ transactions : has
     categories ||--o{ mccs : has
     accounts ||--o{ balances : has
     mccs ||--o{ merchants : has
@@ -170,7 +170,7 @@ erDiagram
     mccs ||--o{ merchants : has
 
     accounts_categories }o--|| accounts : has
-    transactions }o--|| accounts : performs
+    transactions }o--|| accounts : has
 
 ```
 

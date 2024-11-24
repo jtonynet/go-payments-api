@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option go_package = "./../../../adapter/protobuffer";
+
+service Payment {
+    rpc Execute(TransactionRequest) returns (TransactionResponse) {}
+}
+
+message TransactionRequest {
+    string account = 1;         // UUID of the account
+    string mcc = 2;             // Merchant Category Code
+    string merchant = 3;        // Merchant name
+    string total_amount = 4;    // Total transaction amount
+}
+
+message TransactionResponse {
+    string code = 1;            // Response code (e.g., "00" for success)
+}

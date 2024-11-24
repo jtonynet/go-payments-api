@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -48,12 +49,20 @@ type GinRouterSuite struct {
 }
 
 func (suite *GinRouterSuite) SetupSuite() {
+
+	/*
+	   TODO:
+	   Avoid concurrent testing with repositories
+	   Find a better way to handle this
+	*/
+	time.Sleep(1 * time.Second)
+
 	cfg, err := config.LoadConfig("./../../../../")
 	if err != nil {
 		log.Fatalf("cannot load config: %v", err)
 	}
 
-	app, err := bootstrap.NewApp(cfg)
+	app, err := bootstrap.NewRESTApp(cfg)
 	if err != nil {
 		log.Fatal("cannot initiate app: ", err)
 	}
@@ -150,7 +159,7 @@ func (suite *GinRouterSuite) loadDBtestData(conn database.Conn) {
 	}
 }
 
-func setupRouterAndGroup(cfg config.API, app bootstrap.App) (*gin.Engine, *gin.RouterGroup) {
+func setupRouterAndGroup(cfg config.API, app bootstrap.RESTApp) (*gin.Engine, *gin.RouterGroup) {
 	basePath := "/"
 
 	gin.SetMode(gin.TestMode)

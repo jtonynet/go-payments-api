@@ -111,11 +111,12 @@ func (suite *RepositoriesSuite) loadDBtestData(conn database.Conn) {
 		dbGorm.Exec(insertMCCQuery)
 
 		dbGorm.Exec("TRUNCATE TABLE merchants RESTART IDENTITY CASCADE")
-		insertMerchantQuery := `
+		insertMerchantQuery := fmt.Sprintf(`
 			INSERT INTO merchants (uid, name, mcc_id, created_at, updated_at)
 			VALUES
-				('95abe1ff-6f67-4a17-a4eb-d4842e324f1f', 'UBER EATS                   SAO PAULO BR', 2, NOW(), NOW()),
-				('a53c6a52-8a18-4e7d-8827-7f612233c7ec', 'PAG*JoseDaSilva          RIO DE JANEI BR', 4, NOW(), NOW())`
+				('95abe1ff-6f67-4a17-a4eb-d4842e324f1f', '%s', 2, NOW(), NOW()),
+				('a53c6a52-8a18-4e7d-8827-7f612233c7ec', 'PAG*JoseDaSilva          RIO DE JANEI BR', 4, NOW(), NOW())`,
+			merchant1NameToMap)
 		dbGorm.Exec(insertMerchantQuery)
 
 		dbGorm.Exec("TRUNCATE TABLE accounts RESTART IDENTITY CASCADE")
@@ -154,7 +155,7 @@ func (suite *RepositoriesSuite) loadDBtestData(conn database.Conn) {
 
 func (suite *RepositoriesSuite) AccountRepositoryFindByUIDsuccess() {
 	accountEntity, err := suite.AccountRepo.FindByUID(context.Background(), accountUID)
-	assert.Equal(suite.T(), accountEntity.ID, uint(1))
+	assert.Equal(suite.T(), accountEntity.UID, accountUID)
 	assert.NoError(suite.T(), err)
 
 	suite.AccountEntity = accountEntity

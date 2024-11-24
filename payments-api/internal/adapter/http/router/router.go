@@ -12,7 +12,7 @@ type Router interface {
 	HandleRequests(ctx context.Context, cfg config.API) error
 }
 
-func New(cfg config.Router, app bootstrap.App) (Router, error) {
+func New(cfg config.Router, app bootstrap.RESTApp) (Router, error) {
 	switch cfg.Strategy {
 	case "gin":
 		return NewGin(cfg, app)

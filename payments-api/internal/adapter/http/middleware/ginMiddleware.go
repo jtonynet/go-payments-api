@@ -6,7 +6,7 @@ import (
 	"github.com/jtonynet/go-payments-api/config"
 )
 
-func AppInject(app bootstrap.App) gin.HandlerFunc {
+func AppInject(app bootstrap.RESTApp) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.Set("app", app)
 		c.Next()

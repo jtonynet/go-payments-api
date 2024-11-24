@@ -225,7 +225,7 @@ docker compose build
 docker compose up postgres-payments redis-payments -d
 
 # Rodar a API
-docker compose up payments-api
+docker compose up payment-transaction-rest
 ```
  A API está pronta e a rota da [Documentação da API](#api-docs) (Swagger) estará disponível, assim como os [Testes](#tests) poderão ser executados.
 
@@ -254,7 +254,7 @@ ou se conecte a uma database válida no arquivo `.env`, então no diretório `pa
 go mod download
 
 # Rodar a API
-go run cmd/http/main.go
+go run cmd/rest/main.go
 ```
  A API está pronta e a rota da [Documentação da API](#api-docs) (Swagger) estará disponível, assim como os [Testes](#tests) poderão ser executados.
 
@@ -322,7 +322,7 @@ docker compose up test-postgres-payments -d
 Comando para executar o teste _conteinerizado_ com a API levantada
 ```bash
 # Executa Testes no Docker com ENV test (PostgreSQL de Testes na Integração)
-docker compose exec -e ENV=test payments-api go test -v -count=1 ./internal/adapter/repository/gormRepos ./internal/adapter/repository/redisRepos ./internal/core/service ./internal/adapter/http/router
+docker compose exec -e ENV=test  payment-transaction-rest go test -v -count=1 ./internal/adapter/repository/gormRepos ./internal/adapter/repository/redisRepos ./internal/core/service ./internal/adapter/http/router
 ```
 
 Comando para executar o teste _local_ em `payments-api`
@@ -359,7 +359,7 @@ Como as `migrations` e `seeds` ainda não foram adicionadas ao projeto, você po
 
 ```bash
 # Executa Testes no Docker com ENV dev (PostgreSQL de Desenvolvimento na Integração)
-docker compose exec payments-api go test -v -count=1 ./internal/adapter/repository/gormRepos ./internal/adapter/repository/redisRepos ./internal/core/service ./internal/adapter/http/router
+docker compose exec payment-transaction-rest go test -v -count=1 ./internal/adapter/repository/gormRepos ./internal/adapter/repository/redisRepos ./internal/core/service ./internal/adapter/http/router
 ```
 
 <br/>
@@ -522,7 +522,7 @@ erDiagram
 
 
     accounts_categories }o--|| accounts : has
-    transactions }o--|| accounts : performs
+    transactions }o--|| accounts : has
 
 ```
 
@@ -751,6 +751,8 @@ Para obter mais informações, consulte o [Histórico de Versões](./CHANGELOG.m
 
 - GUIs:
   - [VsCode](https://code.visualstudio.com/)
+  - [Redis Dunn - VsCode Extension](https://marketplace.visualstudio.com/items?itemName=Dunn.redis)
+  - [gRPC Clicker - VsCode Extension](https://marketplace.visualstudio.com/items?itemName=Dancheg97.grpc-clicker)
   - [DBeaver](https://dbeaver.io/)
 
 <br/>
@@ -838,3 +840,22 @@ sudo systemctl restart docker
 Hexagonal Architecture (Alistair Cockburn)  `22-11-2024`
 https://www.youtube.com/live/k0ykTxw7s0Y
 -->
+
+<!--
+gRPC WIP Commands:
+
+```bash
+cd payments-api/internal/core/port/proto/
+```
+
+```bash
+protoc --go_out=./../../../adapter/protobuffer \
+       --go_opt=paths=source_relative \
+       --go-grpc_out=./../../../adapter/protobuffer \
+       --go-grpc_opt=paths=source_relative \
+       ./transaction.proto
+```
+-->
+
+
+

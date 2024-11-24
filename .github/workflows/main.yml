@@ -40,6 +40,9 @@ env:
   CACHE_IN_MEMORY_PROTOCOL: 3
   CACHE_IN_MEMORY_EXPIRATION_DEFAULT_IN_MS: 50000
 
+  GRPC_SERVER_PROCESSOR_HOST: payment-transaction-processor
+  GRPC_SERVER_PROCESSOR_PORT: 9090
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -90,6 +93,10 @@ jobs:
     - name: Install dependencies
       working-directory: ./payments-api
       run: go mod download
+
+    - name: Run payment-transaction-processor
+      working-directory: ./payments-api
+      run: go run ./cmd/processor/main.go
 
     - name: Test
       working-directory: ./payments-api

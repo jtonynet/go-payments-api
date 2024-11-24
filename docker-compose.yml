@@ -76,15 +76,15 @@ services:
       - payments-network
     command: [ "redis-server", "--notify-keyspace-events", "Ex" ]
 
-  payments-api:
+  payment-transaction-rest:
     build:
       context: ./payments-api
       dockerfile: Dockerfile
     depends_on:
       - postgres-payments
       - redis-payments
-    container_name: payments-api
-    hostname: payments-api
+    container_name: payment-transaction-rest
+    hostname: payment-transaction-rest
     ports:
       - "8080:8080"
     volumes:
@@ -92,3 +92,22 @@ services:
     tty: true
     networks:
       - payments-network
+    command: CompileDaemon -log-prefix=false -build="go build -o /usr/src/app/bin/rest/main /usr/src/app/cmd/rest/main.go" -command="./bin/rest/main"
+
+  payment-transaction-processor:
+    build:
+      context: ./payments-api
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres-payments
+      - redis-payments
+    container_name: payment-transaction-processor
+    hostname: payment-transaction-processor
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./payments-api:/usr/src/app/
+    tty: true
+    networks:
+      - payments-network
+    command: CompileDaemon -log-prefix=false -build="go build -o /usr/src/app/bin/processor/main /usr/src/app/cmd/processor/main.go" -command="./bin/processor/main"

@@ -18,10 +18,10 @@ import (
 )
 
 type Gin struct {
-	app bootstrap.App
+	app bootstrap.RESTApp
 }
 
-func NewGin(cfg config.Router, app bootstrap.App) (Router, error) {
+func NewGin(cfg config.Router, app bootstrap.RESTApp) (Router, error) {
 	return Gin{app}, nil
 }
 

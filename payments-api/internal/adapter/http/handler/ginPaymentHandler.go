@@ -1,6 +1,7 @@
 package ginHandler
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"strings"
@@ -12,6 +13,7 @@ import (
 	"github.com/google/uuid"
 
 	"github.com/jtonynet/go-payments-api/bootstrap"
+	"github.com/jtonynet/go-payments-api/internal/adapter/protobuffer"
 	"github.com/jtonynet/go-payments-api/internal/core/port"
 	"github.com/jtonynet/go-payments-api/internal/support"
 )
@@ -27,7 +29,7 @@ import (
 func PaymentExecution(ctx *gin.Context) {
 	timestamp := time.Now().UnixMilli()
 
-	app := ctx.MustGet("app").(bootstrap.App)
+	app := ctx.MustGet("app").(bootstrap.RESTApp)
 	logger := app.Logger
 
 	defer func() {
@@ -63,11 +65,28 @@ func PaymentExecution(ctx *gin.Context) {
 		return
 	}
 
-	paymentService := app.PaymentService
-	returnCode, _ := paymentService.Execute(transactionRequest)
+	result, err := app.GRPCpayment.Execute(
+		context.Background(),
+		&protobuffer.TransactionRequest{
+			Account:     transactionRequest.AccountUID.String(),
+			Mcc:         transactionRequest.MCC,
+			Merchant:    transactionRequest.Merchant,
+			TotalAmount: transactionRequest.TotalAmount.String(),
+		},
+	)
+
+	if err != nil {
+		debugLog(logger, err.Error())
+
+		ctx.JSON(http.StatusOK, port.TransactionPaymentResponse{
+			Code: port.CODE_REJECTED_GENERIC,
+		})
+
+		return
+	}
 
 	ctx.JSON(http.StatusOK, port.TransactionPaymentResponse{
-		Code: returnCode,
+		Code: result.Code,
 	})
 }
 

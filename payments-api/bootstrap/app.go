@@ -11,7 +11,9 @@ import (
 	"github.com/jtonynet/go-payments-api/internal/support/logger"
 
 	"github.com/jtonynet/go-payments-api/internal/adapter/database"
+	"github.com/jtonynet/go-payments-api/internal/adapter/gRPC"
 	"github.com/jtonynet/go-payments-api/internal/adapter/inMemoryDatabase"
+	"github.com/jtonynet/go-payments-api/internal/adapter/protobuffer"
 	"github.com/jtonynet/go-payments-api/internal/adapter/pubSub"
 	"github.com/jtonynet/go-payments-api/internal/adapter/repository"
 
@@ -19,13 +21,38 @@ import (
 	"github.com/jtonynet/go-payments-api/internal/core/service"
 )
 
-type App struct {
+type RESTApp struct {
+	Logger support.Logger
+
+	GRPCpayment protobuffer.PaymentClient
+}
+
+type ProcessorApp struct {
 	Logger support.Logger
 
 	PaymentService *service.Payment
 }
 
-func NewApp(cfg *config.Config) (*App, error) {
+func NewRESTApp(cfg *config.Config) (*RESTApp, error) {
+	logger, err := initializeLogger(cfg.Logger)
+	if err != nil {
+		return nil, fmt.Errorf("failed to initialize logger: %w", err)
+	}
+
+	gRPCPaymentClient, err := gRPC.NewPaymentClient(cfg.GRPC)
+	if err != nil {
+		return nil, fmt.Errorf("failed to initialize gRPC Client: %w", err)
+	}
+
+	return &RESTApp{
+		Logger:      logger,
+		GRPCpayment: gRPCPaymentClient,
+	}, nil
+}
+
+func NewProcessorApp(cfg *config.Config) (*ProcessorApp, error) {
+	timeoutSLA := port.TimeoutSLA(time.Duration(cfg.API.TimeoutSLA) * time.Millisecond)
+
 	logger, err := initializeLogger(cfg.Logger)
 	if err != nil {
 		return nil, fmt.Errorf("failed to initialize logger: %w", err)
@@ -70,14 +97,14 @@ func NewApp(cfg *config.Config) (*App, error) {
 
 	// Initialize services
 	paymentService := service.NewPayment(
-		port.TimeoutSLA(time.Duration(cfg.API.TimeoutSLA)*time.Millisecond),
+		timeoutSLA,
 		allRepos.Account,
 		cachedMerchantRepo,
 		memoryLockRepo,
 		logger,
 	)
 
-	return &App{
+	return &ProcessorApp{
 		Logger:         logger,
 		PaymentService: paymentService,
 	}, nil

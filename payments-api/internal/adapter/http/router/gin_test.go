@@ -37,7 +37,7 @@ var (
 	balanceMealAmount = decimal.NewFromFloat(110.22)
 	balanceCashAmount = decimal.NewFromFloat(115.33)
 
-	amountFoodTransaction = decimal.NewFromFloat(100.10)
+	amountFoodTransaction = decimal.NewFromFloat(10.10) //decimal.NewFromFloat(100.10)
 )
 
 type GinRouterSuite struct {

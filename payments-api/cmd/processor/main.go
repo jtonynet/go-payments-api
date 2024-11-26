@@ -69,9 +69,9 @@ func main() {
 	 Research how to best model this
 	*/
 	println("Running gRPC server")
-	println(fmt.Sprintf("%s:%s", cfg.GRPC.Host, cfg.GRPC.Port))
+	println(fmt.Sprintf("%s:%s", cfg.GRPC.ProcessorHost, cfg.GRPC.ProcessorPort))
 
-	listener, err := net.Listen("tcp", fmt.Sprintf("%s:%s", cfg.GRPC.Host, cfg.GRPC.Port))
+	listener, err := net.Listen("tcp", fmt.Sprintf("%s:%s", cfg.GRPC.ProcessorHost, cfg.GRPC.ProcessorPort))
 	if err != nil {
 		println("-------------")
 		println(err)

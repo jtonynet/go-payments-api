@@ -103,8 +103,10 @@ type Logger struct {
 }
 
 type GRPC struct {
-	Host string `mapstructure:"GRPC_SERVER_PROCESSOR_HOST"`
-	Port string `mapstructure:"GRPC_SERVER_PROCESSOR_PORT"`
+	ProcessorHost string `mapstructure:"GRPC_SERVER_PROCESSOR_HOST"`
+	ProcessorPort string `mapstructure:"GRPC_SERVER_PROCESSOR_PORT"`
+	RestHost      string `mapstructure:"GRPC_SERVER_REST_HOST"`
+	RestPort      string `mapstructure:"GRPC_SERVER_REST_PORT"`
 }
 
 type Config struct {

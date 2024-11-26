@@ -68,4 +68,4 @@ jobs:
 
     - name: Test
       working-directory: ./payments-api
-      run: docker compose exec payment-transaction-rest go test -v -count=1 ./internal/adapter/repository/gormRepos ./internal/adapter/repository/redisRepos ./internal/core/service
+      run: go test -v -count=1 ./internal/adapter/repository/gormRepos ./internal/adapter/repository/redisRepos ./internal/core/service

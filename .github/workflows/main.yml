@@ -22,7 +22,7 @@ jobs:
       run: docker compose build test-postgres-payments redis-payments payment-transaction-processor payment-transaction-rest
 
     - name: Docker Compose Up
-      run: docker compose up test-postgres-payments redis-payments payment-transaction-processor payment-transaction-rest -d
+      run: docker compose up test-postgres-payments redis-payments payment-transaction-processor payment-transaction-rest -d --wait
 
     - name: Install dependencies
       working-directory: ./payments-api

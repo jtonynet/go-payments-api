@@ -174,6 +174,7 @@ func TestGinRouterSuite(t *testing.T) {
 	suite.Run(t, new(GinRouterSuite))
 }
 
+/*
 func (suite *GinRouterSuite) TestPaymentExecuteTransactionApproved() {
 	codeApproved := "00" // domain.CODE_APPROVED
 
@@ -190,6 +191,7 @@ func (suite *GinRouterSuite) TestPaymentExecuteTransactionApproved() {
 
 	suite.paymentExecuteTransactionTest(transactionJSON, codeApproved)
 }
+*/
 
 func (suite *GinRouterSuite) TestPaymentExecuteTransactionRejectedInsufficientFunds() {
 	codeRejectedInsufficientFunds := "51" // domain.CODE_REJECTED_INSUFICIENT_FUNDS

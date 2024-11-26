@@ -37,7 +37,7 @@ jobs:
       run: |
         docker compose exec \
           -e ENV=test \
-          -e GRPC_SERVER_REST_HOST=localhost \
+          -e GRPC_SERVER_PROCESSOR_HOST=localhost \
           payment-transaction-processor \
           go test -v -count=1 ./internal/adapter/http/router
 

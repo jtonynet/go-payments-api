@@ -70,10 +70,10 @@ jobs:
     # Levanta apenas o que é necessário no CI
     - name: Set up Docker Compose (CI Only)
       run: |
-        docker-compose -f docker-compose.yml up postgres-payments redis-payments payment-transaction-processor payment-transaction-rest -d
+        docker compose -f docker compose.yml up postgres-payments redis-payments payment-transaction-processor payment-transaction-rest -d
       working-directory: ./payments-api
 
     - name: Test
       working-directory: ./payments-api
-      run: docker-compose exec payment-transaction-rest go test -v -count=1 ./internal/adapter/repository/gormRepos ./internal/adapter/repository/redisRepos ./internal/core/service ./internal/adapter/http/router
+      run: docker compose exec payment-transaction-rest go test -v -count=1 ./internal/adapter/repository/gormRepos ./internal/adapter/repository/redisRepos ./internal/core/service ./internal/adapter/http/router
 

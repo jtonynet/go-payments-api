@@ -5,7 +5,7 @@
     Prompt: gopher azul, simbolo da linguagem golang com um bone laranja, trabalhando como caixa de supermercado com algumas maquinhas de cartão de credito e cartões em cima da mesa, estilo cartoon, historia em quadrinhos, fundo branco chapado para facilitar remoção
 -->
 <center>
-<a href="#rgo-turn-based-challenge">
+<a href="#header">
     <img src="./docs/assets/images/layout/header.png" alt="gopher azul, simbolo da linguagem golang com um bone laranja, trabalhando como caixa de supermercado com algumas maquinhas de cartão de credito e cartões em cima da mesa, estilo cartoon, historia em quadrinhos" />
 </a>
 </center>
@@ -34,7 +34,6 @@
 
 <a id="index"></a>
 ### ⤴️ Índice
-
 
 __[Go Payments API](#header)__<br/>
   1.  ⤴️ [Índice](#index)
@@ -183,6 +182,10 @@ Arquitetura projetada para atender ao requisito `L4`, utilizando `Redis Keyspace
 
 
 <center>
+<!-- 
+    diagram by:
+    https://miro.com
+-->
     <img src="./docs/assets/images/screen_captures/miro/architectureV3_segregation_services_grpc.png">
 </center>
 
@@ -224,7 +227,8 @@ docker compose build
 # Rodar o PostgreSQL e o Redis de Desenvolvimento
 docker compose up postgres-payments redis-payments -d
 
-# Rodar a API
+# Rodar a API (Sugiro em terminais distintos para acompanhar debug logs)
+docker compose up payment-transaction-processor
 docker compose up payment-transaction-rest
 ```
  A API está pronta e a rota da [Documentação da API](#api-docs) (Swagger) estará disponível, assim como os [Testes](#tests) poderão ser executados.
@@ -547,6 +551,10 @@ erDiagram
 #### 📈 Fluxo
 __Autorização de Pagamento__
 
+<!-- 
+    diagram by:
+    https://mermaid.js.org/
+-->
 ```mermaid
 flowchart TD
     A([▶️<br/>Recebe Transação JSON]) --> B[Mapeia Categoria pelo nome do comerciante]
@@ -633,6 +641,10 @@ Como proposto na questão _"...uma pequena, mas existente probabilidade de ocorr
 
 _*Diagramas Mermaid podem apresentar problemas de visualização em aplicativos mobile_
 
+<!-- 
+    diagram by:
+    https://mermaid.js.org/
+-->
 ```mermaid
 flowchart TD
     A([▶️<br/>Recebe Transação JSON]) --> B[Inicia Processamento de Transação]
@@ -685,6 +697,10 @@ _*Esses diagramas representam uma interpretação do sistema, não sua implement
 
 O diagrama de fluxo acima foi produzido após uma sessão de `Miro Board` conduzida pelos proponentes do desafio. O diagrama Miro da proposta de arquitetura, resultado dessa sessão, pode ser visto abaixo:
 
+<!-- 
+    diagram by:
+    https://miro.com
+-->
 <img src="./docs/assets/images/screen_captures/miro/interview_architecture_proposal_v1.jpeg">
 
 A partir desse diagrama, construí uma segunda versão com poucas modificações, acrescentando detalhes e contexto para os que não estiveram presentes nessa sessão. Esse diagrama gerou o ADR __[0003: gRPC e Redis Keyspace Notification em API REST e Processor para reduzir Latência e evitar Concorrência](./docs/architecture/decisions/0003-grpc-e-redis-keyspace-notification-em-api-rest-e-processor-para-reduzir-latencia-e-evitar-concorrencia.md)__, visando nortear a implementação do requisito L4 neste projeto, com finalidade estritamente de treinamento.
@@ -750,10 +766,10 @@ Para obter mais informações, consulte o [Histórico de Versões](./CHANGELOG.m
   - [Redis](https://redis.com/)
 
 - GUIs:
-  - [VsCode](https://code.visualstudio.com/)
-  - [Redis Dunn - VsCode Extension](https://marketplace.visualstudio.com/items?itemName=Dunn.redis)
-  - [gRPC Clicker - VsCode Extension](https://marketplace.visualstudio.com/items?itemName=Dancheg97.grpc-clicker)
   - [DBeaver](https://dbeaver.io/)
+  - [VsCode](https://code.visualstudio.com/)
+    - [Redis Dunn - VsCode Extension](https://marketplace.visualstudio.com/items?itemName=Dunn.redis)
+    - [gRPC Clicker - VsCode Extension](https://marketplace.visualstudio.com/items?itemName=Dancheg97.grpc-clicker)
 
 <br/>
 
@@ -818,7 +834,14 @@ Contrate artistas para projetos comerciais ou mais elaborados e aprenda a ser en
 
 Essas são minhas considerações sobre o que consegui produzir ao longo desse desafio, e continuarei me aplicando aos pontos cegos que não tive tempo ou conhecimento para aprimorar.
 
-😊🚀
+<br/>
+<br/>
+
+<center>
+<img src="./docs/assets/images/layout/lifelong_learning_&_prosper.png" alt="personagem Vulcano de orelhas pontudas parecido com o de conhecida  franquia de ficcao cientifica mas de pele negra, usando cabelo estilo black power anos 70, com o uniforme azul fazendo sua saudacao com a mao, meio corpo, fundo branco. imagem realista" />
+
+🖖🏾🚀
+</center>
 
 <br/>
 
@@ -834,11 +857,6 @@ docker network prune -f
 docker system prune -a --volumes
 
 sudo systemctl restart docker
--->
-
-<!-- 
-Hexagonal Architecture (Alistair Cockburn)  `22-11-2024`
-https://www.youtube.com/live/k0ykTxw7s0Y
 -->
 
 <!--

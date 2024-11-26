@@ -13,10 +13,10 @@ env:
 
   DATABASE_STRATEGY: gorm
   DATABASE_DRIVER: postgres
-  DATABASE_HOST: postgres
-  DATABASE_USER: test_api_user
-  DATABASE_PASSWORD: test_api_pass
-  DATABASE_DB: test_payments_db
+  DATABASE_HOST: postgres-payments
+  DATABASE_USER: api_user
+  DATABASE_PASSWORD: api_pass
+  DATABASE_DB: payments_db
   DATABASE_PORT: 5432
   DATABASE_SSLMODE: disable
 
@@ -27,20 +27,20 @@ env:
   PUBSUB_PROTOCOL: 3
 
   LOCK_IN_MEMORY_STRATEGY: redis
-  LOCK_IN_MEMORY_HOST: redis
+  LOCK_IN_MEMORY_HOST: redis-payments
   LOCK_IN_MEMORY_PORT: 6379
   LOCK_IN_MEMORY_DB: 1
   LOCK_IN_MEMORY_PROTOCOL: 3
   LOCK_IN_MEMORY_EXPIRATION_DEFAULT_IN_MS: 100
 
   CACHE_IN_MEMORY_STRATEGY: redis
-  CACHE_IN_MEMORY_HOST: redis
+  CACHE_IN_MEMORY_HOST: redis-payments
   CACHE_IN_MEMORY_PORT: 6379
   CACHE_IN_MEMORY_DB: 0
   CACHE_IN_MEMORY_PROTOCOL: 3
   CACHE_IN_MEMORY_EXPIRATION_DEFAULT_IN_MS: 50000
 
-  GRPC_SERVER_PROCESSOR_HOST: localhost
+  GRPC_SERVER_PROCESSOR_HOST: payment-transaction-processor
   GRPC_SERVER_PROCESSOR_PORT: 9090
 
   LOG_STRATEGY: slog  
@@ -54,32 +54,9 @@ jobs:
     container: golang:1.23-alpine
 
     services:
-      postgres:
-        image: postgres
-        env:
-          POSTGRES_USER: test_api_user
-          POSTGRES_PASSWORD: test_api_pass
-          POSTGRES_DB: test_payments_db
-          PGTZ: America/Sao_Paulo
-          TZ: America/Sao_Paulo
-
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 5432:5432
-
-      redis:
-        image: redis
-        options: >-
-          --health-cmd "redis-cli ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 6379:6379
+      docker: 
+        image: docker:20.10.7-dind
+        options: --privileged
 
     steps:
     - name: Check out repository code
@@ -90,36 +67,13 @@ jobs:
       with:
          go-version: 1.23
 
-    - name: Configure Redis Keyspace Notifications
+    # Levanta apenas o que é necessário no CI
+    - name: Set up Docker Compose (CI Only)
       run: |
-        apk add --no-cache redis
-        redis-cli -h redis -p 6379 CONFIG SET notify-keyspace-events Ex
-
-    - name: Install dependencies
+        docker-compose -f docker-compose.yml up postgres-payments redis-payments payment-transaction-processor payment-transaction-rest -d
       working-directory: ./payments-api
-      run: go mod download
-
-    - name: Run payment-transaction-processor
-      working-directory: ./payments-api
-      run: go run ./cmd/processor/main.go &
-
-    - name: Verify GRPC Server
-      run: |
-        for i in {1..60}; do
-          if nc -z localhost 9090; then
-            echo "GRPC server is running on port 9090."
-            exit 0
-          fi
-          echo "Waiting for GRPC server on port 9090..."
-          sleep 1
-        done
-
-    - name: Install netcat
-      run: apk add --no-cache netcat-openbsd
-
-    - name: Debug GRPC Server Port
-      run: netstat -tuln | grep 9090 || echo "No process is listening on port 9090"
 
     - name: Test
       working-directory: ./payments-api
-      run: ENV=test go test -v ./internal/adapter/repository/gormRepos ./internal/adapter/repository/redisRepos ./internal/core/service ./internal/adapter/http/router
+      run: docker-compose exec payment-transaction-rest go test -v -count=1 ./internal/adapter/repository/gormRepos ./internal/adapter/repository/redisRepos ./internal/core/service ./internal/adapter/http/router
+

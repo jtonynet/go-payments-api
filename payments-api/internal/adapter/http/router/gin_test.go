@@ -8,7 +8,6 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
-	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -55,7 +54,7 @@ func (suite *GinRouterSuite) SetupSuite() {
 	   Avoid concurrent testing with repositories
 	   Find a better way to handle this
 	*/
-	time.Sleep(1 * time.Second)
+	//time.Sleep(5 * time.Second)
 
 	cfg, err := config.LoadConfig("./../../../../")
 	if err != nil {

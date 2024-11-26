@@ -28,6 +28,10 @@ jobs:
       working-directory: ./payments-api
       run: go mod download
 
-    - name: Test
+    - name: Test Unit
       working-directory: ./payments-api
-      run: docker compose exec -e ENV=test  payment-transaction-rest go test -v -count=1 ./internal/adapter/repository/gormRepos ./internal/adapter/repository/redisRepos ./internal/core/service ./internal/adapter/http/router
+      run: docker compose exec -e ENV=test  payment-transaction-rest go test -v -count=1 ./internal/adapter/repository/gormRepos ./internal/adapter/repository/redisRepos ./internal/core/service
+
+    - name: Test Integration
+      working-directory: ./payments-api
+      run: docker compose exec -e ENV=test  payment-transaction-rest go test -v -count=1 ./internal/adapter/http/router

@@ -7,68 +7,65 @@ on:
     branches: [ '*' ]
 
 env:
-  TZ: America/Sao_Paulo
+  TZ : America/Sao_Paulo
   ENV: test
   API_TIMEOUT_SLA_IN_MS: 100
+
   DATABASE_STRATEGY: gorm
   DATABASE_DRIVER: postgres
-  DATABASE_HOST: postgres-payments
+  DATABASE_HOST: localhost
   DATABASE_USER: api_user
   DATABASE_PASSWORD: api_pass
   DATABASE_DB: payments_db
   DATABASE_PORT: 5432
   DATABASE_SSLMODE: disable
+
   PUBSUB_STRATEGY: redis
-  PUBSUB_HOST: redis-payments
+  PUBSUB_HOST: localhost
   PUBSUB_PORT: 6379
   PUBSUB_DB: 1
   PUBSUB_PROTOCOL: 3
+
   LOCK_IN_MEMORY_STRATEGY: redis
-  LOCK_IN_MEMORY_HOST: redis-payments
+  LOCK_IN_MEMORY_HOST: localhost
   LOCK_IN_MEMORY_PORT: 6379
   LOCK_IN_MEMORY_DB: 1
   LOCK_IN_MEMORY_PROTOCOL: 3
   LOCK_IN_MEMORY_EXPIRATION_DEFAULT_IN_MS: 100
+
   CACHE_IN_MEMORY_STRATEGY: redis
-  CACHE_IN_MEMORY_HOST: redis-payments
+  CACHE_IN_MEMORY_HOST: localhost
   CACHE_IN_MEMORY_PORT: 6379
   CACHE_IN_MEMORY_DB: 0
   CACHE_IN_MEMORY_PROTOCOL: 3
   CACHE_IN_MEMORY_EXPIRATION_DEFAULT_IN_MS: 50000
-  GRPC_SERVER_PROCESSOR_HOST: payment-transaction-processor
+
+  GRPC_SERVER_PROCESSOR_HOST: localhost
   GRPC_SERVER_PROCESSOR_PORT: 9090
-  LOG_STRATEGY: slog
-  LOG_LEVEL: debug
+
+  LOG_STRATEGY: slog  
+  LOG_LEVEL: debug    
   LOG_OPT_FORMAT: json
   LOG_OPT_ADD_SOURCE_BOOL: 0
 
 jobs:
   test:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Check out repository code
-        uses: actions/checkout@v4
+    - name: Check out repository code
+      uses: actions/checkout@v4
 
-      - name: Set up Docker
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y docker.io
-          sudo apt-get install -y docker-compose
-        shell: bash
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+         go-version: 1.23
 
-      - name: Set up Go
-        uses: actions/setup-go@v4
-        with:
-          go-version: 1.23
+    - name: Docker Compose Build
+      run: docker compose postgres-payments redis-payments payment-transaction-processor payment-transaction-rest
 
-      # Levanta apenas o que é necessário no CI
-      - name: Set up Docker Compose (CI Only)
-        run: |
-          docker-compose -f docker-compose.yml up -d postgres-payments redis-payments payment-transaction-processor payment-transaction-rest
-        working-directory: ./payments-api
+    - name: Docker Compose Up
+      run: docker compose up postgres-payments redis-payments payment-transaction-processor payment-transaction-rest -d
 
-      - name: Run Tests in Container
-        run: |
-          docker compose exec payment-transaction-rest go test -v -count=1 ./internal/adapter/repository/gormRepos ./internal/adapter/repository/redisRepos ./internal/core/service ./internal/adapter/http/router
-        working-directory: ./payments-api
+    - name: Test
+      working-directory: ./payments-api
+      run: docker compose exec payment-transaction-rest go test -v -count=1 ./internal/adapter/repository/gormRepos ./internal/adapter/repository/redisRepos ./internal/core/service

@@ -66,9 +66,13 @@ func (suite *GinRouterSuite) SetupSuite() {
 		log.Fatal("cannot initiate app: ", err)
 	}
 
-	fmt.Println("hostPortREST================")
-	fmt.Println(fmt.Sprintf("%s:%s", cfg.GRPC.RestHost, cfg.GRPC.RestPort))
-	fmt.Println("hostPortREST================")
+	fmt.Println("hostAndPortREST================")
+	fmt.Printf("%s:%s\n", cfg.GRPC.RestHost, cfg.GRPC.RestPort)
+	fmt.Println("hostAndPortREST================")
+
+	fmt.Println("hostAndPortPROCESSOR-+-+-+-+-+-+")
+	fmt.Printf("%s:%s\n", cfg.GRPC.ProcessorHost, cfg.GRPC.ProcessorPort)
+	fmt.Println("hostAndPortPROCESSOR-+-+-+-+-+-+")
 
 	conn, err := database.NewConn(cfg.Database)
 	if err != nil {

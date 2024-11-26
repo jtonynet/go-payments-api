@@ -10,7 +10,6 @@ env:
   TZ : America/Sao_Paulo
   ENV: test
   API_TIMEOUT_SLA_IN_MS: 100
-
   DATABASE_STRATEGY: gorm
   DATABASE_DRIVER: postgres
   DATABASE_HOST: localhost
@@ -19,32 +18,27 @@ env:
   DATABASE_DB: payments_db
   DATABASE_PORT: 5432
   DATABASE_SSLMODE: disable
-
   PUBSUB_STRATEGY: redis
   PUBSUB_HOST: localhost
   PUBSUB_PORT: 6379
   PUBSUB_DB: 1
   PUBSUB_PROTOCOL: 3
-
   LOCK_IN_MEMORY_STRATEGY: redis
   LOCK_IN_MEMORY_HOST: localhost
   LOCK_IN_MEMORY_PORT: 6379
   LOCK_IN_MEMORY_DB: 1
   LOCK_IN_MEMORY_PROTOCOL: 3
   LOCK_IN_MEMORY_EXPIRATION_DEFAULT_IN_MS: 100
-
   CACHE_IN_MEMORY_STRATEGY: redis
   CACHE_IN_MEMORY_HOST: localhost
   CACHE_IN_MEMORY_PORT: 6379
   CACHE_IN_MEMORY_DB: 0
   CACHE_IN_MEMORY_PROTOCOL: 3
   CACHE_IN_MEMORY_EXPIRATION_DEFAULT_IN_MS: 50000
-
   GRPC_SERVER_PROCESSOR_HOST: payment-transaction-processor
-  GRPC_SERVER_REST_HOST: localhost
+  GRPC_SERVER_REST_HOST: payment-transaction-processor
   GRPC_SERVER_PROCESSOR_PORT: 9090
   GRPC_SERVER_REST_PORT: 9090
-
   LOG_STRATEGY: slog  
   LOG_LEVEL: debug    
   LOG_OPT_FORMAT: json
@@ -63,10 +57,10 @@ jobs:
          go-version: 1.23
 
     - name: Docker Compose Build
-      run: docker compose build postgres-payments redis-payments payment-transaction-processor
+      run: docker compose build postgres-payments redis-payments payment-transaction-processor payment-transaction-rest
 
     - name: Docker Compose Up
-      run: docker compose up postgres-payments redis-payments payment-transaction-processor -d
+      run: docker compose up postgres-payments redis-payments payment-transaction-processor payment-transaction-rest -d
 
     - name: Install dependencies
       working-directory: ./payments-api
@@ -74,4 +68,42 @@ jobs:
 
     - name: Test
       working-directory: ./payments-api
-      run: go test -v -count=1 ./internal/adapter/repository/gormRepos ./internal/adapter/repository/redisRepos ./internal/core/service ./internal/adapter/http/router
+      run: |
+        docker compose exec \
+          -e TZ=America/Sao_Paulo \
+          -e ENV=test \
+          -e API_TIMEOUT_SLA_IN_MS=100 \
+          -e DATABASE_STRATEGY=gorm \
+          -e DATABASE_DRIVER=postgres \
+          -e DATABASE_HOST=localhost \
+          -e DATABASE_USER=api_user \
+          -e DATABASE_PASSWORD=api_pass \
+          -e DATABASE_DB=payments_db \
+          -e DATABASE_PORT=5432 \
+          -e DATABASE_SSLMODE=disable \
+          -e PUBSUB_STRATEGY=redis \
+          -e PUBSUB_HOST=localhost \
+          -e PUBSUB_PORT=6379 \
+          -e PUBSUB_DB=1 \
+          -e PUBSUB_PROTOCOL=3 \
+          -e LOCK_IN_MEMORY_STRATEGY=redis \
+          -e LOCK_IN_MEMORY_HOST=localhost \
+          -e LOCK_IN_MEMORY_PORT=6379 \
+          -e LOCK_IN_MEMORY_DB=1 \
+          -e LOCK_IN_MEMORY_PROTOCOL=3 \
+          -e LOCK_IN_MEMORY_EXPIRATION_DEFAULT_IN_MS=100 \
+          -e CACHE_IN_MEMORY_STRATEGY=redis \
+          -e CACHE_IN_MEMORY_HOST=localhost \
+          -e CACHE_IN_MEMORY_PORT=6379 \
+          -e CACHE_IN_MEMORY_DB=0 \
+          -e CACHE_IN_MEMORY_PROTOCOL=3 \
+          -e CACHE_IN_MEMORY_EXPIRATION_DEFAULT_IN_MS=50000 \
+          -e GRPC_SERVER_PROCESSOR_HOST=payment-transaction-processor \
+          -e GRPC_SERVER_REST_HOST=payment-transaction-processor \
+          -e GRPC_SERVER_PROCESSOR_PORT=9090 \
+          -e GRPC_SERVER_REST_PORT=9090 \
+          -e LOG_STRATEGY=slog \
+          -e LOG_LEVEL=debug \
+          -e LOG_OPT_FORMAT=json \
+          -e LOG_OPT_ADD_SOURCE_BOOL=0 \
+          payment-transaction-rest go test -v -count=1 ./internal/adapter/repository/gormRepos ./internal/adapter/repository/redisRepos ./internal/core/service ./internal/adapter/http/router

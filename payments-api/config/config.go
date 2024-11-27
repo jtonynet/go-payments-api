@@ -25,7 +25,7 @@ type Database struct {
 }
 
 type Router struct {
-	Strategy string `mapstructure:"HTTP_ROUTER_STRATEGY"` // gin
+	Strategy string `mapstructure:"HTTP_ROUTER_STRATEGY"`
 }
 
 type PubSub struct {
@@ -96,17 +96,17 @@ func (c *Cache) ToInMemoryDatabase() InMemoryDatabase {
 }
 
 type Logger struct {
-	Strategy  string `mapstructure:"LOG_STRATEGY"`   // slog
-	Level     string `mapstructure:"LOG_LEVEL"`      // debug | info | warn | error
-	Format    string `mapstructure:"LOG_OPT_FORMAT"` // text | json
+	Strategy  string `mapstructure:"LOG_STRATEGY"`
+	Level     string `mapstructure:"LOG_LEVEL"`
+	Format    string `mapstructure:"LOG_OPT_FORMAT"`
 	AddSource bool   `mapstructure:"LOG_OPT_ADD_SOURCE_BOOL"`
 }
 
 type GRPC struct {
-	ProcessorHost string `mapstructure:"GRPC_SERVER_PROCESSOR_HOST"`
-	ProcessorPort string `mapstructure:"GRPC_SERVER_PROCESSOR_PORT"`
-	RestHost      string `mapstructure:"GRPC_SERVER_REST_HOST"`
-	RestPort      string `mapstructure:"GRPC_SERVER_REST_PORT"`
+	ServerHost string `mapstructure:"GRPC_SERVER_HOST"`
+	ServerPort string `mapstructure:"GRPC_SERVER_PORT"`
+	ClientHost string `mapstructure:"GRPC_CLIENT_HOST"`
+	ClientPort string `mapstructure:"GRPC_CLIENT_PORT"`
 }
 
 type Config struct {

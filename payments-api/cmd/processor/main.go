@@ -51,8 +51,6 @@ func (ps *PaymentServer) Execute(
 	return &protobuffer.TransactionResponse{Code: code}, nil
 }
 
-//---------------------------------------------------------------------
-
 func main() {
 	cfg, err := config.LoadConfig(".")
 	if err != nil {
@@ -68,15 +66,10 @@ func main() {
 	 TODO: gRPC Repository? Service?
 	 Research how to best model this
 	*/
-	println("Running gRPC server")
-	println(fmt.Sprintf("%s:%s", cfg.GRPC.ProcessorHost, cfg.GRPC.ProcessorPort))
-
-	listener, err := net.Listen("tcp", fmt.Sprintf("%s:%s", cfg.GRPC.ProcessorHost, cfg.GRPC.ProcessorPort))
+	hostAndPort := fmt.Sprintf("%s:%s", cfg.GRPC.ServerHost, cfg.GRPC.ServerPort)
+	listener, err := net.Listen("tcp", hostAndPort)
 	if err != nil {
-		println("-------------")
-		println(err)
-		println("-------------")
-		log.Fatalf("cannot initiate listner: %v", err)
+		log.Fatalf("cannot initiate gRPC listner: %v", err)
 	}
 
 	println("OK!!!")

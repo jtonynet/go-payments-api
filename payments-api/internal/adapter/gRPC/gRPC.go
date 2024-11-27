@@ -11,9 +11,6 @@ import (
 
 func NewPaymentClient(cfg config.GRPC) (protobuffer.PaymentClient, error) {
 	hostAndPort := fmt.Sprintf("%s:%s", cfg.RestHost, cfg.RestPort)
-	println("hostAndPortREST:-----------")
-	println(hostAndPort)
-	println("-----------------------")
 
 	gRPCServerConn, err := grpc.Dial(
 		hostAndPort,

@@ -7,7 +7,6 @@ import (
 
 	"github.com/jtonynet/go-payments-api/config"
 
-	"github.com/jtonynet/go-payments-api/internal/support"
 	"github.com/jtonynet/go-payments-api/internal/support/logger"
 
 	"github.com/jtonynet/go-payments-api/internal/adapter/database"
@@ -22,13 +21,13 @@ import (
 )
 
 type RESTApp struct {
-	Logger support.Logger
+	Logger logger.Logger
 
 	GRPCpayment protobuffer.PaymentClient
 }
 
 type ProcessorApp struct {
-	Logger support.Logger
+	Logger logger.Logger
 
 	PaymentService *service.Payment
 }
@@ -110,7 +109,7 @@ func NewProcessorApp(cfg *config.Config) (*ProcessorApp, error) {
 	}, nil
 }
 
-func initializeLogger(cfg config.Logger) (support.Logger, error) {
+func initializeLogger(cfg config.Logger) (logger.Logger, error) {
 	logger, err := logger.New(cfg)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create logger: %w", err)
@@ -120,7 +119,7 @@ func initializeLogger(cfg config.Logger) (support.Logger, error) {
 	return logger, nil
 }
 
-func initializePubSub(cfg config.PubSub, logger support.Logger) (pubSub.PubSub, error) {
+func initializePubSub(cfg config.PubSub, logger logger.Logger) (pubSub.PubSub, error) {
 	pubsub, err := pubSub.New(cfg)
 	if err != nil {
 		return nil, fmt.Errorf("failed to initialize pub/sub client: %w", err)
@@ -133,7 +132,7 @@ func initializePubSub(cfg config.PubSub, logger support.Logger) (pubSub.PubSub, 
 func initializeInMemoryDatabase(
 	cfg config.InMemoryDatabase,
 	componentName string,
-	logger support.Logger,
+	logger logger.Logger,
 ) (inMemoryDatabase.Client, error) {
 	conn, err := inMemoryDatabase.NewClient(cfg)
 	if err != nil {
@@ -148,7 +147,7 @@ func initializeInMemoryDatabase(
 	return conn, nil
 }
 
-func initializeDatabase(cfg config.Database, logger support.Logger) (database.Conn, error) {
+func initializeDatabase(cfg config.Database, logger logger.Logger) (database.Conn, error) {
 	conn, err := database.NewConn(cfg)
 	if err != nil {
 		return nil, fmt.Errorf("failed to initialize database connection: %w", err)

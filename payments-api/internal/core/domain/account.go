@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/google/uuid"
-	"github.com/jtonynet/go-payments-api/internal/support"
+	"github.com/jtonynet/go-payments-api/internal/support/logger"
 	"github.com/shopspring/decimal"
 )
 
@@ -14,7 +14,7 @@ type Account struct {
 
 	Balance
 
-	Logger support.Logger
+	Logger logger.Logger
 }
 
 func (a *Account) ApproveTransaction(tDomain Transaction) (map[int]Transaction, *CustomError) {

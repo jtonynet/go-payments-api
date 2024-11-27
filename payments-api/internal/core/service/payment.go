@@ -6,8 +6,7 @@ import (
 
 	"github.com/jtonynet/go-payments-api/internal/core/domain"
 	"github.com/jtonynet/go-payments-api/internal/core/port"
-
-	"github.com/jtonynet/go-payments-api/internal/support"
+	"github.com/jtonynet/go-payments-api/internal/support/logger"
 )
 
 type Payment struct {
@@ -16,7 +15,7 @@ type Payment struct {
 	merchantRepository   port.MerchantRepository
 	memoryLockRepository port.MemoryLockRepository
 
-	logger            support.Logger
+	logger            logger.Logger
 	transactionLocked port.MemoryLockEntity
 }
 
@@ -27,7 +26,7 @@ func NewPayment(
 	mRepository port.MerchantRepository,
 	mlRepository port.MemoryLockRepository,
 
-	logger support.Logger,
+	logger logger.Logger,
 ) *Payment {
 	return &Payment{
 		timeoutSLA:           timeoutSLA,

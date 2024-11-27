@@ -15,7 +15,7 @@ import (
 	"github.com/jtonynet/go-payments-api/bootstrap"
 	"github.com/jtonynet/go-payments-api/internal/adapter/protobuffer"
 	"github.com/jtonynet/go-payments-api/internal/core/port"
-	"github.com/jtonynet/go-payments-api/internal/support"
+	"github.com/jtonynet/go-payments-api/internal/support/logger"
 )
 
 // @Summary Payment Execute Transaction
@@ -90,7 +90,7 @@ func PaymentExecution(ctx *gin.Context) {
 	})
 }
 
-func debugLog(logger support.Logger, msg string) {
+func debugLog(logger logger.Logger, msg string) {
 	if logger != nil {
 		logger.Debug(msg)
 	}

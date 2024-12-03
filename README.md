@@ -264,7 +264,6 @@ Com o `Golang 1.23` instalado e após ter renomeado a copia de `.env.SAMPLE` par
 No arquivo `.env`, substitua os valores das variáveis de ambiente que contêm comentários no formato `local: valueA | containerized: valueB` pelos valores sugeridos na opção `local` (exceto o `DATABASE_PORT`).
 ```bash
 DATABASE_HOST=localhost         ### local: localhost | conteinerized: test-postgres-payments
-DATABASE_PORT=5432              ### local: 5433      | conteinerized: 5432
 
 PUBSUB_HOST=localhost           ### local: localhost | conteinerized: redis-payments
 IN_MEMORY_LOCK_HOST=localhost   ### local: localhost | conteinerized: redis-payments

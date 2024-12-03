@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/jtonynet/go-payments-api/config"
-	"github.com/jtonynet/go-payments-api/internal/adapter/inMemoryDatabase"
+	"github.com/jtonynet/go-payments-api/internal/adapter/database"
 	"github.com/jtonynet/go-payments-api/internal/adapter/pubSub"
 	"github.com/jtonynet/go-payments-api/internal/core/port"
 	"github.com/stretchr/testify/assert"
@@ -18,10 +18,10 @@ var merchantName = "XYZ*TestCachedRepositoryMerchant                   PIRAPORIN
 type RedisReposSuite struct {
 	suite.Suite
 
-	cacheConn          inMemoryDatabase.Client
+	cacheConn          database.InMemory
 	cachedMerchantRepo port.MerchantRepository
 
-	lockConn             inMemoryDatabase.Client
+	lockConn             database.InMemory
 	memoryLockRepository port.MemoryLockRepository
 }
 
@@ -74,7 +74,7 @@ func (suite *RedisReposSuite) SetupSuite() {
 		log.Fatalf("cannot load config: %v", err)
 	}
 
-	cacheConn, err := inMemoryDatabase.NewClient(cfg.Cache.ToInMemoryDatabase())
+	cacheConn, err := database.NewInMemory(cfg.Cache.ToInMemoryDatabase())
 	if err != nil {
 		log.Fatalf("error: dont instantiate cache client: %v", err)
 	}
@@ -96,7 +96,7 @@ func (suite *RedisReposSuite) SetupSuite() {
 	suite.cacheConn = cacheConn
 	suite.cachedMerchantRepo = cachedMerchantRepo
 
-	lockConn, err := inMemoryDatabase.NewClient(cfg.Lock.ToInMemoryDatabase())
+	lockConn, err := database.NewInMemory(cfg.Lock.ToInMemoryDatabase())
 	if err != nil {
 		log.Fatalf("error: dont instantiate lock client: %v", err)
 	}

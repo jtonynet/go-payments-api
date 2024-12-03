@@ -1,4 +1,4 @@
-package inMemoryDatabase
+package database
 
 import (
 	"context"

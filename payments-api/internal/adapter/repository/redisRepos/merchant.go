@@ -3,19 +3,19 @@ package redisRepos
 import (
 	"context"
 
-	"github.com/jtonynet/go-payments-api/internal/adapter/inMemoryDatabase"
+	"github.com/jtonynet/go-payments-api/internal/adapter/database"
 	"github.com/jtonynet/go-payments-api/internal/core/port"
 
 	"github.com/tidwall/gjson"
 )
 
 type Merchant struct {
-	cacheConn inMemoryDatabase.Client
+	cacheConn database.InMemory
 
 	merchantRepository port.MerchantRepository
 }
 
-func NewRedisMerchant(cacheConn inMemoryDatabase.Client, mRepository port.MerchantRepository) (port.MerchantRepository, error) {
+func NewRedisMerchant(cacheConn database.InMemory, mRepository port.MerchantRepository) (port.MerchantRepository, error) {
 	return &Merchant{
 		cacheConn:          cacheConn,
 		merchantRepository: mRepository,

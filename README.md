@@ -266,13 +266,13 @@ No arquivo `.env`, substitua os valores das variáveis de ambiente que contêm c
 DATABASE_HOST=localhost ### local: localhost | conteinerized: postgres-payments
 ```
 
-Após editar o arquivo, suba apenas o banco de dados com o comando:
+Após editar o arquivo, suba apenas o banco e o redis de dados com o comando:
 
 ```bash
 # Rodar o PostgreSQL de Desenvolvimento
-docker compose up postgres-payments
+docker compose up postgres-payments redis-payments
 ```
-ou se conecte a uma database válida no arquivo `.env`, então no diretório `payments-api` execute os comandos:
+ou se conecte a database/redis válidos no arquivo `.env`, então no diretório `payments-api` execute os comandos:
 
 ```bash
 # Instala Dependências
@@ -872,7 +872,6 @@ _"Sejamos __ingênuos__ a ponto de acreditar que podemos mudar o mundo positivam
 >  _"Lifelong Learning & Prosper"_
 > <br/> 
 >  _Mr. Spock, maybe_   🖖🏾🚀
-
 
 <center>
 <a href="#footer">

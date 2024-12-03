@@ -6,7 +6,6 @@ import (
 	"fmt"
 
 	"github.com/jtonynet/go-payments-api/internal/adapter/database"
-	"github.com/jtonynet/go-payments-api/internal/adapter/inMemoryDatabase"
 	"github.com/jtonynet/go-payments-api/internal/adapter/pubSub"
 	"github.com/jtonynet/go-payments-api/internal/adapter/repository/gormRepos"
 	"github.com/jtonynet/go-payments-api/internal/adapter/repository/redisRepos"
@@ -46,7 +45,7 @@ func GetAll(conn database.Conn) (AllRepos, error) {
 	}
 }
 
-func NewCachedMerchant(cacheConn inMemoryDatabase.Client, mRepository port.MerchantRepository) (port.MerchantRepository, error) {
+func NewCachedMerchant(cacheConn database.InMemory, mRepository port.MerchantRepository) (port.MerchantRepository, error) {
 	var mr port.MerchantRepository
 
 	strategy, err := cacheConn.GetStrategy(context.Background())
@@ -62,7 +61,7 @@ func NewCachedMerchant(cacheConn inMemoryDatabase.Client, mRepository port.Merch
 	}
 }
 
-func NewMemoryLock(lockConn inMemoryDatabase.Client, pubsub pubSub.PubSub) (port.MemoryLockRepository, error) {
+func NewMemoryLock(lockConn database.InMemory, pubsub pubSub.PubSub) (port.MemoryLockRepository, error) {
 	var mlr port.MemoryLockRepository
 
 	strategy, err := lockConn.GetStrategy(context.Background())

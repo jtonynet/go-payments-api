@@ -246,7 +246,7 @@ docker compose build
 # Rodar o PostgreSQL e o Redis de Desenvolvimento
 docker compose up postgres-payments redis-payments -d
 
-# Rodar a API (Sugiro em terminais distintos para acompanhar debug logs)
+# Rodar as APIs (Sugiro em terminais distintos para acompanhar debug logs)
 docker compose up payment-transaction-processor
 docker compose up payment-transaction-rest
 ```
@@ -261,9 +261,17 @@ docker compose up payment-transaction-rest
 
 Com o `Golang 1.23` instalado e após ter renomeado a copia de `.env.SAMPLE` para `.env`, serão necessárias outras alterações para que a aplicação funcione corretamente no seu `localhost`.
 
-No arquivo `.env`, substitua os valores das variáveis de ambiente que contêm comentários no formato `local: valueA | containerized: valueB` pelos valores sugeridos na opção `local`.
+No arquivo `.env`, substitua os valores das variáveis de ambiente que contêm comentários no formato `local: valueA | containerized: valueB` pelos valores sugeridos na opção `local` (exceto o `DATABASE_PORT`).
 ```bash
-DATABASE_HOST=localhost ### local: localhost | conteinerized: postgres-payments
+DATABASE_HOST=localhost         ### local: localhost | conteinerized: test-postgres-payments
+DATABASE_PORT=5432              ### local: 5433      | conteinerized: 5432
+
+PUBSUB_HOST=localhost           ### local: localhost | conteinerized: redis-payments
+IN_MEMORY_LOCK_HOST=localhost   ### local: localhost | conteinerized: redis-payments
+IN_MEMORY_CACHE_HOST=localhost  ### local: localhost | conteinerized: redis-payments
+
+GRPC_SERVER_HOST=localhost      ### local: localhost | conteinerized: payment-transaction-processor
+GRPC_CLIENT_HOST=localhost      ### local: localhost | conteinerized: payment-transaction-processor
 ```
 
 Após editar o arquivo, suba apenas o banco e o redis de dados com o comando:
@@ -278,7 +286,8 @@ ou se conecte a database/redis válidos no arquivo `.env`, então no diretório 
 # Instala Dependências
 go mod download
 
-# Rodar a API
+# Rodar as APIs (Sugiro em terminais distintos para acompanhar debug logs)
+go run cmd/processor/main.go
 go run cmd/rest/main.go
 ```
  A API está pronta e a rota da [Documentação da API](#api-docs) (Swagger) estará disponível, assim como os [Testes](#tests) poderão ser executados.
@@ -896,14 +905,6 @@ gRPC WIP Commands:
 
 ```bash
 cd payments-api/internal/core/port/proto/
-```
-
-```bash
-protoc --go_out=./../../../adapter/protobuffer \
-       --go_opt=paths=source_relative \
-       --go-grpc_out=./../../../adapter/protobuffer \
-       --go-grpc_opt=paths=source_relative \
-       ./transaction.proto
 ```
 
 ```

@@ -33,8 +33,8 @@ func (ml *MemoryLock) Lock(
 		return port.MemoryLockEntity{}, err
 	}
 
-	_, lockErr := ml.isUnlocked(mle)
-	if lockErr == nil {
+	isUnlocked, _ := ml.isUnlocked(mle)
+	if isUnlocked {
 		err = ml.lockConn.Set(ctx, mle.Key, mle.Timestamp, expiration)
 		if err != nil {
 			return port.MemoryLockEntity{}, err

@@ -8,7 +8,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/jtonynet/go-payments-api/config"
-	"github.com/jtonynet/go-payments-api/internal/adapter/protobuffer"
+	pb "github.com/jtonynet/go-payments-api/internal/adapter/gRPC/pb"
 	"github.com/jtonynet/go-payments-api/internal/core/port"
 	"github.com/jtonynet/go-payments-api/internal/core/service"
 	"github.com/shopspring/decimal"
@@ -16,7 +16,7 @@ import (
 )
 
 type PaymentServer struct {
-	protobuffer.UnimplementedPaymentServer
+	pb.UnimplementedPaymentServer
 	hostAndPort    string
 	paymentService service.Payment
 }
@@ -35,7 +35,7 @@ func (ps *PaymentServer) HandleRequests() {
 	}
 
 	s := grpc.NewServer()
-	protobuffer.RegisterPaymentServer(s, ps)
+	pb.RegisterPaymentServer(s, ps)
 	if err := s.Serve(listener); err != nil {
 		log.Fatalf("Failed to serve: %v", err)
 	}
@@ -43,8 +43,8 @@ func (ps *PaymentServer) HandleRequests() {
 
 func (ps *PaymentServer) Execute(
 	ctx context.Context,
-	tr *protobuffer.TransactionRequest,
-) (*protobuffer.TransactionResponse, error) {
+	tr *pb.TransactionRequest,
+) (*pb.TransactionResponse, error) {
 
 	accountUID, err := uuid.Parse(tr.Account)
 	if err != nil {
@@ -65,5 +65,5 @@ func (ps *PaymentServer) Execute(
 		},
 	)
 
-	return &protobuffer.TransactionResponse{Code: code}, nil
+	return &pb.TransactionResponse{Code: code}, nil
 }

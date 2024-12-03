@@ -13,9 +13,10 @@ import (
 	"github.com/google/uuid"
 
 	"github.com/jtonynet/go-payments-api/bootstrap"
-	"github.com/jtonynet/go-payments-api/internal/adapter/protobuffer"
 	"github.com/jtonynet/go-payments-api/internal/core/port"
 	"github.com/jtonynet/go-payments-api/internal/support/logger"
+
+	pb "github.com/jtonynet/go-payments-api/internal/adapter/gRPC/pb"
 )
 
 // @Summary Payment Execute Transaction
@@ -67,7 +68,7 @@ func PaymentExecution(ctx *gin.Context) {
 
 	result, err := app.GRPCpayment.Execute(
 		context.Background(),
-		&protobuffer.TransactionRequest{
+		&pb.TransactionRequest{
 			Account:     transactionRequest.AccountUID.String(),
 			Mcc:         transactionRequest.MCC,
 			Merchant:    transactionRequest.Merchant,

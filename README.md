@@ -905,7 +905,12 @@ protoc --go_out=./../../../adapter/protobuffer \
        --go-grpc_opt=paths=source_relative \
        ./transaction.proto
 ```
+
+```
+protoc --go_out=./../../../adapter/gRPC/pb \
+       --go_opt=paths=source_relative \
+       --go-grpc_out=./../../../adapter/gRPC/pb \
+       --go-grpc_opt=paths=source_relative \
+       ./transaction.proto
+```
 -->
-
-
-

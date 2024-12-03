@@ -20,8 +20,8 @@ import (
 
 	"github.com/jtonynet/go-payments-api/bootstrap"
 	"github.com/jtonynet/go-payments-api/config"
-	"github.com/jtonynet/go-payments-api/internal/adapter/protobuffer"
 
+	pb "github.com/jtonynet/go-payments-api/internal/adapter/gRPC/pb"
 	ginHandler "github.com/jtonynet/go-payments-api/internal/adapter/http/handler"
 	ginMiddleware "github.com/jtonynet/go-payments-api/internal/adapter/http/middleware"
 )
@@ -33,18 +33,18 @@ var (
 )
 
 type PaymentServerFake struct {
-	protobuffer.UnimplementedPaymentServer
+	pb.UnimplementedPaymentServer
 }
 
-func NewPaymentClientFake() (protobuffer.PaymentClient, error) {
+func NewPaymentClientFake() (pb.PaymentClient, error) {
 	return &PaymentServerFake{}, nil
 }
 
 func (ps *PaymentServerFake) Execute(
 	ctx context.Context,
-	tr *protobuffer.TransactionRequest,
+	tr *pb.TransactionRequest,
 	opts ...grpc.CallOption,
-) (*protobuffer.TransactionResponse, error) {
+) (*pb.TransactionResponse, error) {
 
 	totalAmount, err := decimal.NewFromString(tr.TotalAmount)
 	if err != nil {
@@ -57,7 +57,7 @@ func (ps *PaymentServerFake) Execute(
 		code = "51"
 	}
 
-	return &protobuffer.TransactionResponse{Code: code}, nil
+	return &pb.TransactionResponse{Code: code}, nil
 }
 
 type GinRouterSuite struct {

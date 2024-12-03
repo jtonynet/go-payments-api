@@ -11,7 +11,7 @@ import (
 
 	"github.com/jtonynet/go-payments-api/internal/adapter/database"
 	"github.com/jtonynet/go-payments-api/internal/adapter/gRPC"
-	"github.com/jtonynet/go-payments-api/internal/adapter/protobuffer"
+	pb "github.com/jtonynet/go-payments-api/internal/adapter/gRPC/pb"
 	"github.com/jtonynet/go-payments-api/internal/adapter/pubSub"
 	"github.com/jtonynet/go-payments-api/internal/adapter/repository"
 
@@ -22,7 +22,7 @@ import (
 type RESTApp struct {
 	Logger logger.Logger
 
-	GRPCpayment protobuffer.PaymentClient
+	GRPCpayment pb.PaymentClient
 }
 
 type ProcessorApp struct {

@@ -4,15 +4,15 @@ import (
 	"fmt"
 
 	"github.com/jtonynet/go-payments-api/config"
-	"github.com/jtonynet/go-payments-api/internal/adapter/protobuffer"
+	pb "github.com/jtonynet/go-payments-api/internal/adapter/gRPC/pb"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
 
-func NewPaymentClient(cfg config.GRPC) (protobuffer.PaymentClient, error) {
+func NewPaymentClient(cfg config.GRPC) (pb.PaymentClient, error) {
 	hostAndPort := fmt.Sprintf("%s:%s", cfg.ClientHost, cfg.ClientPort)
 
-	gRPCServerConn, err := grpc.Dial(
+	gRPCClientConn, err := grpc.Dial(
 		hostAndPort,
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
 	)
@@ -21,7 +21,7 @@ func NewPaymentClient(cfg config.GRPC) (protobuffer.PaymentClient, error) {
 		return nil, err
 	}
 
-	PaymentClient := protobuffer.NewPaymentClient(gRPCServerConn)
+	PaymentClient := pb.NewPaymentClient(gRPCClientConn)
 
 	return PaymentClient, nil
 }

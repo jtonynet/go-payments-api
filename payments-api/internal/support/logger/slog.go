@@ -1,4 +1,4 @@
-package slogStrategy
+package logger
 
 import (
 	"fmt"
@@ -19,11 +19,11 @@ var levelNameToValue = map[string]slog.Level{
 	"error": slog.LevelError,
 }
 
-type Logger struct {
+type SLogger struct {
 	instance *slog.Logger
 }
 
-func New(cfg config.Logger) (*Logger, error) {
+func NewSlog(cfg config.Logger) (Logger, error) {
 	opts := &slog.HandlerOptions{
 		AddSource: cfg.AddSource,
 		Level:     levelNameToValue[cfg.Level],
@@ -41,23 +41,23 @@ func New(cfg config.Logger) (*Logger, error) {
 
 	instance := slog.New(handler)
 
-	return &Logger{
+	return &SLogger{
 		instance: instance,
 	}, nil
 }
 
-func (l Logger) Info(msg string, args ...interface{}) {
+func (l SLogger) Info(msg string, args ...interface{}) {
 	l.instance.Info(msg, args...)
 }
 
-func (l Logger) Debug(msg string, args ...interface{}) {
+func (l SLogger) Debug(msg string, args ...interface{}) {
 	l.instance.Debug(msg, args...)
 }
 
-func (l Logger) Warn(msg string, args ...interface{}) {
+func (l SLogger) Warn(msg string, args ...interface{}) {
 	l.instance.Warn(msg, args...)
 }
 
-func (l Logger) Error(msg string, args ...interface{}) {
+func (l SLogger) Error(msg string, args ...interface{}) {
 	l.instance.Error(msg, args...)
 }

@@ -914,3 +914,23 @@ protoc --go_out=./../../../adapter/gRPC/pb \
        ./transaction.proto
 ```
 -->
+
+<!-- 
+golang-migrate
+
+https://github.com/golang-migrate/migrate/tree/master/cmd/migrate
+
+curl -L https://packagecloud.io/golang-migrate/migrate/gpgkey | sudo apt-key add -
+echo "deb https://packagecloud.io/golang-migrate/migrate/ubuntu/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/migrate.list
+sudo apt-get update
+sudo apt-get install -y migrate
+
+migrate create -ext=sql -dir=scripts/database/postgres/migrations init
+
+migrate -source file://scripts/database/postgres/migrations -database "postgres://api_user:api_pass@localhost:5432/payments_db?sslmode=disable" -verbose up 
+
+migrate create -ext=sql -dir=scripts/database/postgres/seeds init
+
+docker compose exec postgres-payments psql -U api_user -d payments_db -f /scripts/database/postgres/seeds/integration_test.up.sql
+-->
+

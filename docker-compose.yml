@@ -32,6 +32,7 @@ services:
       - "5432:5432"
     volumes:
       - postgres-payments-data:/var/lib/postgresql/data
+      - ./scripts/database/postgres/seeds:/scripts/database/postgres/seeds
     command: postgres -c timezone=America/Sao_Paulo
     networks:
       - payments-network
@@ -55,6 +56,7 @@ services:
       - "5433:5432"
     volumes:
       - test-postgres-payments-data:/var/lib/postgresql/data
+      - ./scripts/database/postgres/seeds:/scripts/database/postgres/seeds
     command: postgres -c timezone=America/Sao_Paulo
     networks:
       - payments-network

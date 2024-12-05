@@ -121,3 +121,21 @@ services:
     networks:
       - payments-network
     command: CompileDaemon -log-prefix=false -build="go build -o /usr/src/app/bin/rest/main /usr/src/app/cmd/rest/main.go" -command="./bin/rest/main"
+
+  gatling:
+    build:
+      context: ./tests/gatling
+      dockerfile: Dockerfile
+    container_name: gatling
+    hostname: gatling
+    env_file:
+      - ./payments-api/.env
+    ports:
+      - "8082:8082"
+    depends_on:
+      - payment-transaction-processor
+      - payment-transaction-rest
+    volumes:
+      - ./tests/gatling:/usr/src/app
+    networks:
+      - payments-network

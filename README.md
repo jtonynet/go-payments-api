@@ -68,13 +68,13 @@ __[Go Payments API](#header)__<br/>
 __Resumo:__
 
 > 
-> Desafio de `Autorizador de Pagamentos` de benefícios com `SLA de 100ms` por request e `controle de concorrência` com baixa possibilidade de colisão. 
-> Em `Arquitetura Hexagonal` com `Gin` e `Gorm`, protocolo `gRPC` entre o serviço `REST` e o serviço `Processor` (o processador de pagamentos) por segurança.
+> Desafio de `Autorizador de Pagamentos` de benefícios em `Arquitetura Hexagonal` com `SLA de 100ms` por request e `controle de concorrência` com baixa possibilidade de colisão. 
+> Construído com `Gin` e `Gorm`, protocolo `gRPC` entre o serviço `REST` ("aberto" ao mundo, o ponto de entrada) e o serviço `Processor` ("fechado" ao mundo, o processador de pagamentos) por segurança.
 > 
-> - `Memory Lock Pessimista` com `Redis`  
-> - `Unlocks` através de `Pub/Sub` com `Redis Keyspace Notification` (outras `Abordagens` e `Filas` foram desconsideradas devido `Latência Adicional`)
+> - `Redis` para `Memory Lock Pessimista`
+> - `Redis Keyspace Notification` como `Pub/Sub` para `Unlocks` (outras `Abordagens` e `Filas` foram desconsideradas devido `Latência Adicional`)
 > - `PostgreSQL` modelado inspirado em `Event Sourcing` para garantir `Consistência`
-> - `GitHub Actions` para `CI` 
+> - `CI` com `GitHub Actions` 
 
  Após passar de fase no challange com os requisitos `L1`, `L2` e `L3` (obrigatórios) implementados no prazo previsto, reabri dando continuidade com o desafio. Focado em algumas das melhorias elaboradas no diagrama `Miro`, criado com a equipe proponente. Implementei o requisito `L4` (que era estritamente para discussão técnica nesse caso) como aprimoramento, de acordo com o proposto no diagrama.
 
@@ -958,6 +958,8 @@ migrate -source file://payments-api/scripts/database/postgres/migrations -databa
 
 docker compose exec postgres-payments psql -U api_user -d payments_db -f /seeds/load_test_charge.up.sql
 -->
+
+cd payments-api/internal/adapter/repository/gormRepos/
 
 <!-- 
 Gatling

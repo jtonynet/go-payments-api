@@ -32,7 +32,7 @@ services:
       - "5432:5432"
     volumes:
       - postgres-payments-data:/var/lib/postgresql/data
-      - ./payments-api/scripts/database/postgres/seeds:/seeds
+      - ./payments-api/internal/adapter/database/postgres/seeds:/seeds
     command: postgres -c timezone=America/Sao_Paulo
     networks:
       - payments-network
@@ -40,7 +40,7 @@ services:
   migrate:
     image: migrate/migrate
     volumes:
-      - ./payments-api/scripts/database/postgres/migrations:/migrations
+      - ./payments-api/internal/adapter/database/postgres/migrations:/migrations
     command: [ "-path", "/migrations", "-database", "postgres://api_user:api_pass@postgres-payments:5432/payments_db?sslmode=disable", "-verbose", "up" ]
     depends_on:
       - postgres-payments

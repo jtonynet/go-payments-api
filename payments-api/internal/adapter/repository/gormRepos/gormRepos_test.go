@@ -23,7 +23,7 @@ import (
 
 var (
 	postgresMigrationsPath = "file://./../../../../scripts/database/postgres/migrations"
-	postgresSeedPath       = "./../../../../scripts/database/postgres/seeds/test_charge.up.sql"
+	postgresSeedPath       = "./../../../../scripts/database/postgres/seeds/integration_test_charge.up.sql"
 
 	accountUID, _ = uuid.Parse("123e4567-e89b-12d3-a456-426614174000")
 

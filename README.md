@@ -254,7 +254,7 @@ Caso seja a primeira execução do projeto, rode os comandos de `migrations` e `
 docker compose up migrate
 
 # Carga inicial no banco
-docker compose exec postgres-payments psql -U api_user -d payments_db -f /seeds/dev_charge.up.sql
+docker compose exec postgres-payments psql -U api_user -d payments_db -f /seeds/load_test_charge.up.sql
 ```
 
 <br/>
@@ -306,7 +306,7 @@ Caso seja a primeira execução do projeto, rode os comandos de `migrations` e `
 docker compose up migrate
 
 # Carga inicial no banco
-docker compose exec postgres-payments psql -U api_user -d payments_db -f /seeds/dev_charge.up.sql
+docker compose exec postgres-payments psql -U api_user -d payments_db -f /seeds/load_test_charge.up.sql
 ```
 
 <br/>
@@ -956,5 +956,5 @@ migrate create -ext=sql -dir=payments-api/scripts/database/postgres/migrations i
 
 migrate -source file://payments-api/scripts/database/postgres/migrations -database "postgres://api_user:api_pass@localhost:5432/payments_db?sslmode=disable" -verbose up 
 
-docker compose exec postgres-payments psql -U api_user -d payments_db -f /seeds/dev_charge.up.sql
+docker compose exec postgres-payments psql -U api_user -d payments_db -f /seeds/load_test_charge.up.sql
 -->

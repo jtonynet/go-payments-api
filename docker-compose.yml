@@ -66,8 +66,6 @@ services:
       - "5433:5432"
     volumes:
       - test-postgres-payments-data:/var/lib/postgresql/data
-      - ./payments-api/scripts/database/postgres/migrations:/migrations
-      - ./payments-api/scripts/database/postgres/seeds:/seeds
     command: postgres -c timezone=America/Sao_Paulo
     networks:
       - payments-network

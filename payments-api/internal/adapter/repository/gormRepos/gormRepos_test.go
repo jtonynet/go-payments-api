@@ -2,8 +2,8 @@ package gormRepos
 
 import (
 	"context"
-	"fmt"
 	"log"
+	"os"
 	"testing"
 
 	"github.com/google/uuid"
@@ -15,18 +15,21 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
+
+	migrate "github.com/golang-migrate/migrate/v4"
+	"github.com/golang-migrate/migrate/v4/database/postgres"
+	_ "github.com/golang-migrate/migrate/v4/source/file"
 )
 
 var (
+	postgresMigrationsPath = "file://./../../../../scripts/database/postgres/migrations"
+	postgresSeedPath       = "./../../../../scripts/database/postgres/seeds/test_charge.up.sql"
+
 	accountUID, _ = uuid.Parse("123e4567-e89b-12d3-a456-426614174000")
 
-	balanceFoodAmount = decimal.NewFromFloat(205.11)
-	balanceMealAmount = decimal.NewFromFloat(110.22)
-	balanceCashAmount = decimal.NewFromFloat(115.33)
-
-	merchant1NameToMap       = "UBER EATS                   SAO PAULO BR"
-	merchant1CorrectMccToMap = "5412"
-	merchant1CategoryToMap   = uint(2)
+	merchantNameToMap       = "UBER EATS                   SAO PAULO BR"
+	merchantCorrectMccToMap = "5412"
+	merchantCategoryToMap   = uint(2)
 )
 
 type RepositoriesSuite struct {
@@ -37,6 +40,8 @@ type RepositoriesSuite struct {
 
 	AccountEntity port.AccountEntity
 	BalanceEntity port.BalanceEntity
+
+	migrate *migrate.Migrate
 }
 
 func (suite *RepositoriesSuite) SetupSuite() {
@@ -70,86 +75,66 @@ func (suite *RepositoriesSuite) SetupSuite() {
 	suite.loadDBtestData(conn)
 }
 
+func (suite *RepositoriesSuite) TearDownSuite() {
+	suite.migrate.Down()
+}
+
 func (suite *RepositoriesSuite) loadDBtestData(conn database.Conn) {
 
-	strategy, err := conn.GetStrategy(context.Background())
+	db, err := conn.GetDB(context.Background())
 	if err != nil {
-		log.Fatalf("error retrieving database strategy to charge test data")
+		log.Fatalf("error retrieving database conn DB to charge test data")
 	}
 
-	switch strategy {
-	case "gorm":
-		db, err := conn.GetDB(context.Background())
+	gormDB, ok := db.(*gorm.DB)
+	if !ok {
+		log.Fatalf("failure to cast conn.GetDB() as gorm.DB")
+	}
+
+	sqlDB, err := gormDB.DB()
+	if err != nil {
+		log.Fatalf("failure to cast gormDB as sqlDB")
+	}
+
+	dbDriver, err := conn.GetDriver(context.Background())
+	if err != nil {
+		log.Fatalf("error retrieving database driver to charge test data")
+	}
+
+	switch dbDriver {
+	case "postgres":
+		driver, err := postgres.WithInstance(sqlDB, &postgres.Config{})
 		if err != nil {
-			log.Fatalf("error retrieving database conn DB to charge test data")
+			log.Fatalf("failure to get DB driver")
 		}
 
-		dbGorm, ok := db.(*gorm.DB)
-		if !ok {
-			log.Fatalf("failure to cast conn.GetDB() as gorm.DB")
-		}
-
-		dbGorm.Exec("TRUNCATE TABLE categories RESTART IDENTITY CASCADE")
-		insertCategoryQuery := `
-			INSERT INTO categories (uid, name, priority, created_at, updated_at)
-			VALUES
-				('5681b4b5-6176-498a-a856-8932f79c05cc', 'FOOD', 1, NOW(), NOW()),
-				('7bcfcd2a-2fde-4564-916b-92410e794272', 'MEAL', 2, NOW(), NOW()),
-				('056de185-bff0-4c4a-93fa-7245f9e72b67', 'CASH', 3, NOW(), NOW())
-		`
-		dbGorm.Exec(insertCategoryQuery)
-
-		dbGorm.Exec("TRUNCATE TABLE mccs RESTART IDENTITY CASCADE")
-		insertMCCQuery := `
-			INSERT INTO mccs (uid, mcc, category_id, created_at, updated_at)
-			VALUES
-				('11f0c06e-0dff-4643-86bf-998d11e9374f', '5411', 1, NOW(), NOW()),
-				('fe5a4c17-a7cd-4072-a793-e99e2642e21a', '5412', 1, NOW(), NOW()),
-				('5268ec2b-aa14-4d55-906a-13c91d89826c', '5811', 2, NOW(), NOW()),
-				('6179e57c-e630-4e2f-a5db-d153e0cdb9a9', '5812', 2, NOW(), NOW())
-		`
-		dbGorm.Exec(insertMCCQuery)
-
-		dbGorm.Exec("TRUNCATE TABLE merchants RESTART IDENTITY CASCADE")
-		insertMerchantQuery := fmt.Sprintf(`
-			INSERT INTO merchants (uid, name, mcc_id, created_at, updated_at)
-			VALUES
-				('95abe1ff-6f67-4a17-a4eb-d4842e324f1f', '%s', 2, NOW(), NOW()),
-				('a53c6a52-8a18-4e7d-8827-7f612233c7ec', 'PAG*JoseDaSilva          RIO DE JANEI BR', 4, NOW(), NOW())`,
-			merchant1NameToMap)
-		dbGorm.Exec(insertMerchantQuery)
-
-		dbGorm.Exec("TRUNCATE TABLE accounts RESTART IDENTITY CASCADE")
-		insertAccountQuery := fmt.Sprintf(
-			`INSERT INTO accounts (uid, name, created_at, updated_at) 
-			 VALUES('%s', 'Jonh Doe', NOW(), NOW())`,
-			accountUID)
-		dbGorm.Exec(insertAccountQuery)
-
-		dbGorm.Exec("TRUNCATE TABLE transactions RESTART IDENTITY CASCADE")
-		insertTransactionQuery := fmt.Sprintf(`
-			INSERT INTO transactions (account_id, amount, category_id, created_at, updated_at)
-			VALUES
-				(1, %v, 1, NOW(), NOW()),
-				(1, %v, 2, NOW(), NOW()),
-				(1, %v, 3, NOW(), NOW())`,
-			balanceFoodAmount,
-			balanceMealAmount,
-			balanceCashAmount,
+		migrate, err := migrate.NewWithDatabaseInstance(
+			postgresMigrationsPath,
+			"postgres",
+			driver,
 		)
-		dbGorm.Exec(insertTransactionQuery)
+		if err != nil {
+			log.Fatalf("failure to instantiate golang-migration: %s", err)
+		}
 
-		dbGorm.Exec("TRUNCATE TABLE account_categories RESTART IDENTITY CASCADE")
-		insertAccountCategoriesQuery := `
-			INSERT INTO account_categories (account_id, category_id, created_at, updated_at)
-			VALUES
-				(1, 1, NOW(), NOW()),
-				(1, 2, NOW(), NOW()),
-				(1, 3, NOW(), NOW())`
-		dbGorm.Exec(insertAccountCategoriesQuery)
+		suite.migrate = migrate
+
+		err = migrate.Up()
+		if err != nil {
+			log.Fatalf("failure to Up migrations: %s", err)
+		}
+
+		seedFileContent, err := os.ReadFile(postgresSeedPath)
+		if err != nil {
+			log.Fatalf("Erro ao ler o arquivo: %v", err)
+		}
+
+		if err = gormDB.Exec(string(seedFileContent)).Error; err != nil {
+			log.Fatalf("failure to charge database: %s", err)
+		}
 
 	default:
-		log.Fatalf("error connecting to database migrate to charge test data")
+		log.Fatalf("error connecting to database migrate to charge test data. Incorrect Driver: %s", dbDriver)
 	}
 }
 
@@ -167,9 +152,9 @@ func (suite *RepositoriesSuite) AccountRepositorySaveTransactionsSuccess() {
 	transactionEntities[1] = port.TransactionEntity{
 		AccountID:    1,
 		Amount:       decimal.NewFromFloat(100.00),
-		MCC:          merchant1CorrectMccToMap,
-		MerchantName: merchant1NameToMap,
-		CategoryID:   merchant1CategoryToMap,
+		MCC:          merchantCorrectMccToMap,
+		MerchantName: merchantNameToMap,
+		CategoryID:   merchantCategoryToMap,
 	}
 
 	err := suite.AccountRepo.SaveTransactions(context.Background(), transactionEntities)
@@ -177,8 +162,8 @@ func (suite *RepositoriesSuite) AccountRepositorySaveTransactionsSuccess() {
 }
 
 func (suite *RepositoriesSuite) MerchantRepositoryFindByNameSuccess() {
-	merchantEntity, err := suite.MerchantRepo.FindByName(context.Background(), merchant1NameToMap)
-	assert.Equal(suite.T(), merchantEntity.MCC, merchant1CorrectMccToMap)
+	merchantEntity, err := suite.MerchantRepo.FindByName(context.Background(), merchantNameToMap)
+	assert.Equal(suite.T(), merchantEntity.MCC, merchantCorrectMccToMap)
 	assert.NoError(suite.T(), err)
 }
 

@@ -5,7 +5,6 @@ import (
 	"fmt"
 
 	"github.com/jtonynet/go-payments-api/config"
-	"github.com/jtonynet/go-payments-api/internal/adapter/model/gormModel"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -31,20 +30,6 @@ func NewGormConn(cfg config.Database) (Conn, error) {
 		if err != nil {
 			return nil, fmt.Errorf("failure on database connection: %w", err)
 		}
-
-		/*
-			TODO:
-			For simplicity, I am using GORM's AutoMigrate. If time permits,
-			I should migrate this solution to use the golang-migrate library,
-			as it is more robust and scalable.
-			See more at: https://github.com/golang-migrate/migrate
-		*/
-		db.AutoMigrate(&gormModel.Account{})
-		db.AutoMigrate(&gormModel.Category{})
-		db.AutoMigrate(&gormModel.AccountCategory{})
-		db.AutoMigrate(&gormModel.MCC{})
-		db.AutoMigrate(&gormModel.Merchant{})
-		db.AutoMigrate(&gormModel.Transaction{})
 
 		gConn := GormConn{
 			db:       db,

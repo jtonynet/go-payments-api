@@ -1,9 +1,3 @@
--- public.accounts definition
-
--- Drop table
-
--- DROP TABLE public.accounts;
-
 CREATE TABLE public.accounts (
 	id bigserial NOT NULL,
 	created_at timestamptz NULL,
@@ -15,13 +9,6 @@ CREATE TABLE public.accounts (
 );
 CREATE INDEX idx_accounts_deleted_at ON public.accounts USING btree (deleted_at);
 CREATE UNIQUE INDEX idx_accounts_uid ON public.accounts USING btree (uid);
-
-
--- public.categories definition
-
--- Drop table
-
--- DROP TABLE public.categories;
 
 CREATE TABLE public.categories (
 	id bigserial NOT NULL,
@@ -36,13 +23,6 @@ CREATE TABLE public.categories (
 CREATE INDEX idx_categories_deleted_at ON public.categories USING btree (deleted_at);
 CREATE UNIQUE INDEX idx_categories_uid ON public.categories USING btree (uid);
 
-
--- public.account_categories definition
-
--- Drop table
-
--- DROP TABLE public.account_categories;
-
 CREATE TABLE public.account_categories (
 	id bigserial NOT NULL,
 	created_at timestamptz NULL,
@@ -55,13 +35,6 @@ CREATE TABLE public.account_categories (
 	CONSTRAINT fk_categories_account_categories FOREIGN KEY (category_id) REFERENCES public.categories(id)
 );
 CREATE INDEX idx_account_categories_deleted_at ON public.account_categories USING btree (deleted_at);
-
-
--- public.mccs definition
-
--- Drop table
-
--- DROP TABLE public.mccs;
 
 CREATE TABLE public.mccs (
 	id bigserial NOT NULL,
@@ -77,13 +50,6 @@ CREATE TABLE public.mccs (
 CREATE INDEX idx_mccs_deleted_at ON public.mccs USING btree (deleted_at);
 CREATE UNIQUE INDEX idx_mccs_uid ON public.mccs USING btree (uid);
 
-
--- public.merchants definition
-
--- Drop table
-
--- DROP TABLE public.merchants;
-
 CREATE TABLE public.merchants (
 	id bigserial NOT NULL,
 	created_at timestamptz NULL,
@@ -98,13 +64,6 @@ CREATE TABLE public.merchants (
 CREATE INDEX idx_merchants_deleted_at ON public.merchants USING btree (deleted_at);
 CREATE UNIQUE INDEX idx_merchants_name ON public.merchants USING btree (name);
 CREATE UNIQUE INDEX idx_merchants_uid ON public.merchants USING btree (uid);
-
-
--- public.transactions definition
-
--- Drop table
-
--- DROP TABLE public.transactions;
 
 CREATE TABLE public.transactions (
 	id bigserial NOT NULL,

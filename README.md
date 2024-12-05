@@ -237,20 +237,38 @@ Crie uma copia do arquivo `./payments-api/.env.SAMPLE` e renomeie para `./paymen
 <a id="run-containerized"></a>
 #### 🐋 Conteinerizado 
 
-Após a `.env` renomeada, rode os comandos `docker compose` (de acordo com sua versão do docker compose) no diretório raiz do projeto:
-
+Após a `.env` renomeada, rode os comandos `docker compose` (de acordo com sua versão do docker compose) no diretório raiz do projeto
 ```bash
 # Construir a imagem
 docker compose build
 
 # Rodar o PostgreSQL e o Redis de Desenvolvimento
 docker compose up postgres-payments redis-payments -d
+```
 
+<br/>
+
+Caso seja a primeira execução do projeto, rode os comandos de `migrations` e `seeds` para dar carga inicial no banco de dados de desenvolvimento.
+```bash
+# Rodar Migrations de Desenvolvimento
+docker compose up migrate
+
+# Carga inicial no banco
+docker compose exec postgres-payments psql -U api_user -d payments_db -f /seeds/dev_charge.up.sql
+```
+
+<br/>
+
+Para então subir os serviços `REST` e `Processor`
+```bash
 # Rodar as APIs (Sugiro em terminais distintos para acompanhar debug logs)
 docker compose up payment-transaction-processor
 docker compose up payment-transaction-rest
 ```
- A API está pronta e a rota da [Documentação da API](#api-docs) (Swagger) estará disponível, assim como os [Testes](#tests) poderão ser executados.
+
+<br/>
+
+A API está pronta e a rota da [Documentação da API](#api-docs) (Swagger) estará disponível, assim como os [Testes](#tests) poderão ser executados.
 
 <img src="./docs/assets/images/screen_captures/running.jpeg">
 
@@ -276,9 +294,23 @@ GRPC_CLIENT_HOST=localhost      ### local: localhost | conteinerized: payment-tr
 Após editar o arquivo, suba apenas o banco e o redis de dados com o comando:
 
 ```bash
-# Rodar o PostgreSQL de Desenvolvimento
-docker compose up postgres-payments redis-payments
+# Rodar o PostgreSQL e o Redis de Desenvolvimento
+docker compose up postgres-payments redis-payments -d
 ```
+
+<br/>
+
+Caso seja a primeira execução do projeto, rode os comandos de `migrations` e `seeds` para dar carga inicial no banco de dados de desenvolvimento.
+```bash
+# Rodar Migrations de Desenvolvimento
+docker compose up migrate
+
+# Carga inicial no banco
+docker compose exec postgres-payments psql -U api_user -d payments_db -f /seeds/dev_charge.up.sql
+```
+
+<br/>
+
 ou se conecte a database/redis válidos no arquivo `.env`, então no diretório `payments-api` execute os comandos:
 
 ```bash
@@ -391,12 +423,7 @@ _*Saída esperada do `workload` na fase test do `github` <br/> **Essa abordagem 
 <a id="test-manual"></a>
 #### 🧑‍🔧Manuais
 
-Como as `migrations` e `seeds` ainda não foram adicionadas ao projeto, você pode rodar a suite de testes no ambiente de desenvolvimento (atenção: isso trunca todas as tabelas antes de efetuar a carga de testes) para carregar os valores iniciais.
-
-```bash
-# Executa Testes no Docker com ENV dev (PostgreSQL de Desenvolvimento na Integração)
-docker compose exec payment-transaction-rest go test -v -count=1 ./internal/adapter/repository/gormRepos ./internal/adapter/repository/redisRepos ./internal/core/service ./internal/adapter/http/router
-```
+O banco de desenvolvimento local, quando adequadamente instalado, possui uma carga inicial de dados que pode ser utilizada para testes manuais.
 
 <br/>
 
@@ -788,7 +815,7 @@ Para obter mais informações, consulte o [Histórico de Versões](./CHANGELOG.m
   - [gjson](https://github.com/tidwall/gjson)
   - [uuid](github.com/google/uuid)
   - [gRPC](https://grpc.io/docs/languages/go/quickstart/)
-
+  - [golang-migrate](https://github.com/golang-migrate/migrate)
 
 - Infra & Tecnologias
   - [Docker v24.0.6](https://www.docker.com/)
@@ -925,12 +952,9 @@ echo "deb https://packagecloud.io/golang-migrate/migrate/ubuntu/ $(lsb_release -
 sudo apt-get update
 sudo apt-get install -y migrate
 
-migrate create -ext=sql -dir=scripts/database/postgres/migrations init
+migrate create -ext=sql -dir=payments-api/scripts/database/postgres/migrations init
 
-migrate -source file://scripts/database/postgres/migrations -database "postgres://api_user:api_pass@localhost:5432/payments_db?sslmode=disable" -verbose up 
+migrate -source file://payments-api/scripts/database/postgres/migrations -database "postgres://api_user:api_pass@localhost:5432/payments_db?sslmode=disable" -verbose up 
 
-migrate create -ext=sql -dir=scripts/database/postgres/seeds init
-
-docker compose exec postgres-payments psql -U api_user -d payments_db -f /scripts/database/postgres/seeds/integration_test.up.sql
+docker compose exec postgres-payments psql -U api_user -d payments_db -f /seeds/dev_charge.up.sql
 -->
-

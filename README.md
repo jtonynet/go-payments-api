@@ -958,3 +958,9 @@ migrate -source file://payments-api/scripts/database/postgres/migrations -databa
 
 docker compose exec postgres-payments psql -U api_user -d payments_db -f /seeds/load_test_charge.up.sql
 -->
+
+<!-- 
+Gatling
+
+https://gatling.io/blog/load-testing-a-dockerized-application
+-->

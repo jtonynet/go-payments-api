@@ -49,8 +49,10 @@ func NewRESTApp(cfg *config.Config) (*RESTApp, error) {
 }
 
 func NewProcessorApp(cfg *config.Config) (*ProcessorApp, error) {
+	// Setting Value Objects
 	timeoutSLA := port.TimeoutSLA(time.Duration(cfg.API.TimeoutSLA) * time.Millisecond)
 
+	// Initialize supports
 	logger, err := initializeLogger(cfg.Logger)
 	if err != nil {
 		return nil, fmt.Errorf("failed to initialize logger: %w", err)

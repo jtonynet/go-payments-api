@@ -13,12 +13,12 @@ import (
 	"github.com/shopspring/decimal"
 	"gorm.io/gorm"
 
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/suite"
-
 	migrate "github.com/golang-migrate/migrate/v4"
 	"github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
+
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
 )
 
 var (

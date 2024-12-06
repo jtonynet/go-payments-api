@@ -48,6 +48,7 @@ __[Go Payments API](#header)__<br/>
       - 🐋 [Conteinerizado](#test-containerized)
       - 🏠 [Local](#test-locally)
       - ⚙️[Automatizados](#test-auto)
+      - 🚋[Carga](#test-load)
       - 🧑‍🔧[Manuais](#test-manual)
   6.  📊 [Diagramas](#diagrams)
       - 📈 [ER](#diagrams-erchart)
@@ -197,7 +198,7 @@ Este repositório foi criado com a intenção de propor uma possível solução 
 
 <br/>
 
-O desafio sugere `Scala`, `Kotlin` e o `paradigma de programação funcional`, evidenciando preferências, mas aceitando subscrições com outras linguagens e paradigmas. Realizarei em `Golang`, com arquitetura [`hexagonal`](https://alistair.cockburn.us/hexagonal-architecture/), por maior familiaridade e experiência, além de ser mencionada na `job description` como parte do stack tecnológico utilizado pelo proponente. Acredito que essa combinação seja altamente compatível com os requisitos do desafio.
+O desafio sugere `Scala`, `Kotlin` e o `paradigma de programação funcional`, evidenciando preferências, mas aceitando subscrições com outras linguagens e paradigmas. Realizei em `Golang`, com arquitetura [`hexagonal`](https://alistair.cockburn.us/hexagonal-architecture/), por maior familiaridade e experiência, além de ser mencionada na `job description` como parte do stack tecnológico utilizado pelo proponente. Acredito que essa combinação seja altamente compatível com os requisitos do desafio.
 
 Contudo, sou aberto a expandir minhas habilidades, e disposto a aprender e adotar novas tecnologias e paradigmas conforme necessário.
 
@@ -268,36 +269,7 @@ docker compose up payment-transaction-processor
 docker compose up payment-transaction-rest
 ```
 
-<!-- 
-
-docker compose up gatling -d
-docker exec -ti gatling /entrypoint run-test 
-
-docker exec -ti gatling /entrypoint clean-test 
-
-//------------------------------------------------
-
-Gatling nao atualiza para usar linha de comando, migrar para K6
-https://community.gatling.io/t/missing-command-line-options-in-gatling-3-11-bundles/9311
-https://github.com/gatling/gatling/issues/4512
-
-GATLING_VERSION=3.13.1 
-GATLING_BUNDLE=gatling-charts-highcharts-bundle-3.13.1
-GATLING_BUNDLE_ZIP=gatling-charts-highcharts-bundle-3.13.1.zip
-
-GATLING_VERSION=3.9.5 
-GATLING_BUNDLE=gatling-charts-highcharts-bundle-3.9.5
-GATLING_BUNDLE_ZIP=gatling-charts-highcharts-bundle-3.9.5-bundle.zip
-
-LoadTester em Golang
-https://github.com/josephcopenhaver/loadtester-go
-
--->
-
-<br/>
-
 A API está pronta e a rota da [Documentação da API](#api-docs) (Swagger) estará disponível, assim como os [Testes](#tests) poderão ser executados.
-
 <img src="./docs/assets/images/screen_captures/running.jpeg">
 
 <br/>
@@ -429,22 +401,60 @@ ENV=test go test -v -count=1  ./internal/adapter/repository/gormRepos ./internal
 
 <br/>
 
-Cada vez que o comando for executado, as tabelas e índices da base de dados testada serão truncados e recriados no banco de dados do ambiente selecionado (`test` ou `dev`). Os usuários dos ambientes `homol`, `prod` e correlatos não devem ter permissões para executar essas ações no próprio database, garantindo uma execução segura, limpa e sem impacto nos dados de produção.
+Cada vez que o comando for executado, as tabelas e índices da base de dados testada serão truncados e recriados no banco de dados do ambiente selecionado garantindo uma execução segura e limpa.
 
-<center>
-    <img src="./docs/assets/images/screen_captures/tests_run.png">
-</center>
-
-_*Saída esperada do comando_
+<details>
+  <summary><b>Saída esperada do comando</b></summary>
+    <center>
+        <img src="./docs/assets/images/screen_captures/tests_run.png">
+    </center>
+</details>
 
 <br/>
 
 Os testes também são executados como parte da rotina minima de `CI` do <a href="https://github.com/jtonynet/go-payments-api/actions">GitHub Actions</a>, garantindo que versões estáveis sejam mescladas na branch principal. O badge `CI` no [cabeçalho](#header) do arquivo readme é uma ajuda visual para verificar rapidamente a integridade do desenvolvimento.
 
-<img src="./docs/assets/images/screen_captures/githubactions_tests_run.png">
+<details>
+  <summary><b>Saída esperada do <u>workload</u> na fase test do <u>github</u></b></summary>
+    <center>
+        <img src="./docs/assets/images/screen_captures/githubactions_tests_run.png">
+        <i>*Essa abordagem pode evoluir para uma rotina adequada de `CD`</i>
+    </center>
+</details>
 
-_*Saída esperada do `workload` na fase test do `github` <br/> **Essa abordagem pode evoluir para uma rotina adequada de `CD`._ 
+<br/>
 
+<a id="test-load"></a>
+#### 🚋Carga (WIP)
+
+Atualmente o Gatling em uma versao desatualizada esta performando os testes de carga. Para efetuar os mesmo, com a `API REST` e` Processor` rodando de maneira conteinerizada, em outro terminal, mas ainda no diretorio raiz do projeto proceda os seguintes comandos
+
+```bash
+docker compose up gatling -d
+
+docker exec -ti gatling /entrypoint run-test 
+
+docker exec -ti gatling /entrypoint clean-test 
+```
+
+<!-- 
+
+Gatling nao atualiza para usar linha de comando, migrar para K6
+https://community.gatling.io/t/missing-command-line-options-in-gatling-3-11-bundles/9311
+https://github.com/gatling/gatling/issues/4512
+
+GATLING_VERSION=3.13.1 
+GATLING_BUNDLE=gatling-charts-highcharts-bundle-3.13.1
+GATLING_BUNDLE_ZIP=gatling-charts-highcharts-bundle-3.13.1.zip
+
+GATLING_VERSION=3.9.5 
+GATLING_BUNDLE=gatling-charts-highcharts-bundle-3.9.5
+GATLING_BUNDLE_ZIP=gatling-charts-highcharts-bundle-3.9.5-bundle.zip
+
+LoadTester em Golang
+https://github.com/josephcopenhaver/loadtester-go
+
+-->
 
 <br/>
 
@@ -453,7 +463,6 @@ _*Saída esperada do `workload` na fase test do `github` <br/> **Essa abordagem 
 
 O banco de desenvolvimento local, quando adequadamente instalado, possui uma carga inicial de dados que pode ser utilizada para testes manuais.
 
-<br/>
 
 Registros e Saldos no banco para teste manual
 
@@ -777,22 +786,21 @@ flowchart TD
 
 _*Esses diagramas representam uma interpretação do sistema, não sua implementação.<br/>**A etapa [`Processa Autorização de Pagamento`](#diagrams-flowchart) é uma sub-rotina vinculada ao diagrama de fluxo de Autorização de Pagamento, mantida de forma simplificada para que esse fluxograma tenha sentido isoladamente. Considere os detalhes do processamento para o débito de saldos das categorias corretas no fluxograma vinculado._
 
-
 <br/>
-<br/>
-
-O diagrama de fluxo acima foi produzido após uma sessão de `Miro Board` conduzida pelos proponentes do desafio. O diagrama Miro da proposta de arquitetura, resultado dessa sessão, pode ser visto abaixo:
 
 <!-- 
     diagram by:
     https://miro.com
 -->
-<img src="./docs/assets/images/screen_captures/miro/interview_architecture_proposal_v1.jpeg">
-
+<details>
+  <summary>O diagrama de fluxo acima foi produzido após uma sessão de <u>Miro Board</u> conduzida pelos proponentes do desafio. O diagrama Miro da proposta de arquitetura, resultado dessa sessão, pode ser visto <b><u>Aqui</u></b></summary>
+    <center>
+        <img src="./docs/assets/images/screen_captures/miro/interview_architecture_proposal_v1.jpeg">
+    </center>
 A partir desse diagrama, construí uma segunda versão com poucas modificações, acrescentando detalhes e contexto para os que não estiveram presentes nessa sessão. Esse diagrama gerou o ADR __[0003: gRPC e Redis Keyspace Notification em API REST e Processor para reduzir Latência e evitar Concorrência](./docs/architecture/decisions/0003-grpc-e-redis-keyspace-notification-em-api-rest-e-processor-para-reduzir-latencia-e-evitar-concorrencia.md)__, visando nortear a implementação do requisito L4 neste projeto, com finalidade estritamente de treinamento.
 
 Via de regra, o que foi discutido naquela reunião deve ser implementado.
-
+</details>
 
 <br/>
 

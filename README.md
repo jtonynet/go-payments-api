@@ -274,7 +274,7 @@ A API está pronta e a rota da [Documentação da API](#api-docs) (Swagger) esta
 <a id="run-locally"></a>
 
 #### 🏠 Local
-_Apenas se necessário._
+_Apenas se necessário_
 
 Com o `Golang 1.23` instalado e após ter renomeado a copia de `.env.SAMPLE` para `.env`, serão necessárias outras alterações para que a aplicação funcione corretamente no seu `localhost`.
 
@@ -364,7 +364,7 @@ As configurações para executar os testes de repositório e integração (depen
 <a id="test-locally"></a>
 
 #### 🏠 Local
-_Apenas se necessário._
+_Apenas se necessário_
 
 Para rodar os [Testes Automatizados](#test-auto) com a API fora do container, de maneira _local_, é necessário editar seu `/.env.TEST`.
 

@@ -45,7 +45,7 @@ payload
 {"account": "dee93eb0-5f23-44d4-848f-8fe52aba80c4", "mcc": "5411", "merchant": "UBER EATS                   SAO PAULO BR", "totalAmount": 9.15}
 {"account": "b9ee157e-c03a-4801-85be-3cc735d17cf0", "mcc": "5812", "merchant": "99TAXI                      SAO PAULO BR", "totalAmount": 1.15}
 {"account": "b9ee157e-c03a-4801-85be-3cc735d17cf0", "mcc": "7411", "merchant": "DROGAS*L                 RIO DE JANEI BR", "totalAmount": 3.55}
-{"account": "df4df1ee-aa61-4244-b25d-bedc11729d17", "mcc": "5412", "merchant": "BURGUER*DONALD`S         RIO DE JANEI BR", "totalAmount": O.08}
+{"account": "df4df1ee-aa61-4244-b25d-bedc11729d17", "mcc": "5412", "merchant": "BURGUER*DONALD`S         RIO DE JANEI BR", "totalAmount": 0.08}
 {"account": "df4df1ee-aa61-4244-b25d-bedc11729d17", "mcc": "5411", "merchant": "UBER EATS                   SAO PAULO BR", "totalAmount": 5.15}
 {"account": "1750f367-7f80-4df8-9ffc-83b1de437bed", "mcc": "5812", "merchant": "TAXI*SUPERMERCADO        RIO DE JANEI BR", "totalAmount": 3.15}
 {"account": "1750f367-7f80-4df8-9ffc-83b1de437bed", "mcc": "7411", "merchant": "DROGAS*L                 RIO DE JANEI BR", "totalAmount": 2.55}
@@ -75,8 +75,8 @@ payload
 {"account": "32c63ead-7a2c-42ee-bd46-c750a71629ba", "mcc": "5411", "merchant": "TAXI*SUPERMERCADO        RIO DE JANEI BR", "totalAmount": 3.06}
 {"account": "b799936d-3015-4891-a1dd-8bba766417dd", "mcc": "7411", "merchant": "POLICLINICA BRA          RIO DE JANEI BR", "totalAmount": 4.01}
 {"account": "b799936d-3015-4891-a1dd-8bba766417dd", "mcc": "5411", "merchant": "TAXI*SUPERMERCADO        RIO DE JANEI BR", "totalAmount": 5.06}
-{"account": "'be7aba69-343b-4b42-b689-3a1228dc5525", "mcc": "7411", "merchant": "POLICLINICA BRA          RIO DE JANEI BR", "totalAmount": 4.01}
-{"account": "'be7aba69-343b-4b42-b689-3a1228dc5525", "mcc": "5411", "merchant": "TAXI*SUPERMERCADO        RIO DE JANEI BR", "totalAmount": 5.06}
+{"account": "be7aba69-343b-4b42-b689-3a1228dc5525", "mcc": "7411", "merchant": "POLICLINICA BRA          RIO DE JANEI BR", "totalAmount": 4.01}
+{"account": "be7aba69-343b-4b42-b689-3a1228dc5525", "mcc": "5411", "merchant": "TAXI*SUPERMERCADO        RIO DE JANEI BR", "totalAmount": 5.06}
 {"account": "f2bfe24f-6d0b-4588-bcd2-78a2eed9feaf", "mcc": "5812", "merchant": "99TAXI                      SAO PAULO BR", "totalAmount": 4.02}
 {"account": "632a49b6-595f-4297-bd18-9aa63337a081", "mcc": "7411", "merchant": "DROGAS*L                 RIO DE JANEI BR", "totalAmount": 4.07}
 {"account": "9ac02a30-3c00-4840-8438-31797021d0fc", "mcc": "6411", "merchant": "LYFT                     RIO DE JANEI BR", "totalAmount": 25.02}
@@ -105,7 +105,7 @@ payload
 {"account": "dee93eb0-5f23-44d4-848f-8fe52aba80c4", "mcc": "5411", "merchant": "UBER EATS                   SAO PAULO BR", "totalAmount": 9.15}
 {"account": "b9ee157e-c03a-4801-85be-3cc735d17cf0", "mcc": "5812", "merchant": "99TAXI                      SAO PAULO BR", "totalAmount": 1.15}
 {"account": "b9ee157e-c03a-4801-85be-3cc735d17cf0", "mcc": "7411", "merchant": "DROGAS*L                 RIO DE JANEI BR", "totalAmount": 3.55}
-{"account": "df4df1ee-aa61-4244-b25d-bedc11729d17", "mcc": "5412", "merchant": "BURGUER*DONALD`S         RIO DE JANEI BR", "totalAmount": O.08}
+{"account": "df4df1ee-aa61-4244-b25d-bedc11729d17", "mcc": "5412", "merchant": "BURGUER*DONALD`S         RIO DE JANEI BR", "totalAmount": 0.08}
 {"account": "df4df1ee-aa61-4244-b25d-bedc11729d17", "mcc": "5411", "merchant": "UBER EATS                   SAO PAULO BR", "totalAmount": 5.15}
 {"account": "1750f367-7f80-4df8-9ffc-83b1de437bed", "mcc": "5812", "merchant": "TAXI*SUPERMERCADO        RIO DE JANEI BR", "totalAmount": 3.15}
 {"account": "1750f367-7f80-4df8-9ffc-83b1de437bed", "mcc": "7411", "merchant": "DROGAS*L                 RIO DE JANEI BR", "totalAmount": 2.55}
@@ -143,7 +143,7 @@ payload
 {"account": "dee93eb0-5f23-44d4-848f-8fe52aba80c4", "mcc": "5411", "merchant": "UBER EATS                   SAO PAULO BR", "totalAmount": 9.15}
 {"account": "b9ee157e-c03a-4801-85be-3cc735d17cf0", "mcc": "5812", "merchant": "99TAXI                      SAO PAULO BR", "totalAmount": 1.15}
 {"account": "b9ee157e-c03a-4801-85be-3cc735d17cf0", "mcc": "7411", "merchant": "DROGAS*L                 RIO DE JANEI BR", "totalAmount": 3.55}
-{"account": "df4df1ee-aa61-4244-b25d-bedc11729d17", "mcc": "5412", "merchant": "BURGUER*DONALD`S         RIO DE JANEI BR", "totalAmount": O.08}
+{"account": "df4df1ee-aa61-4244-b25d-bedc11729d17", "mcc": "5412", "merchant": "BURGUER*DONALD`S         RIO DE JANEI BR", "totalAmount": 0.08}
 {"account": "df4df1ee-aa61-4244-b25d-bedc11729d17", "mcc": "5411", "merchant": "UBER EATS                   SAO PAULO BR", "totalAmount": 5.15}
 {"account": "1750f367-7f80-4df8-9ffc-83b1de437bed", "mcc": "5812", "merchant": "TAXI*SUPERMERCADO        RIO DE JANEI BR", "totalAmount": 3.15}
 {"account": "1750f367-7f80-4df8-9ffc-83b1de437bed", "mcc": "7411", "merchant": "DROGAS*L                 RIO DE JANEI BR", "totalAmount": 2.55}

@@ -273,6 +273,25 @@ docker compose up payment-transaction-rest
 docker compose up gatling -d
 docker exec -ti gatling /entrypoint run-test 
 
+docker exec -ti gatling /entrypoint clean-test 
+
+//------------------------------------------------
+
+Gatling nao atualiza para usar linha de comando, migrar para K6
+https://community.gatling.io/t/missing-command-line-options-in-gatling-3-11-bundles/9311
+https://github.com/gatling/gatling/issues/4512
+
+GATLING_VERSION=3.13.1 
+GATLING_BUNDLE=gatling-charts-highcharts-bundle-3.13.1
+GATLING_BUNDLE_ZIP=gatling-charts-highcharts-bundle-3.13.1.zip
+
+GATLING_VERSION=3.9.5 
+GATLING_BUNDLE=gatling-charts-highcharts-bundle-3.9.5
+GATLING_BUNDLE_ZIP=gatling-charts-highcharts-bundle-3.9.5-bundle.zip
+
+LoadTester em Golang
+https://github.com/josephcopenhaver/loadtester-go
+
 -->
 
 <br/>

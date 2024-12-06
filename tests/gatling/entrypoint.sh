@@ -5,6 +5,9 @@ if [ ! -e /entrypoint ]; then
     ln -s /usr/src/app/entrypoint.sh /entrypoint
 fi
 
+GATLING_VERSION=3.9.5 
+GATLING_BUNDLE=gatling-charts-highcharts-bundle-3.9.5
+GATLING_BUNDLE_ZIP=gatling-charts-highcharts-bundle-3.9.5-bundle.zip
 
 if [ "$1" = "run-test" ]; then
 
@@ -15,22 +18,22 @@ if [ "$1" = "run-test" ]; then
         sleep 1
 
         echo "Downloading Gatling bundle..."
-        wget  https://repo1.maven.org/maven2/io/gatling/highcharts/gatling-charts-highcharts-bundle/3.9.5/gatling-charts-highcharts-bundle-3.9.5-bundle.zip
+        wget  https://repo1.maven.org/maven2/io/gatling/highcharts/gatling-charts-highcharts-bundle/$GATLING_VERSION/$GATLING_BUNDLE_ZIP
 
         echo "Unzip Gatling bundle..."
-        unzip gatling-charts-highcharts-bundle-3.9.5-bundle.zip
+        unzip $GATLING_BUNDLE_ZIP
 
         echo "Remove zip bundle..."
-        rm -rf gatling-charts-highcharts-bundle-3.9.5-bundle.zip
+        rm -rf $GATLING_BUNDLE_ZIP
 
         cd ..
 
         echo "Populate folder bundle..."
-        mv bundle/gatling-charts-highcharts-bundle-3.9.5/* bundle
+        mv bundle/$GATLING_BUNDLE/* bundle
 
         echo "Remove original gatling folder..."
         chmod -R 777 bundle
-        rm -rf bundle/gatling-charts-highcharts-bundle-3.9.5
+        rm -rf bundle/$GATLING_BUNDLE
 
     fi
 
@@ -57,8 +60,10 @@ fi
 rm -rf ./results/latest/*
 touch ./results/latest/.keep
 
-new_latest=$(ls -td ./results/history/*/ | head -n 1)
-cp -r $new_latest/* ./results/latest/
+sleep 1
+
+latest=$(ls -td ./results/history/*/ | head -n 1)
+cp -r $latest/* ./results/latest/
 
 python3_pid=$(pgrep -f "python3 -m http.server $GATLING_PORT")
 if [ ! -n "$python3_pid" ]; then

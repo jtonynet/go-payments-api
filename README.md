@@ -235,6 +235,7 @@ Crie uma copia do arquivo `./payments-api/.env.SAMPLE` e renomeie para `./paymen
 
 <a id="run-containerized"></a>
 #### 🐋 Conteinerizado 
+_Recomendado_
 
 Após a `.env` renomeada, rode os comandos `docker compose` (de acordo com sua versão do docker compose) no diretório raiz do projeto
 ```bash
@@ -273,7 +274,7 @@ A API está pronta e a rota da [Documentação da API](#api-docs) (Swagger) esta
 <a id="run-locally"></a>
 
 #### 🏠 Local
-_Rode local apenas se necessário._
+_Apenas se necessário._
 
 Com o `Golang 1.23` instalado e após ter renomeado a copia de `.env.SAMPLE` para `.env`, serão necessárias outras alterações para que a aplicação funcione corretamente no seu `localhost`.
 
@@ -350,7 +351,10 @@ A interface do Swagger pode executar [Testes Manuais](#test-manual) a partir de 
 ### ✅ Testes
 
 <a id="test-containerized"></a>
+
 #### 🐋 Conteinerizado 
+_Recomendado_
+
 Para rodar os [Testes Automatizados](#test-auto) usando container, é necessário que já esteja [Rodando o Projeto Conteinerizado](#run-containerized).
 
 As configurações para executar os testes de repositório e integração (dependentes de infraestrutura) de maneira _containerizada_ estão no arquivo `./payments-api/.env.TEST`. Não é necessário alterá-lo ou renomeá-lo, pois a API o usará automaticamente se a variável de ambiente `ENV` estiver definida como `test`.
@@ -360,7 +364,7 @@ As configurações para executar os testes de repositório e integração (depen
 <a id="test-locally"></a>
 
 #### 🏠 Local
-_Rode local apenas se necessário._
+_Apenas se necessário._
 
 Para rodar os [Testes Automatizados](#test-auto) com a API fora do container, de maneira _local_, é necessário editar seu `/.env.TEST`.
 
@@ -389,13 +393,13 @@ GRPC_CLIENT_HOST=localhost      ### local: localhost | conteinerized: payment-tr
 docker compose up test-postgres-payments -d
 ```
 
-Comando para executar o teste _conteinerizado_ com a API levantada
+Comando para executar o teste _conteinerizado_ com a API levantada __(Recomendado)__
 ```bash
 # Executa Testes no Docker com ENV test (PostgreSQL de Testes na Integração)
 docker compose exec -e ENV=test  payment-transaction-rest go test -v -count=1 ./internal/adapter/repository/gormRepos ./internal/adapter/repository/redisRepos ./internal/core/service ./internal/adapter/http/router
 ```
 
-Comando para executar o teste _local_ em `payments-api`
+Comando para executar o teste _local_ em `payments-api` __(Apenas se necessário)__
 ```bash
 # Executa Testes Localmente com ENV test (PostgreSQL de Testes na Integração)
 ENV=test go test -v -count=1  ./internal/adapter/repository/gormRepos ./internal/adapter/repository/redisRepos ./internal/core/service ./internal/adapter/http/router

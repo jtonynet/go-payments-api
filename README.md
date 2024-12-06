@@ -50,7 +50,7 @@ __[Go Payments API](#header)__<br/>
       - 🐋 [Conteinerizado](#test-containerized)
       - 🏠 [Local](#test-locally)
       - ⚙️[Automatizados](#test-auto)
-      - 🚋[Carga](#test-load)
+      - 🚋[Carga (WIP)](#test-load)
       - 🧑‍🔧[Manuais](#test-manual)
   6.  📊 [Diagramas](#diagrams)
       - 📈 [ER](#diagrams-erchart)
@@ -82,7 +82,7 @@ __Resumo:__
 > - `CI` com `GitHub Actions` 
 > - `Redis` para `Memory Lock Pessimista`
 > - `Redis Keyspace Notification` como `Pub/Sub` para `Unlocks` (outras `Abordagens` e `Filas` foram desconsideradas devido `Latência Adicional`)
-> - `Performance/Load Test Dockerized` com `Gatling` 
+> - `Performance/Load Test Dockerized` com `Gatling` (WIP)
 
 <br/>
 

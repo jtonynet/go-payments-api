@@ -10,7 +10,7 @@ Aceito
 
 ### Questão Aberta L4
 
-Para mitigar Transações com Account concorrente, sugeri `Locks Distribuídos` com `Bloqueio Pessimista` para `fail fast` e complementei com o uso de `filas` fazendo com que as instâncias da `API` se comunicassem para que ao remover um `lock` o processamento que aguardava essa remoção, ocorresse.
+Para mitigar Transações com Account concorrente, sugeri [`Locks Distribuídos`](https://redis.io/glossary/redis-lock/) com [`Bloqueio Pessimista`](https://martinfowler.com/eaaCatalog/pessimisticOfflineLock.html) para `fail fast` e complementei com o uso de `filas` fazendo com que as instâncias da `API` se comunicassem para que ao remover um `lock` o processamento que aguardava essa remoção, ocorresse.
 
 No decorrer deste documento, uma alternativa ao uso de filas é discutida e justificada para futura implementação
 

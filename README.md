@@ -95,7 +95,9 @@ Após concluir os requisitos obrigatórios (`L1`, `L2`, `L3`) no prazo, retomei 
 
 _*Para acompanhar a evolução do projeto com seus respectivos diagramas, acesse o [Evolution Doc](./docs/architecture/evolution.md)_
 
+<br/>
 <div align="center">. . . . . . . . . . . . . . . . . . . . . . . . . . . .</div>
+<br/>
 
 __Texto Original:__
 
@@ -209,7 +211,9 @@ Este repositório foi criado com a intenção de propor uma possível solução 
 > 
 > <br/>
 
+<br/>
 <div align="center">. . . . . . . . . . . . . . . . . . . . . . . . . . . .</div>
+<br/>
 <br/>
 
 O desafio sugere `Scala`, `Kotlin` e o `paradigma funcional`, mas aceita outras linguagens e paradigmas. Realizei em `Golang`, com arquitetura [`hexagonal`](https://alistair.cockburn.us/hexagonal-architecture/), por maior experiência e familiaridade, além de ser mencionada na `job description` como parte do stack utilizado. Essa combinação atende bem aos requisitos do desafio.
@@ -232,7 +236,9 @@ Contudo, sou aberto a expandir minhas habilidades e disposto a aprender novas te
 
 Crie uma copia do arquivo `./payments-api/.env.SAMPLE` e renomeie para `./payments-api/.env`.
 
+<br/>
 <div align="center">. . . . . . . . . . . . . . . . . . . . . . . . . . . .</div>
+<br/>
 
 <a id="run-containerized"></a>
 #### 🐋 Conteinerizado 
@@ -271,7 +277,9 @@ docker compose up payment-transaction-rest
 
 A API está pronta e a rota da [Documentação da API](#api-docs) (Swagger) estará disponível, assim como os [Testes](#tests) poderão ser executados.
 
+<br/>
 <div align="center">. . . . . . . . . . . . . . . . . . . . . . . . . . . .</div>
+<br/>
 
 <a id="run-locally"></a>
 
@@ -361,7 +369,9 @@ Para rodar os [Testes Automatizados](#test-auto) usando container, é necessári
 
 As configurações para executar os testes de repositório e integração (dependentes de infraestrutura) de maneira _containerizada_ estão no arquivo `./payments-api/.env.TEST`. Não é necessário alterá-lo ou renomeá-lo, pois a API o usará automaticamente se a variável de ambiente `ENV` estiver definida como `test`.
 
+<br/>
 <div align="center">. . . . . . . . . . . . . . . . . . . . . . . . . . . .</div>
+<br/>
 
 <a id="test-locally"></a>
 
@@ -383,7 +393,9 @@ GRPC_SERVER_HOST=localhost      ### local: localhost | conteinerized: payment-tr
 GRPC_CLIENT_HOST=localhost      ### local: localhost | conteinerized: payment-transaction-processor
 ```
 
+<br/>
 <div align="center">. . . . . . . . . . . . . . . . . . . . . . . . . . . .</div>
+<br/>
 
 <a id="test-auto"></a>
 #### ⚙️ Automatizados
@@ -428,7 +440,9 @@ Os testes também são executados como parte da rotina minima de `CI` do <a href
     </center>
 </details>
 
+<br/>
 <div align="center">. . . . . . . . . . . . . . . . . . . . . . . . . . . .</div>
+<br/>
 
 <a id="test-load"></a>
 
@@ -516,7 +530,9 @@ https://github.com/josephcopenhaver/loadtester-go
 
 -->
 
+<br/>
 <div align="center">. . . . . . . . . . . . . . . . . . . . . . . . . . . .</div>
+<br/>
 
 <a id="test-manual"></a>
 #### 🧑‍🔧Manuais
@@ -699,7 +715,9 @@ erDiagram
 
 <br/>
 
+<br/>
 <div align="center">. . . . . . . . . . . . . . . . . . . . . . . . . . . .</div>
+<br/>
 
 <a id="diagrams-flowchart"></a>
 #### 📈 Fluxo

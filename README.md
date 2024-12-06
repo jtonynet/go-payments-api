@@ -55,7 +55,7 @@ __[Go Payments API](#header)__<br/>
       - 📈 [Fluxo](#diagrams-flowchart)
   7.  🅻4️⃣ [Questão Aberta L4](#open-question)
   8.  🧠 [ADR - Architecture Decision Records](#adr)
-  9. 🔢 [Versões](#versions)
+  9.  🔢 [Versões](#versions)
   10. 🧰 [Ferramentas](#tools)
   11. 👏 [Boas Práticas](#best-practices)
   12. 🤖 [Uso de IA](#ia)
@@ -201,11 +201,8 @@ O desafio sugere `Scala`, `Kotlin` e o `paradigma de programação funcional`, e
 
 Contudo, sou aberto a expandir minhas habilidades, e disposto a aprender e adotar novas tecnologias e paradigmas conforme necessário.
 
-<br/>
-
-**L4 plenamente atendido com segregação de serviços (`REST` e `Processor`) por gRPC**
-
-Arquitetura projetada para atender ao requisito `L4`, utilizando `Redis Keyspace Notification` para gerenciar locks em cenários de concorrência. O sistema aguarda mensagens de desbloqueio em um canal `pub/sub`, garantindo maior eficiência. A API `REST` está segregada do `Processor`, mantendo um nível adequado de segurança para os serviços internos. A solução foi desenhada para escalar conforme indicado na __Questão Aberta L4__ e na `ADR` [0003: gRPC e Redis Keyspace Notification em API REST e Processor para reduzir Latência e evitar Concorrência](./docs/architecture/decisions/0003-grpc-e-redis-keyspace-notification-em-api-rest-e-processor-para-reduzir-latencia-e-evitar-concorrencia.md).
+**L4 plenamente atendido com segregação de serviços (`REST` e `Processor`) por gRPC** <br/>
+Arquitetura projetada para atender ao requisito da [Questão Aberta L4](#open-question) e na `ADR` [0003: gRPC e Redis Keyspace Notification em API REST e Processor para reduzir Latência e evitar Concorrência](./docs/architecture/decisions/0003-grpc-e-redis-keyspace-notification-em-api-rest-e-processor-para-reduzir-latencia-e-evitar-concorrencia.md).
 
 
 <center>
@@ -357,6 +354,8 @@ Para rodar os [Testes Automatizados](#test-auto) usando container, é necessári
 As configurações para executar os testes de repositório e integração (dependentes de infraestrutura) de maneira _containerizada_ estão no arquivo `./payments-api/.env.TEST`. Não é necessário alterá-lo ou renomeá-lo, pois a API o usará automaticamente se a variável de ambiente `ENV` estiver definida como `test`.
 
 <br/>
+<hr/>
+<br/>
 
 <a id="test-locally"></a>
 #### 🏠 Local
@@ -374,6 +373,9 @@ IN_MEMORY_CACHE_HOST=localhost  ### local: localhost | conteinerized: redis-paym
 GRPC_SERVER_HOST=localhost      ### local: localhost | conteinerized: payment-transaction-processor
 GRPC_CLIENT_HOST=localhost      ### local: localhost | conteinerized: payment-transaction-processor
 ```
+
+<br/>
+<hr/>
 <br/>
 
 <a id="test-auto"></a>
@@ -398,8 +400,6 @@ Comando para executar o teste _local_ em `payments-api`
 ENV=test go test -v -count=1  ./internal/adapter/repository/gormRepos ./internal/adapter/repository/redisRepos ./internal/core/service ./internal/adapter/http/router
 ```
 
-<br/>
-
 Cada vez que o comando for executado, as tabelas e índices da base de dados testada serão truncados e recriados no banco de dados do ambiente selecionado garantindo uma execução segura e limpa.
 
 <details>
@@ -421,6 +421,8 @@ Os testes também são executados como parte da rotina minima de `CI` do <a href
     </center>
 </details>
 
+<br/>
+<hr/>
 <br/>
 
 <a id="test-load"></a>
@@ -455,6 +457,8 @@ https://github.com/josephcopenhaver/loadtester-go
 
 -->
 
+<br/>
+<hr/>
 <br/>
 
 <a id="test-manual"></a>
@@ -639,7 +643,6 @@ erDiagram
 
 <br/>
 
-
 ---
 
 <a id="diagrams-flowchart"></a>
@@ -708,8 +711,6 @@ _*Diagrama apresenta uma interpretação do sistema_
 
 8. **Retorna Código "51"**: Se a transação foi rejeitada por falta de fundos, retorna o código "51".
 
-<br/>
-
 _*Esse fluxo representa o processo de aprovação, fallback e rejeição da transação com base nos saldos e MCC._
 
 <br/>
@@ -725,13 +726,9 @@ _*Esse fluxo representa o processo de aprovação, fallback e rejeição da tran
 
 #### 🔒 Locks Distribuídos com Redis e Keyspace Notification
 
-Utilizando `Locks Distribuídos` com `Bloqueio Pessimista`, forçando o processamento síncrono por `account`, mas mantendo a simultaneidade das operações onde esses dados sejam distintos. Um sistema de dados em memória rápido, como `Redis`, utilizado para armazenar e liberar locks, coordenando o acesso a recursos compartilhados de maneira eficiente.
+Com `Locks Distribuídos` e `Bloqueio Pessimista`, o processamento por `account` é síncrono, mas operações distintas seguem simultâneas. O `Redis` gerencia locks para coordenar o acesso eficiente a recursos.
 
-O processamento da transação verifica se a `account` já está registrada no `lock`. Se não estiver, a aplicação a insere no banco em memória e inicia suas tarefas. Caso já esteja registrada, indicando que outra instância está processando uma transação para a mesma `account`, a aplicação se inscreve em um canal, aguardando uma mensagem de desbloqueio por até 100 ms, evitando concorrência.
-
-Com [`Redis Keyspace Notifications`](https://redis.io/docs/latest/develop/use/keyspace-notifications/) (similar a `pub/sub`), quando o processamento terminar e a chave `account` for removida (pelo processo ou `ttl`), uma mensagem deve ser publicada pelo próprio `Redis` aos inscritos, sinalizando a liberação do `lock`.
-
-Como proposto na questão _"...uma pequena, mas existente probabilidade de ocorrerem duas transações ao mesmo tempo"_, a concorrência excessiva por `account` não deve ocorrer utilizando essa abordagem.
+O processamento verifica se a `account` está no `lock`. Se não, a insere e inicia tarefas. Caso esteja, aguarda desbloqueio no canal por até 100 ms para evitar concorrência. Utlizando [`Redis Keyspace Notifications`](https://redis.io/docs/latest/develop/use/keyspace-notifications/), ao remover a chave `account` (pelo processo ou `ttl`), o `Redis` publica a liberação do `lock`. Consulte a `ADR` [0003: gRPC e Redis Keyspace Notification em API REST e Processor para reduzir Latência e evitar Concorrência](./docs/architecture/decisions/0003-grpc-e-redis-keyspace-notification-em-api-rest-e-processor-para-reduzir-latencia-e-evitar-concorrencia.md) para maiores detalhes.
 
 _*Diagramas Mermaid podem apresentar problemas de visualização em aplicativos mobile_
 
@@ -783,7 +780,7 @@ flowchart TD
     style P fill:#007bff,stroke:#000
 ```
 
-_*Esses diagramas representam uma interpretação do sistema, não sua implementação.<br/>**A etapa [`Processa Autorização de Pagamento`](#diagrams-flowchart) é uma sub-rotina vinculada ao diagrama de fluxo de Autorização de Pagamento, mantida de forma simplificada para que esse fluxograma tenha sentido isoladamente. Considere os detalhes do processamento para o débito de saldos das categorias corretas no fluxograma vinculado._
+_*A etapa [`Processa Autorização de Pagamento`](#diagrams-flowchart) é uma sub-rotina do fluxo de Autorização, simplificada para sentido isolado. Detalhes do débito de saldos estão no fluxograma vinculado._
 
 <!-- 
     diagram by:
@@ -915,13 +912,13 @@ Contrate artistas para projetos comerciais ou mais elaborados e aprenda a ser en
 <a id="conclusion"></a>
 ### 🏁 Conclusão
 
-- Defini o modelo hexagonal pois sua abordagem de `ports` and `adapters` proporciona flexibilidade para que o sistema atenda a chamadas `http`, e possa ser facilmente estendido para outras abordagens, como processamento de `mensagens` e `pub/sub` (sugestão de solução L4), sem alterar o `core`, garantindo um sistema com separação de responsabilidades.
+- Adotei o modelo hexagonal por sua flexibilidade com `ports` e `adapters`, permitindo suporte a `http` e fácil extensão para `mensagens` ou `pub/sub` (L4), sem impacto no `core` e com responsabilidades bem separadas.
 
-- Para o L4, uma solução utilizando filas foi proposta, porém desconsiderada pelo proponente do desafio em uma sessão no `Miro Board` devido à latência adicional gerada. Isso fica explícito no `ADR` [0003: gRPC e Redis Keyspace Notification em API REST e Processor para reduzir latência e evitar concorrência](./docs/architecture/decisions/0003-grpc-e-redis-keyspace-notification-em-api-rest-e-processor-para-reduzir-latencia-e-evitar-concorrencia.md) e em tarefas do `Kanban` que visam implementar parte do que foi discutido no `Miro`.
+- Para o `L4`, filas foram descartadas pelo proponente no `Miro Board` devido à latência. Isso é detalhado no `ADR` [0003: gRPC e Redis Keyspace Notification](./docs/architecture/decisions/0003-grpc-e-redis-keyspace-notification-em-api-rest-e-processor-para-reduzir-latencia-e-evitar-concorrencia.md) e no `Kanban`.
 
-- Foi realizado um `refactor` na estrutura das tabelas para tornar a aplicação mais robusta, criando um ponto único para inserir `transactions` e atualizar os saldos das `accounts` com base nas `categories`. Essa abordagem garante `imutabilidade` ao banco, baseada em `eventos` visa mitigar impactos de `inconsistência eventual`. Como pode ser visto no `ADR` [0004: Banco Relacional Modelado Orientado a Eventos](./docs/architecture/decisions/0004-banco-relacional-modelado-de-maneira-orientada-a-eventos.md)
+- Refatoração das tabelas centralizou `transactions` e atualização de saldos por `categories`, garantindo `imutabilidade` e mitigando inconsistências. Detalhes no `ADR` [0004: Banco Relacional Modelado Orientado a Eventos](./docs/architecture/decisions/0004-banco-relacional-modelado-de-maneira-orientada-a-eventos.md).
 
-- `Testes de performance` extras adicionados, com `Gatling`. Eles devem ser incorporados à rotina de desenvolvimento para garantir implantações seguras de nossos serviços em conjunto com o ciclo de CI.
+- Testes de performance com `Gatling` foram criados para garantir implantações seguras.  
 
 - Testes adicionais devem ser criados (multiplos cenários de erros nas rotas e serviços). 
 

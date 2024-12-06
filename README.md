@@ -82,7 +82,7 @@ __Resumo:__
 
 <br/>
 
-Após concluir os requisitos obrigatórios (`L1`, `L2`, `L3`) no prazo, retomei o desafio, focando melhorias do diagrama `Miro`. Implementei o requisito `L4` como aprimoramento técnico sugerido na `ADR` [0003: gRPC e Redis Keyspace Notification em API REST e Processor para reduzir Latência e evitar Concorrência](./docs/architecture/decisions/0003-grpc-e-redis-keyspace-notification-em-api-rest-e-processor-para-reduzir-latencia-e-evitar-concorrencia.md).
+Após concluir os requisitos obrigatórios (`L1`, `L2`, `L3`) no prazo, retomei o desafio, focando melhorias do diagrama `Miro` criado em conjunto a equipe proponente. Implementei o requisito `L4` como aprimoramento técnico sugerido no diagrama e na `ADR` [0003: gRPC e Redis Keyspace Notification em API REST e Processor para reduzir Latência e evitar Concorrência](./docs/architecture/decisions/0003-grpc-e-redis-keyspace-notification-em-api-rest-e-processor-para-reduzir-latencia-e-evitar-concorrencia.md).
 
 
 <center>
@@ -95,7 +95,7 @@ Após concluir os requisitos obrigatórios (`L1`, `L2`, `L3`) no prazo, retomei 
 
 _*Para acompanhar a evolução do projeto com seus respectivos diagramas, acesse o [Evolution Doc](./docs/architecture/evolution.md)_
 
-<div align="center">. . .</div>
+<div align="center">. . . . . . . . . . . . . . . . . . . . . . . . . . . .</div>
 
 __Texto Original:__
 
@@ -209,7 +209,7 @@ Este repositório foi criado com a intenção de propor uma possível solução 
 > 
 > <br/>
 
-<div align="center">. . .</div>
+<div align="center">. . . . . . . . . . . . . . . . . . . . . . . . . . . .</div>
 <br/>
 
 O desafio sugere `Scala`, `Kotlin` e o `paradigma funcional`, mas aceita outras linguagens e paradigmas. Realizei em `Golang`, com arquitetura [`hexagonal`](https://alistair.cockburn.us/hexagonal-architecture/), por maior experiência e familiaridade, além de ser mencionada na `job description` como parte do stack utilizado. Essa combinação atende bem aos requisitos do desafio.
@@ -232,7 +232,7 @@ Contudo, sou aberto a expandir minhas habilidades e disposto a aprender novas te
 
 Crie uma copia do arquivo `./payments-api/.env.SAMPLE` e renomeie para `./payments-api/.env`.
 
-<div align="center">. . .</div>
+<div align="center">. . . . . . . . . . . . . . . . . . . . . . . . . . . .</div>
 
 <a id="run-containerized"></a>
 #### 🐋 Conteinerizado 
@@ -267,10 +267,11 @@ docker compose up payment-transaction-processor
 docker compose up payment-transaction-rest
 ```
 
-A API está pronta e a rota da [Documentação da API](#api-docs) (Swagger) estará disponível, assim como os [Testes](#tests) poderão ser executados.
 <img src="./docs/assets/images/screen_captures/running.jpeg">
 
-<div align="center">. . .</div>
+A API está pronta e a rota da [Documentação da API](#api-docs) (Swagger) estará disponível, assim como os [Testes](#tests) poderão ser executados.
+
+<div align="center">. . . . . . . . . . . . . . . . . . . . . . . . . . . .</div>
 
 <a id="run-locally"></a>
 
@@ -360,7 +361,7 @@ Para rodar os [Testes Automatizados](#test-auto) usando container, é necessári
 
 As configurações para executar os testes de repositório e integração (dependentes de infraestrutura) de maneira _containerizada_ estão no arquivo `./payments-api/.env.TEST`. Não é necessário alterá-lo ou renomeá-lo, pois a API o usará automaticamente se a variável de ambiente `ENV` estiver definida como `test`.
 
-<div align="center">. . .</div>
+<div align="center">. . . . . . . . . . . . . . . . . . . . . . . . . . . .</div>
 
 <a id="test-locally"></a>
 
@@ -382,7 +383,7 @@ GRPC_SERVER_HOST=localhost      ### local: localhost | conteinerized: payment-tr
 GRPC_CLIENT_HOST=localhost      ### local: localhost | conteinerized: payment-transaction-processor
 ```
 
-<div align="center">. . .</div>
+<div align="center">. . . . . . . . . . . . . . . . . . . . . . . . . . . .</div>
 
 <a id="test-auto"></a>
 #### ⚙️ Automatizados
@@ -427,18 +428,62 @@ Os testes também são executados como parte da rotina minima de `CI` do <a href
     </center>
 </details>
 
-<div align="center">. . .</div>
+<div align="center">. . . . . . . . . . . . . . . . . . . . . . . . . . . .</div>
 
 <a id="test-load"></a>
-#### 🚋Carga (WIP)
 
-Atualmente o Gatling em uma versao desatualizada esta performando os testes de carga. Para efetuar os mesmo, com a `API REST` e` Processor` rodando de maneira conteinerizada, em outro terminal, mas ainda no diretorio raiz do projeto proceda os seguintes comandos
+#### 🚋Carga (Work In Progress)
+
+_Apenas Conteinerizado_
+
+Atualmente o `Gatling` em uma versão desatualizada (3.9.5), realiza os testes de carga.<br/>Para executá-los, é necessário estar [Rodando o Projeto Conteinerizado](#run-containerized). Em outro terminal, no diretório raiz do projeto, execute os seguintes comandos
 
 ```bash
+# Rodar o Gatling
 docker compose up gatling -d
+```
 
+<br/>
+
+```bash
+# Executa o teste de carga 
 docker exec -ti gatling /entrypoint run-test 
+```
+Caso retorne erro de rede, rode o comando novamente.
 
+Na primeira execução, o comando baixa os arquivos do `Gatling` para o diretório `tests/gatling/bundle`. Em execuções subsequentes, usa o bundle já baixado. O teste executa __200 transações em 10 segundos__, configurável na linha `testPaymentExecute.inject(rampUsers(200).during(10.seconds))` [no arquivo PaymentSimulation.scala](./tests/gatling/user-files/simulations/payments-api/PaymentSimulation.scala).
+
+<details>
+  <summary><b>Saída esperada nos <u>Terminais do Microsservice</u></b></summary>
+    <center>
+        <img src="./docs/assets/images/screen_captures/load_test_performs_microservices.png">
+    </center>
+</details>
+
+<br/>
+
+<details>
+  <summary><b>Saída esperada no <u>Terminal de Execução do Gatling</u></b></summary>
+    <center>
+        <img src="./docs/assets/images/screen_captures/load_test_gatling_terminal.png">
+    </center>
+</details>
+
+<br/>
+
+<details>
+  <summary><b>Saída esperada no site <a href="http://localhost:8082/index.html">Gatling em seu localhost</a></b></summary>
+    <center>
+        <img src="./docs/assets/images/screen_captures/load_test_gatling_web.png">
+    </center>
+</details>
+
+<br/>
+<br/>
+
+O seguinte comando desinstala o bundle do Gatling do projeto e limpa o histórico de execução dos testes de carga
+```bash
+# Limpa os dados do teste de carga 
 docker exec -ti gatling /entrypoint clean-test 
 ```
 
@@ -461,7 +506,7 @@ https://github.com/josephcopenhaver/loadtester-go
 
 -->
 
-<div align="center">. . .</div>
+<div align="center">. . . . . . . . . . . . . . . . . . . . . . . . . . . .</div>
 
 <a id="test-manual"></a>
 #### 🧑‍🔧Manuais
@@ -644,7 +689,7 @@ erDiagram
 
 <br/>
 
-<div align="center">. . .</div>
+<div align="center">. . . . . . . . . . . . . . . . . . . . . . . . . . . .</div>
 
 <a id="diagrams-flowchart"></a>
 #### 📈 Fluxo
@@ -727,7 +772,7 @@ _*Esse fluxo representa o processo de aprovação, fallback e rejeição da tran
 
 #### 🔒 Locks Distribuídos com Redis e Keyspace Notification
 
-Com `Locks Distribuídos` e `Bloqueio Pessimista`, o processamento por `account` é síncrono, mas operações distintas seguem simultâneas. O `Redis` gerencia locks para coordenar o acesso eficiente a recursos.
+Com [`Locks Distribuídos`](https://redis.io/glossary/redis-lock/) e `Bloqueio Pessimista`, o processamento por `account` é síncrono, mas operações distintas seguem simultâneas. O `Redis` gerencia locks para coordenar o acesso eficiente a recursos.
 
 O processamento verifica se a `account` está no `lock`. Se não, a insere e inicia tarefas. Caso esteja, aguarda desbloqueio no canal por até 100 ms para evitar concorrência. Utlizando [`Redis Keyspace Notifications`](https://redis.io/docs/latest/develop/use/keyspace-notifications/), ao remover a chave `account` (pelo processo ou `ttl`), o `Redis` publica a liberação do `lock`. 
 

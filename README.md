@@ -214,6 +214,7 @@ Este repositório foi criado com a intenção de propor uma possível solução 
 <br/>
 <div align="center">. . . . . . . . . . . . . . . . . . . . . . . . . . . .</div>
 <br/>
+
 <br/>
 
 O desafio sugere `Scala`, `Kotlin` e o `paradigma funcional`, mas aceita outras linguagens e paradigmas. Realizei em `Golang`, com arquitetura [`hexagonal`](https://alistair.cockburn.us/hexagonal-architecture/), por maior experiência e familiaridade, além de ser mencionada na `job description` como parte do stack utilizado. Essa combinação atende bem aos requisitos do desafio.
@@ -225,6 +226,8 @@ Contudo, sou aberto a expandir minhas habilidades e disposto a aprender novas te
 [⤴️ de volta ao índice](#index)
 
 ---
+
+<br/>
 
 <a id="run"></a>
 ### 💻 Rodando o Projeto
@@ -338,6 +341,8 @@ go run cmd/rest/main.go
 
 ---
 
+<br/>
+
 <a id="api-docs"></a>
 ### 📰  Documentação da API
 
@@ -356,6 +361,8 @@ A interface do Swagger pode executar [Testes Manuais](#test-manual) a partir de 
 [⤴️ de volta ao índice](#index)
 
 ---
+
+<br/>
 
 <a id="tests"></a>
 ### ✅ Testes
@@ -609,6 +616,8 @@ _*Utilize o campo `name` real da tabela `merchant`, o github pode formatar de ma
 
 ---
 
+<br/>
+
 <a id="diagrams"></a>
 ### 📊 Diagramas do Sistema
 _*Diagramas Mermaid podem apresentar problemas de visualização em aplicativos mobile_
@@ -793,6 +802,8 @@ _*Esse fluxo representa o processo de aprovação, fallback e rejeição da tran
 
 ---
 
+<br/>
+
 <a id="open-question"></a>
 ### 🅻4️⃣ Questão Aberta L4
 
@@ -878,6 +889,8 @@ Via de regra, o que foi discutido naquela reunião deve ser implementado.
 
 ---
 
+<br/>
+
 <a id="adr"></a> 
 ### 🧠 ADR - Architecture Decision Records
 
@@ -892,6 +905,8 @@ Via de regra, o que foi discutido naquela reunião deve ser implementado.
 
 ---
 
+<br/>
+
 <a id="versions"></a>
 ### 🔢 Versões
 
@@ -904,6 +919,8 @@ Para obter mais informações, consulte o [Histórico de Versões](./CHANGELOG.m
 [⤴️ de volta ao índice](#index)
 
 ---
+
+<br/>
 
 <a id="tools"></a>
 ### 🧰 Ferramentas
@@ -942,6 +959,8 @@ Para obter mais informações, consulte o [Histórico de Versões](./CHANGELOG.m
 
 ---
 
+<br/>
+
 <a id="best-practices"></a>
 ### 👏 Boas Práticas
 
@@ -961,6 +980,8 @@ Para obter mais informações, consulte o [Histórico de Versões](./CHANGELOG.m
 
 ---
 
+<br/>
+
 <a id="ia"></a>
 ### 🤖 Uso de IA
 
@@ -979,9 +1000,9 @@ IA também é utilizada em minhas pesquisas e estudos como ferramenta de apoio; 
 
 Contrate artistas para projetos comerciais ou mais elaborados e aprenda a ser engenhoso!
 
-[⤴️ de volta ao índice](#index)
-
 <br/>
+
+[⤴️ de volta ao índice](#index)
 
 ---
 

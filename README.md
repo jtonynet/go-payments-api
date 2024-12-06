@@ -79,9 +79,8 @@ __Resumo:__
 > - `CI` com `GitHub Actions` 
 > - `Performance/Load Test Dockerized` com `Gatling` 
 
- Após passar de fase no challange com os requisitos `L1`, `L2` e `L3` (obrigatórios) implementados no prazo previsto, reabri dando continuidade com o desafio. Focado em algumas das melhorias elaboradas no diagrama `Miro`, criado com a equipe proponente. Implementei o requisito `L4` (que era estritamente para discussão técnica nesse caso) como aprimoramento, de acordo com o proposto no diagrama.
+ Após passar de fase no challange com os requisitos `L1`, `L2` e `L3` (obrigatórios) implementados no prazo previsto, reabri dando continuidade com o desafio. Focado em algumas das melhorias elaboradas no diagrama `Miro`, criado com a equipe proponente. Implementei o requisito `L4` (que era estritamente para discussão técnica nesse caso) como aprimoramento, de acordo com o proposto nesse diagrama.
 
-<br/>
 <br/>
 
 __Texto Original:__
@@ -785,8 +784,6 @@ flowchart TD
 ```
 
 _*Esses diagramas representam uma interpretação do sistema, não sua implementação.<br/>**A etapa [`Processa Autorização de Pagamento`](#diagrams-flowchart) é uma sub-rotina vinculada ao diagrama de fluxo de Autorização de Pagamento, mantida de forma simplificada para que esse fluxograma tenha sentido isoladamente. Considere os detalhes do processamento para o débito de saldos das categorias corretas no fluxograma vinculado._
-
-<br/>
 
 <!-- 
     diagram by:

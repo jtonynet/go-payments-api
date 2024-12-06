@@ -79,9 +79,9 @@ __Resumo:__
 > - `CI` com `GitHub Actions` 
 > - `Performance/Load Test Dockerized` com `Gatling` 
 
- Após passar de fase no challange com os requisitos `L1`, `L2` e `L3` (obrigatórios) implementados no prazo previsto, reabri dando continuidade com o desafio. Focado em algumas das melhorias elaboradas no diagrama `Miro`, criado com a equipe proponente. Implementei o requisito `L4` (que era estritamente para discussão técnica nesse caso) como aprimoramento, de acordo com o proposto nesse diagrama.
+Após concluir os requisitos obrigatórios (`L1`, `L2`, `L3`) no prazo, retomei o desafio, focando melhorias do diagrama `Miro`. Implementei o requisito `L4` como aprimoramento técnico sugerido.  
 
-<br/>
+<div align="center">. . .</div>
 
 __Texto Original:__
 
@@ -231,7 +231,7 @@ _*Para acompanhar a evolução do projeto com seus respectivos diagramas, acesse
 
 Crie uma copia do arquivo `./payments-api/.env.SAMPLE` e renomeie para `./payments-api/.env`.
 
-<br/>
+<div align="center">. . .</div>
 
 <a id="run-containerized"></a>
 #### 🐋 Conteinerizado 
@@ -268,7 +268,7 @@ docker compose up payment-transaction-rest
 A API está pronta e a rota da [Documentação da API](#api-docs) (Swagger) estará disponível, assim como os [Testes](#tests) poderão ser executados.
 <img src="./docs/assets/images/screen_captures/running.jpeg">
 
-<br/>
+<div align="center">. . .</div>
 
 <a id="run-locally"></a>
 #### 🏠 Local
@@ -353,9 +353,7 @@ Para rodar os [Testes Automatizados](#test-auto) usando container, é necessári
 
 As configurações para executar os testes de repositório e integração (dependentes de infraestrutura) de maneira _containerizada_ estão no arquivo `./payments-api/.env.TEST`. Não é necessário alterá-lo ou renomeá-lo, pois a API o usará automaticamente se a variável de ambiente `ENV` estiver definida como `test`.
 
-<br/>
-<hr/>
-<br/>
+<div align="center">. . .</div>
 
 <a id="test-locally"></a>
 #### 🏠 Local
@@ -374,9 +372,7 @@ GRPC_SERVER_HOST=localhost      ### local: localhost | conteinerized: payment-tr
 GRPC_CLIENT_HOST=localhost      ### local: localhost | conteinerized: payment-transaction-processor
 ```
 
-<br/>
-<hr/>
-<br/>
+<div align="center">. . .</div>
 
 <a id="test-auto"></a>
 #### ⚙️ Automatizados
@@ -421,9 +417,7 @@ Os testes também são executados como parte da rotina minima de `CI` do <a href
     </center>
 </details>
 
-<br/>
-<hr/>
-<br/>
+<div align="center">. . .</div>
 
 <a id="test-load"></a>
 #### 🚋Carga (WIP)
@@ -457,15 +451,12 @@ https://github.com/josephcopenhaver/loadtester-go
 
 -->
 
-<br/>
-<hr/>
-<br/>
+<div align="center">. . .</div>
 
 <a id="test-manual"></a>
 #### 🧑‍🔧Manuais
 
 O banco de desenvolvimento local, quando adequadamente instalado, possui uma carga inicial de dados que pode ser utilizada para testes manuais.
-
 
 Registros e Saldos no banco para teste manual
 

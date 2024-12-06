@@ -198,9 +198,8 @@ Este repositório foi criado com a intenção de propor uma possível solução 
 <div align="center">. . .</div>
 <br/>
 
-O desafio sugere `Scala`, `Kotlin` e o `paradigma de programação funcional`, evidenciando preferências, mas aceitando subscrições com outras linguagens e paradigmas. Realizei em `Golang`, com arquitetura [`hexagonal`](https://alistair.cockburn.us/hexagonal-architecture/), por maior familiaridade e experiência, além de ser mencionada na `job description` como parte do stack tecnológico utilizado pelo proponente. Acredito que essa combinação seja altamente compatível com os requisitos do desafio.
+O desafio sugere `Scala`, `Kotlin` e o `paradigma funcional`, mas aceita outras linguagens e paradigmas. Realizei em `Golang`, com arquitetura [`hexagonal`](https://alistair.cockburn.us/hexagonal-architecture/), por maior experiência e familiaridade, além de ser mencionada na `job description` como parte do stack utilizado. Essa combinação atende bem aos requisitos do desafio. Contudo, sou aberto a expandir minhas habilidades e disposto a aprender novas tecnologias e paradigmas conforme necessário.
 
-Contudo, sou aberto a expandir minhas habilidades, e disposto a aprender e adotar novas tecnologias e paradigmas conforme necessário.
 
 **L4 plenamente atendido com segregação de serviços (`REST` e `Processor`) por gRPC** <br/>
 Arquitetura projetada para atender ao requisito da [Questão Aberta L4](#open-question) e na `ADR` [0003: gRPC e Redis Keyspace Notification em API REST e Processor para reduzir Latência e evitar Concorrência](./docs/architecture/decisions/0003-grpc-e-redis-keyspace-notification-em-api-rest-e-processor-para-reduzir-latencia-e-evitar-concorrencia.md).

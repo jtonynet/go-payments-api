@@ -479,7 +479,7 @@ Caso retorne erro de rede, rode o comando novamente.
 Na primeira execução, o comando baixa os arquivos do `Gatling` para `tests/gatling/bundle`. Em execuções seguintes, o bundle já existente é utilizado. O teste executa **200 transações em 10 segundos** (ou 20 `TPS`), validando o `timeoutSLA` de 100ms na máquina local, visando validar os timeouts. Essa configuração está na linha `testPaymentExecute.inject(rampUsers(200).during(10.seconds))` no arquivo [PaymentSimulation.scala](./tests/gatling/user-files/simulations/payments-api/PaymentSimulation.scala).
 
 <details>
-  <summary><b>Saída esperada nos <u>Terminais do Microsservice</u></b></summary>
+  <summary><b>Saída esperada nos <u>Terminais dos Microsservices</u></b></summary>
     <center>
         <img src="./docs/assets/images/screen_captures/load_test_performs_microservices.png">
     </center>
@@ -521,24 +521,12 @@ Como a API retorna sempre `HTTP Status Code 200`, variando apenas o `code`, a pr
 Em `pre-prod` e `stg`, se possível, devemos usar amostras maiores de dados de `prod`, considerando TPS, volume médio de usuários e picos históricos. Também realizamos `stress test`, comprimindo carga (e.g., 30 minutos em 10), para identificar falhas em ambientes próximos à produção. Isso é um passo para `escalabilidade progressiva`.
 
 <!-- 
-
 Gatling nao atualiza para usar linha de comando, migrar para K6
 https://community.gatling.io/t/missing-command-line-options-in-gatling-3-11-bundles/9311
 https://github.com/gatling/gatling/issues/4512
 
-# NEW VERSION (dont work):
-# GATLING_VERSION=3.13.1 
-# GATLING_BUNDLE=gatling-charts-highcharts-bundle-3.13.1
-# GATLING_BUNDLE_ZIP=gatling-charts-highcharts-bundle-3.13.1.zip
-
-# OLD VERSION (works):
-GATLING_VERSION=3.9.5 
-GATLING_BUNDLE=gatling-charts-highcharts-bundle-3.9.5
-GATLING_BUNDLE_ZIP=gatling-charts-highcharts-bundle-3.9.5-bundle.zip
-
 LoadTester em Golang
 https://github.com/josephcopenhaver/loadtester-go
-
 -->
 
 <br/>

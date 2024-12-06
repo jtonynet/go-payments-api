@@ -5,6 +5,12 @@ if [ ! -e /entrypoint ]; then
     ln -s /usr/src/app/entrypoint.sh /entrypoint
 fi
 
+# NEW VERSION (dont work):
+# GATLING_VERSION=3.13.1 
+# GATLING_BUNDLE=gatling-charts-highcharts-bundle-3.13.1
+# GATLING_BUNDLE_ZIP=gatling-charts-highcharts-bundle-3.13.1.zip
+
+# OLD VERSION (works):
 GATLING_VERSION=3.9.5 
 GATLING_BUNDLE=gatling-charts-highcharts-bundle-3.9.5
 GATLING_BUNDLE_ZIP=gatling-charts-highcharts-bundle-3.9.5-bundle.zip

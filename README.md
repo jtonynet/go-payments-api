@@ -80,7 +80,20 @@ __Resumo:__
 > - `Redis Keyspace Notification` como `Pub/Sub` para `Unlocks` (outras `Abordagens` e `Filas` foram desconsideradas devido `Latência Adicional`)
 > - `Performance/Load Test Dockerized` com `Gatling` 
 
-Após concluir os requisitos obrigatórios (`L1`, `L2`, `L3`) no prazo, retomei o desafio, focando melhorias do diagrama `Miro`. Implementei o requisito `L4` como aprimoramento técnico sugerido.  
+<br/>
+
+Após concluir os requisitos obrigatórios (`L1`, `L2`, `L3`) no prazo, retomei o desafio, focando melhorias do diagrama `Miro`. Implementei o requisito `L4` como aprimoramento técnico sugerido na `ADR` [0003: gRPC e Redis Keyspace Notification em API REST e Processor para reduzir Latência e evitar Concorrência](./docs/architecture/decisions/0003-grpc-e-redis-keyspace-notification-em-api-rest-e-processor-para-reduzir-latencia-e-evitar-concorrencia.md).
+
+
+<center>
+<!-- 
+    diagram by:
+    https://miro.com
+-->
+    <img src="./docs/assets/images/screen_captures/miro/architectureV3_segregation_services_grpc.png">
+</center>
+
+_*Para acompanhar a evolução do projeto com seus respectivos diagramas, acesse o [Evolution Doc](./docs/architecture/evolution.md)_
 
 <div align="center">. . .</div>
 
@@ -199,22 +212,9 @@ Este repositório foi criado com a intenção de propor uma possível solução 
 <div align="center">. . .</div>
 <br/>
 
-O desafio sugere `Scala`, `Kotlin` e o `paradigma funcional`, mas aceita outras linguagens e paradigmas. Realizei em `Golang`, com arquitetura [`hexagonal`](https://alistair.cockburn.us/hexagonal-architecture/), por maior experiência e familiaridade, além de ser mencionada na `job description` como parte do stack utilizado. Essa combinação atende bem aos requisitos do desafio. Contudo, sou aberto a expandir minhas habilidades e disposto a aprender novas tecnologias e paradigmas conforme necessário.
+O desafio sugere `Scala`, `Kotlin` e o `paradigma funcional`, mas aceita outras linguagens e paradigmas. Realizei em `Golang`, com arquitetura [`hexagonal`](https://alistair.cockburn.us/hexagonal-architecture/), por maior experiência e familiaridade, além de ser mencionada na `job description` como parte do stack utilizado. Essa combinação atende bem aos requisitos do desafio.
 
-
-**L4 plenamente atendido com segregação de serviços (`REST` e `Processor`) por gRPC** <br/>
-Arquitetura projetada para atender ao requisito da [Questão Aberta L4](#open-question) e na `ADR` [0003: gRPC e Redis Keyspace Notification em API REST e Processor para reduzir Latência e evitar Concorrência](./docs/architecture/decisions/0003-grpc-e-redis-keyspace-notification-em-api-rest-e-processor-para-reduzir-latencia-e-evitar-concorrencia.md).
-
-
-<center>
-<!-- 
-    diagram by:
-    https://miro.com
--->
-    <img src="./docs/assets/images/screen_captures/miro/architectureV3_segregation_services_grpc.png">
-</center>
-
-_*Para acompanhar a evolução do projeto com seus respectivos diagramas, acesse o [Evolution Doc](./docs/architecture/evolution.md)_
+Contudo, sou aberto a expandir minhas habilidades e disposto a aprender novas tecnologias e paradigmas conforme necessário.
 
 <br/>
 

@@ -60,8 +60,8 @@ touch ./results/latest/.keep
 new_latest=$(ls -td ./results/history/*/ | head -n 1)
 cp -r $new_latest/* ./results/latest/
 
-python3_pid=$(pgrep -f "python3 -m http.server $GATLING_TEST_PORT")
+python3_pid=$(pgrep -f "python3 -m http.server $GATLING_PORT")
 if [ ! -n "$python3_pid" ]; then
     echo "Run test result server"
-    python3 -m http.server $GATLING_TEST_PORT --directory ./results/latest/
+    python3 -m http.server $GATLING_PORT --directory ./results/latest/
 fi

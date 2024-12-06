@@ -29,6 +29,6 @@ class Payment extends Simulation {
   val testPaymentExecute = scenario("Test Payments").exec(paymentExecute)
 
   setUp(
-    testPaymentExecute.inject(rampUsers(20).during(10.seconds))
+    testPaymentExecute.inject(rampUsers(80).during(20.seconds))
   ).protocols(httpProtocol)
 }

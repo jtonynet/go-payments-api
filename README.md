@@ -934,8 +934,6 @@ Essas são minhas considerações sobre o que consegui produzir ao longo desse d
 
 <a id="footer"></a>
 
-_"Sejamos __ingênuos__ a ponto de acreditar que podemos mudar o mundo positivamente, através da __engenhosidade__ de nosso estudo e trabalho no decorrer da __jornada__. A ingenuidade engenhosa de mudar o mundo."_
-
 <br/>
 
 >  _"Lifelong Learning & Prosper"_

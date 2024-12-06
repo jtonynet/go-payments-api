@@ -643,7 +643,7 @@ erDiagram
 
 <br/>
 
----
+<div align="center">. . .</div>
 
 <a id="diagrams-flowchart"></a>
 #### 📈 Fluxo

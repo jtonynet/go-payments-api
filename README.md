@@ -50,7 +50,7 @@ __[Go Payments API](#header)__<br/>
       - 🐋 [Conteinerizado](#test-containerized)
       - 🏠 [Local](#test-locally)
       - ⚙️[Automatizados](#test-auto)
-      - 🚋[Carga (WIP)](#test-load)
+      - 🚚[Carga (WIP)](#test-load)
       - 🧑‍🔧[Manuais](#test-manual)
   6.  📊 [Diagramas](#diagrams)
       - 📈 [ER](#diagrams-erchart)
@@ -457,7 +457,7 @@ Os testes também são executados como parte da rotina minima de `CI` do <a href
 
 <a id="test-load"></a>
 
-#### 🚋Carga (Work In Progress)
+#### 🚚 Carga (Work In Progress)
 
 _Apenas Conteinerizado_
 
@@ -476,7 +476,7 @@ docker exec -ti gatling /entrypoint run-test
 ```
 Caso retorne erro de rede, rode o comando novamente.
 
-Na primeira execução, o comando baixa os arquivos do `Gatling` para `tests/gatling/bundle`. Em execuções seguintes, o bundle já existente é utilizado. O teste executa **200 transações em 10 segundos** (ou 20 `TPS`), validando o `timeoutSLA` de 100ms na máquina local, visando validar os timeouts. Essa configuração está na linha `testPaymentExecute.inject(rampUsers(200).during(10.seconds))` no arquivo [PaymentSimulation.scala](./tests/gatling/user-files/simulations/payments-api/PaymentSimulation.scala).
+Na primeira execução, o comando baixa os arquivos do `Gatling` para `tests/gatling/bundle`. Em execuções seguintes, o bundle já existente é utilizado. O teste executa **200 transações em 10 segundos** (ou 20 `TPS`), validando o `timeoutSLA` de 100ms na máquina local. Essa configuração está na linha `testPaymentExecute.inject(rampUsers(200).during(10.seconds))` no arquivo [PaymentSimulation.scala](./tests/gatling/user-files/simulations/payments-api/PaymentSimulation.scala).
 
 <details>
   <summary><b>Saída esperada nos <u>Terminais dos Microsservices</u></b></summary>

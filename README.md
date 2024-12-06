@@ -451,7 +451,7 @@ docker exec -ti gatling /entrypoint run-test
 ```
 Caso retorne erro de rede, rode o comando novamente.
 
-Na primeira execução, o comando baixa os arquivos do `Gatling` para o diretório `tests/gatling/bundle`. Em execuções subsequentes, usa o bundle já baixado. O teste executa __200 transações em 10 segundos__, configurável na linha `testPaymentExecute.inject(rampUsers(200).during(10.seconds))` [no arquivo PaymentSimulation.scala](./tests/gatling/user-files/simulations/payments-api/PaymentSimulation.scala).
+Na primeira execução, o comando baixa os arquivos do `Gatling` para `tests/gatling/bundle`. Em execuções seguintes, o bundle já existente é utilizado. O teste executa **200 transações em 10 segundos** (ou 20 `TPS`), validando o `timeoutSLA` de 100ms na máquina local, visando validar os timeouts. Essa configuração está na linha `testPaymentExecute.inject(rampUsers(200).during(10.seconds))` no arquivo [PaymentSimulation.scala](./tests/gatling/user-files/simulations/payments-api/PaymentSimulation.scala).
 
 <details>
   <summary><b>Saída esperada nos <u>Terminais do Microsservice</u></b></summary>
@@ -472,20 +472,28 @@ Na primeira execução, o comando baixa os arquivos do `Gatling` para o diretór
 <br/>
 
 <details>
-  <summary><b>Saída esperada no site <a href="http://localhost:8082/index.html">Gatling em seu localhost</a></b></summary>
+  <summary><b>Saída esperada no site <a href="http://localhost:8082">Gatling em seu localhost</a></b></summary>
     <center>
         <img src="./docs/assets/images/screen_captures/load_test_gatling_web.png">
     </center>
 </details>
 
 <br/>
-<br/>
 
-O seguinte comando desinstala o bundle do Gatling do projeto e limpa o histórico de execução dos testes de carga
+O teste não restaura o banco ao estado anterior. Para fins de comparação, os testes mais antigos permanecem no diretório `tests/gatling/results/history/`.
+
+O comando abaixo remove o bundle do Gatling e limpa o histórico dos testes de carga. Atenção: ele não restaura os dados do banco alvo do teste, sendo necessário recriá-lo, se preciso.
 ```bash
 # Limpa os dados do teste de carga 
 docker exec -ti gatling /entrypoint clean-test 
 ```
+
+<br>
+
+__Considerações__<br/>
+Como a API retorna sempre `HTTP Status Code 200`, variando apenas o `code`, a principal métrica é o **timeout médio, mínimo e máximo** de cada request. O `debug log` auxilia no mapeamento dos serviços. 
+
+Em `pre-prod` e `stg`, se possível, devemos usar amostras maiores de dados de `prod`, considerando TPS, volume médio de usuários e picos históricos. Também realizamos `stress test`, comprimindo carga (e.g., 30 minutos em 10), para identificar falhas em ambientes próximos à produção. Isso é um passo para `escalabilidade progressiva`.
 
 <!-- 
 
@@ -493,10 +501,12 @@ Gatling nao atualiza para usar linha de comando, migrar para K6
 https://community.gatling.io/t/missing-command-line-options-in-gatling-3-11-bundles/9311
 https://github.com/gatling/gatling/issues/4512
 
-GATLING_VERSION=3.13.1 
-GATLING_BUNDLE=gatling-charts-highcharts-bundle-3.13.1
-GATLING_BUNDLE_ZIP=gatling-charts-highcharts-bundle-3.13.1.zip
+# NEW VERSION (dont work):
+# GATLING_VERSION=3.13.1 
+# GATLING_BUNDLE=gatling-charts-highcharts-bundle-3.13.1
+# GATLING_BUNDLE_ZIP=gatling-charts-highcharts-bundle-3.13.1.zip
 
+# OLD VERSION (works):
 GATLING_VERSION=3.9.5 
 GATLING_BUNDLE=gatling-charts-highcharts-bundle-3.9.5
 GATLING_BUNDLE_ZIP=gatling-charts-highcharts-bundle-3.9.5-bundle.zip
@@ -772,7 +782,7 @@ _*Esse fluxo representa o processo de aprovação, fallback e rejeição da tran
 
 #### 🔒 Locks Distribuídos com Redis e Keyspace Notification
 
-Com [`Locks Distribuídos`](https://redis.io/glossary/redis-lock/) e `Bloqueio Pessimista`, o processamento por `account` é síncrono, mas operações distintas seguem simultâneas. O `Redis` gerencia locks para coordenar o acesso eficiente a recursos.
+Com [`Locks Distribuídos`](https://redis.io/glossary/redis-lock/) e [`Bloqueio Pessimista`](https://martinfowler.com/eaaCatalog/pessimisticOfflineLock.html), o processamento por `account` é síncrono, mas operações distintas seguem simultâneas. O `Redis` gerencia locks para coordenar o acesso eficiente a recursos.
 
 O processamento verifica se a `account` está no `lock`. Se não, a insere e inicia tarefas. Caso esteja, aguarda desbloqueio no canal por até 100 ms para evitar concorrência. Utlizando [`Redis Keyspace Notifications`](https://redis.io/docs/latest/develop/use/keyspace-notifications/), ao remover a chave `account` (pelo processo ou `ttl`), o `Redis` publica a liberação do `lock`. 
 
@@ -960,7 +970,7 @@ Contrate artistas para projetos comerciais ou mais elaborados e aprenda a ser en
 <a id="conclusion"></a>
 ### 🏁 Conclusão
 
-- Adotei o modelo hexagonal por sua flexibilidade com `ports` e `adapters`, permitindo suporte a `http` e fácil extensão para `mensagens` ou `pub/sub` (L4), sem impacto no `core` e com responsabilidades bem separadas.
+- Adotei o modelo hexagonal por sua flexibilidade com `ports` e `adapters`, permitindo suporte a `http` e fácil extensão para `mensagens` ou `pub/sub` para atender ao requisito `L4`, sem impacto no `core` e com responsabilidades bem separadas.
 
 - Para o `L4`, filas foram descartadas pelo proponente no `Miro Board` devido à latência. Isso é detalhado no `ADR` [0003: gRPC e Redis Keyspace Notification](./docs/architecture/decisions/0003-grpc-e-redis-keyspace-notification-em-api-rest-e-processor-para-reduzir-latencia-e-evitar-concorrencia.md) e no `Kanban`.
 

@@ -879,7 +879,7 @@ Para obter mais informações, consulte o [Histórico de Versões](./CHANGELOG.m
 - [ADR - Architecture Decision Records](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions)
 - [Mermaid Diagrams](https://mermaid.js.org)
 - [Miro Diagrams](https://miro.com/)
-- [Dockerized Load Testing](https://gatling.io/blog/load-testing-a-dockerized-application)
+- [Dockerized Load Testing Gatling](https://gatling.io/blog/load-testing-a-dockerized-application)
 
 <br/>
 

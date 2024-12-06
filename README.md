@@ -31,6 +31,8 @@
 
 ---
 
+<br/>
+
 ## 📁 O Projeto
 
 <a id="index"></a>
@@ -62,6 +64,8 @@ __[Go Payments API](#header)__<br/>
   13. 🏁 [Conclusão](#conclusion)
 
 ---
+
+<br/>
 
 <a id="about"></a>
 ### 📖 Sobre

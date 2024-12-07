@@ -585,9 +585,11 @@ GROUP BY a.id, a.uid, t.id, t.uid, t.amount, c.id, c.name, c.priority;
 L1. L2. Resultado esperado:
 > | __account_id__ | __account_uid__                      | __transaction_id__ | __transaction_uid__                  | __amount__ | category_id | category_name | priority | codes     |
 > |----------------|--------------------------------------|--------------------|--------------------------------------|------------|-------------|---------------|----------|-----------|
-> |1               | 123e4567-e89b-12d3-a456-426614174000 | 2                  | [NULL]                               | 110.22     | 2           | MEAL          | 2        | 5811,5812 |
-> |1               | 123e4567-e89b-12d3-a456-426614174000 | 3                  | [NULL]                               | 115.33     | 3           | CASH          | 3        |           |
-> |1               | 123e4567-e89b-12d3-a456-426614174000 | 4                  | 00000000-0000-0000-0000-000000000000 |205.11      | 1           | FOOD          | 1        | 5411,5412 |
+> |1               | 123e4567-e89b-12d3-a456-426614174000 | 1                  | [NULL]                               | 1205.11    | 1           | FOOD          | 1        | 5411,5412 |
+> |1               | 123e4567-e89b-12d3-a456-426614174000 | 2                  | [NULL]                               | 1110.22    | 2           | MEAL          | 2        | 5811,5812 |
+> |1               | 123e4567-e89b-12d3-a456-426614174000 | 3                  | [NULL]                               | 1115.33    | 2           | MOBILITY      | 3        | 6411      |
+> |1               | 123e4567-e89b-12d3-a456-426614174000 | 4                  | [NULL]                               | 1215.33    | 5           | CASH          | 5        |           |
+
 
 
 _*Com acesso ao banco a partir dos dados de `.env`, para validar. Bem como a [Documentação da API](#api-docs) (Swagger) pode ser utilizado para proceder as `requests`._
@@ -600,6 +602,10 @@ L3. `merchants` com mapeamentos MCC incorretos
 > |------------------------------------------|--------------------|----------------------------|
 > | UBER EATS                   SAO PAULO BR | 5412               | FOOD                       |
 > | PAG*JoseDaSilva          RIO DE JANEI BR | 5812               | MEAL                       |
+> <div align="center">...</div>
+
+<br/>
+
 _*Utilize o campo `name` real da tabela `merchant`, o github pode formatar de maneira incorreta esse dado no markdown._
 
 <br/>
@@ -1076,10 +1082,4 @@ migrate create -ext=sql -dir=payments-api/scripts/database/postgres/migrations i
 migrate -source file://payments-api/scripts/database/postgres/migrations -database "postgres://api_user:api_pass@localhost:5432/payments_db?sslmode=disable" -verbose up 
 
 docker compose exec postgres-payments psql -U api_user -d payments_db -f /seeds/load_test_charge.up.sql
--->
-
-<!-- 
-Gatling
-
-https://gatling.io/blog/load-testing-a-dockerized-application
 -->

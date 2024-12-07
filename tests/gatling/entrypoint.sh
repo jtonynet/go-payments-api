@@ -5,16 +5,6 @@ if [ ! -e /entrypoint ]; then
     ln -s /usr/src/app/entrypoint.sh /entrypoint
 fi
 
-# NEW VERSION (dont work):
-# GATLING_VERSION=3.13.1 
-# GATLING_BUNDLE=gatling-charts-highcharts-bundle-3.13.1
-# GATLING_BUNDLE_ZIP=gatling-charts-highcharts-bundle-3.13.1.zip
-
-# OLD VERSION (works):
-GATLING_VERSION=3.9.5 
-GATLING_BUNDLE=gatling-charts-highcharts-bundle-3.9.5
-GATLING_BUNDLE_ZIP=gatling-charts-highcharts-bundle-3.9.5-bundle.zip
-
 if [ "$1" = "run-test" ]; then
 
     if [ ! -d "bundle/bin" ]; then
@@ -38,7 +28,6 @@ if [ "$1" = "run-test" ]; then
         mv bundle/$GATLING_BUNDLE/* bundle
 
         echo "Remove original gatling folder..."
-        chmod -R 777 bundle
         rm -rf bundle/$GATLING_BUNDLE
 
     fi
@@ -65,8 +54,6 @@ fi
 
 rm -rf ./results/latest/*
 touch ./results/latest/.keep
-
-sleep 1
 
 latest=$(ls -td ./results/history/*/ | head -n 1)
 cp -r $latest/* ./results/latest/

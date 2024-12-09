@@ -15,12 +15,15 @@
     https://devicon.dev/
     https://simpleicons.org/
 -->
-[<img src="./docs/assets/images/icons/go.svg" width="25px" height="25px" alt="Go Logo" title="Go">](https://go.dev/) [<img src="./docs/assets/images/icons/gin.svg" width="25px" height="25px" alt="Gin Logo" title="Gin">](https://gin-gonic.com/) [<img src="./docs/assets/images/icons/postgresql.svg" width="25px" height="25px" alt="PostgreSql Logo" title="PostgreSql">](https://www.postgresql.org/) [<img src="./docs/assets/images/icons/redis.svg" width="25px" height="25px" alt="Redis Logo" title="Redis">](https://redis.com/) [<img src="./docs/assets/images/icons/grpc.svg" width="45px" alt="gRPC Logo" title="gRPC">](https://grpc.io/) [<img src="./docs/assets/images/icons/docker.svg" width="25px" height="25px" alt="Docker Logo" title="Docker">](https://www.docker.com/) [<img src="./docs/assets/images/icons/ubuntu.svg" width="25px" height="25px Logo" title="Ubuntu" alt="Ubuntu" />](https://ubuntu.com/) [<img src="./docs/assets/images/icons/dotenv.svg" width="25px" height="25px" alt="Viper DotEnv Logo" title="Viper DotEnv">](https://github.com/spf13/viper) [<img src="./docs/assets/images/icons/github.svg" width="25px" height="25px" alt="GitHub Logo" title="GitHub">](https://github.com/jtonynet) [<img src="./docs/assets/images/icons/visualstudiocode.svg" width="25px" height="25px" alt="VsCode Logo" title="VsCode">](https://code.visualstudio.com/) [<img src="./docs/assets/images/icons/swagger.svg" width="25px" height="25px" alt="Swagger Logo" title="Swagger">](https://swagger.io/) [<img src="./docs/assets/images/icons/miro.svg" width="25px" height="25px" alt="Miro Logo" title="Miro">](https://https://miro.com/) [<img src="./docs/assets/images/icons/mermaidjs.svg" width="25px" height="25px" alt="MermaidJS Logo" title="MermaidJS">](https://mermaid.js.org/) [<img src="./docs/assets/images/icons/githubactions.svg" width="25px" height="25px" alt="GithubActions Logo" title="GithubActions">](https://docs.github.com/en/actions) [<img src="./docs/assets/images/icons/gatling.svg" width="35px" height="35px" alt="Gatling Logo" title="Gatling">](https://gatling.com/) <!-- [<img src="./docs/assets/images/icons/prometheus.svg" width="25px" height="25px" alt="Prometheus Logo" title="Prometheus">](https://prometheus.io/) [<img src="./docs/assets/images/icons/grafana.svg" width="25px" height="25px" alt="Grafana Logo" title="Grafana">](https://grafana.com/) -->
+[<img src="./docs/assets/images/icons/go.svg" width="25px" height="25px" alt="Go Logo" title="Go">](https://go.dev/) [<img src="./docs/assets/images/icons/gin.svg" width="25px" height="25px" alt="Gin Logo" title="Gin">](https://gin-gonic.com/) [<img src="./docs/assets/images/icons/postgresql.svg" width="25px" height="25px" alt="PostgreSql Logo" title="PostgreSql">](https://www.postgresql.org/) [<img src="./docs/assets/images/icons/redis.svg" width="25px" height="25px" alt="Redis Logo" title="Redis">](https://redis.com/) [<img src="./docs/assets/images/icons/grpc.svg" width="45px" alt="gRPC Logo" title="gRPC">](https://grpc.io/) [<img src="./docs/assets/images/icons/docker.svg" width="25px" height="25px" alt="Docker Logo" title="Docker">](https://www.docker.com/) [<img src="./docs/assets/images/icons/ubuntu.svg" width="25px" height="25px Logo" title="Ubuntu" alt="Ubuntu" />](https://ubuntu.com/) [<img src="./docs/assets/images/icons/dotenv.svg" width="25px" height="25px" alt="Viper DotEnv Logo" title="Viper DotEnv">](https://github.com/spf13/viper) [<img src="./docs/assets/images/icons/github.svg" width="25px" height="25px" alt="GitHub Logo" title="GitHub">](https://github.com/jtonynet) [<img src="./docs/assets/images/icons/visualstudiocode.svg" width="25px" height="25px" alt="VsCode Logo" title="VsCode">](https://code.visualstudio.com/) [<img src="./docs/assets/images/icons/swagger.svg" width="25px" height="25px" alt="Swagger Logo" title="Swagger">](https://swagger.io/) [<img src="./docs/assets/images/icons/miro.svg" width="25px" height="25px" alt="Miro Logo" title="Miro">](https://https://miro.com/) [<img src="./docs/assets/images/icons/mermaidjs.svg" width="25px" height="25px" alt="MermaidJS Logo" title="MermaidJS">](https://mermaid.js.org/) [<img src="./docs/assets/images/icons/githubactions.svg" width="25px" height="25px" alt="GithubActions Logo" title="GithubActions">](https://docs.github.com/en/actions) [<img src="./docs/assets/images/icons/gatling.svg" width="35px" height="35px" alt="Gatling Logo" title="Gatling">](https://gatling.com/) 
+
+<!--
+[<img src="./docs/assets/images/icons/k6.svg" width="25px" height="25px" alt="K6 Logo" title="K6">](https://k6.io/) [<img src="./docs/assets/images/icons/prometheus.svg" width="25px" height="25px" alt="Prometheus Logo" title="Prometheus">](https://prometheus.io/) [<img src="./docs/assets/images/icons/grafana.svg" width="25px" height="25px" alt="Grafana Logo" title="Grafana">](https://grafana.com/) [<img src="./docs/assets/images/icons/grafana_loki.png" width="30px" height="30px" alt="Grafana Loki Logo" title="Grafana Loki">](https://grafana.com/oss/loki/) [<img src="./docs/assets/images/icons/opentelemetry.svg" width="25px" height="25px" alt="OpenTelemetry Logo" title="OpenTelemetry">](https://opentelemetry.io/) [<img src="./docs/assets/images/icons/jaeger.svg" width="25px" height="25px" alt="Jaeger Logo" title="Jaeger">](https://www.jaegertracing.io/) 
+--> 
 
 <!-- 
-[<img src="./docs/assets/images/icons/nginx.svg" width="25px" height="25px" alt="nginx Logo" title="nginx">](https://nginx.org/en/) [<img src="./docs/assets/images/icons/rabbitmq.svg" width="25px" height="25px" alt="RabbitMQ Logo" title="RabbitMQ">](https://rabbitmq.com/) [<img src="./docs/assets/images/icons/grafana_loki.png" width="30px" height="30px" alt="Grafana Loki Logo" title="Grafana Loki">](https://grafana.com/oss/loki/) [<img src="./docs/assets/images/icons/jaeger.svg" width="25px" height="25px" alt="Jaeger Logo" title="Jaeger">](https://www.jaegertracing.io/) [<img src="./docs/assets/images/icons/opentelemetry.svg" width="25px" height="25px" alt="OpenTelemetry Logo" title="OpenTelemetry">](https://www.jaegertracing.io/) 
+[<img src="./docs/assets/images/icons/nginx.svg" width="25px" height="25px" alt="nginx Logo" title="nginx">](https://nginx.org/en/) [<img src="./docs/assets/images/icons/rabbitmq.svg" width="25px" height="25px" alt="RabbitMQ Logo" title="RabbitMQ">](https://rabbitmq.com/)
 -->
-
 
 [![Badge Status](https://img.shields.io/badge/STATUS-REABERTO-green)](#header) [![Github Project](https://img.shields.io/badge/PROJECT%20VIEW-KANBAN-green?logo=github&logoColor=white)](https://github.com/users/jtonynet/projects/7/views/1)  [![Badge GitHubActions](https://github.com/jtonynet/go-payments-api/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/jtonynet/go-payments-api/actions) [![Go Version](https://img.shields.io/badge/GO-1.23.2-blue?logo=go&logoColor=white)](https://go.dev/)
 
@@ -74,14 +77,18 @@ __Resumo:__
 
 > 
 > Desafio de `Autorizador de Pagamentos` de benefícios em `Arquitetura Hexagonal` com `SLA de 100ms` por request e `controle de concorrência` com baixa possibilidade de colisão. 
-> Construído com `Gin` e `Gorm`, protocolo `gRPC` entre o serviço `REST` ("aberto" ao mundo, o ponto de entrada) e o serviço `Processor` ("fechado" ao mundo, o processador de pagamentos) por segurança.
+> Construído com `Gin` e `Gorm`, protocolo `gRPC` entre o serviço "`REST`" `http` ("aberto" ao mundo, o ponto de entrada) e o serviço `Processor` ("fechado" ao mundo, o processador de pagamentos) por segurança.
 >
+> __Principais Tecnologias e abordagens:__
+> - `Arquitetura Hexagonal`
+> - `TDD`, `DDD`, `SOLID`, `ADRs`
+> - `Diagram as code` com `Mermaid.js` e `Miro`
 > - `Dockerized` Solução com uso de containers
-> - `gRPC` e `HTTP` segregados em `Microsservices`
+> - `gRPC` e `http` entre `Microsservices`
 > - `PostgreSQL` modelado inspirado em `Event Sourcing` para garantir `Consistência`
 > - `CI` com `GitHub Actions` 
 > - `Redis` para `Memory Lock Pessimista`
-> - `Redis Keyspace Notification` como `Pub/Sub` para `Unlocks` (outras `Abordagens` e `Filas` foram desconsideradas devido `Latência Adicional`)
+> - `Redis Keyspace Notification` como `Pub/Sub` para `Unlocks` (outras Abordagens como `Filas` foram desconsideradas devido `Latência Adicional`)
 > - `Performance/Load Test Dockerized` com `Gatling` (WIP)
 
 <br/>
@@ -461,7 +468,7 @@ Os testes também são executados como parte da rotina minima de `CI` do <a href
 
 _Apenas Conteinerizado_
 
-Atualmente o `Gatling` em uma versão desatualizada (3.9.5), realiza os testes de carga.<br/>Para executá-los, é necessário estar [Rodando o Projeto Conteinerizado](#run-containerized). Em outro terminal, no diretório raiz do projeto, execute os seguintes comandos
+Atualmente o `Gatling` na versão 3.9.5 (desatualizada), realiza os testes de carga.<br/>Para executá-los, é necessário estar [Rodando o Projeto Conteinerizado](#run-containerized). Em outro terminal, no diretório raiz do projeto, execute os seguintes comandos
 
 ```bash
 # Rodar o Gatling
@@ -474,9 +481,16 @@ docker compose up gatling -d
 # Executa o teste de carga 
 docker exec -ti gatling /entrypoint run-test 
 ```
-Caso retorne erro de rede, rode o comando novamente.
+_*Caso retorne erro de rede, rode o de teste comando novamente._
 
-Na primeira execução, o comando baixa os arquivos do `Gatling` para `tests/gatling/bundle`. Em execuções seguintes, o bundle já existente é utilizado. O teste executa **200 transações em 10 segundos** (ou 20 `TPS`), validando o `timeoutSLA` de 100ms na máquina local. Essa configuração está na linha `testPaymentExecute.inject(rampUsers(200).during(10.seconds))` no arquivo [PaymentSimulation.scala](./tests/gatling/user-files/simulations/payments-api/PaymentSimulation.scala).
+<br/>
+
+Na primeira execução, o comando baixa os arquivos do `Gatling` para `tests/gatling/bundle`. Em execuções seguintes, o bundle já existente é utilizado. O teste executa **7500k transações em 5 minutos** (ou 25 `TPS`), validando o `timeoutSLA` de 100ms na máquina local. Essa configuração está na linha seguinte linha do arquivo [PaymentSimulation.scala](./tests/gatling/user-files/simulations/payments-api/PaymentSimulation.scala):
+
+
+```scala
+testPaymentExecute.inject(rampUsers(7500).during(301.seconds))
+```
 
 <details>
   <summary><b>Saída esperada nos <u>Terminais dos Microsservices</u></b></summary>
@@ -515,10 +529,19 @@ docker exec -ti gatling /entrypoint clean-test
 
 <br>
 
-__Considerações__<br/>
-Como a API retorna sempre `HTTP Status Code 200`, variando apenas o `code`, a principal métrica é o **timeout médio, mínimo e máximo** de cada request. O `debug log` auxilia no mapeamento dos serviços. 
+##### Considerações  
 
-Em `pre-prod` e `stg`, se possível, devemos usar amostras maiores de dados de `prod`, considerando TPS, volume médio de usuários e picos históricos. Também realizamos `stress test`, comprimindo carga (e.g., 30 minutos em 10), para identificar falhas em ambientes próximos à produção. Isso é um passo para `escalabilidade progressiva`.
+- Os resultados variam conforme os processos e a configuração da máquina. Recomenda-se executar com poucas aplicações rodando e monitorar via `htop`.  
+- Os resultados são apenas referência para o desenvolvimento local; sempre valide em ambientes próximos à produção.  
+
+###### Métricas Relevantes  
+As principais métricas incluem:  
+- `Timeout`: tempo médio, mínimo e máximo de cada request.  
+- `Erros`: Use logs de debug para mapear serviços e identificar gargalos. (No futuro, utilize as ferramentas de `observabilidade`)
+
+###### Pré-produção e Stress Tests  
+Nos ambientes de `pre-prod` e `stg`, use amostras maiores de dados reais (`TPS`, `usuários médios` e `picos históricos`). Realize também `stress tests`, comprimindo cargas _(e.g., simular 30 minutos de tráfego em 10)_. Esses testes ajudam a identificar falhas e garantem a escalabilidade progressiva.
+
 
 <!-- 
 Gatling nao atualiza para usar linha de comando, migrar para K6

@@ -14,13 +14,11 @@ _`Clientes Sintéticos` (como `Gatling`, `Jmeter`, `K6`...) utilizados em [`Test
 
 O desenvolvimento da `payment API` com um `timeoutSLA` de `100ms`, como requisito de negócio, é desafiador. Embora em `Golang` existam recursos poderosos para controle de concorrência e cancelamento, como `context.timeout`, validar a concorrência com timeout em cenários próximos aos reais na máquina do desenvolvedor pode ser frustrante.
 
-O uso de um `Cliente Sintético` é essencial. Este documento avalia abordagens e ferramentas para testes de `Performance/Desempenho`, executáveis localmente e em ambientes próximos à produção (como `pre-prod`, `homol`, `stg` etc.). Sempre que possível, devem ser utilizadas amostras de dados semelhantes aos reais (`TPS`, `usuários médios`, `picos históricos`). Também é possível realizar `stress tests`, comprimindo cargas _(ex: simular 30 minutos de tráfego em 10)_, para identificar falhas e garantir escalabilidade.
-
-Embora já tenha tido experiências com o [`Jmeter`](https://jmeter.apache.org/) e o [`Vegeta`](https://github.com/tsenart/vegeta), desconsiderei-os em favor de dois outros clientes mais modernos e em ascensão: o [`Gatling`](https://gatling.com/), pela fácil configuração através de script `.sh`, relatórios `html` e simplicidade nos testes; e o [`Grafana K6`](https://k6.io/), que tem ganhado mercado por sua compatibilidade com o ecossistema de observabilidade do `Grafana`.
+O uso de um `Cliente Sintético` é essencial. Este documento avalia abordagens e ferramentas para testes de `Performance/Desempenho`, executáveis localmente e em ambientes próximos à produção (como `pre-prod`, `homol`, `stg` etc.) Embora já tenha tido experiências com o [`Jmeter`](https://jmeter.apache.org/) e o [`Vegeta`](https://github.com/tsenart/vegeta), desconsiderei-os em favor de dois outros clientes mais modernos e em ascensão: o [`Gatling`](https://gatling.com/), pela fácil configuração, e o [`Grafana K6`](https://k6.io/) pela aderencia a `observabilidade`
 
 ### Referências e Opções de Clientes Sintéticos:
 
-Artigo Recomendado: [`Grafana Load Testing`](https://grafana.com/load-testing/)
+[`Grafana Load Testing`](https://grafana.com/load-testing/)
 <br/>Embora da equipe `Grafana`, oferece overview abrangentes sobre estratégia, ferramentas e tipos de testes.
 
 

@@ -10,10 +10,14 @@ if [ "$1" = "run-test" ]; then
     if [ ! -d "bundle/bin" ]; then
 
         # TODO:
-        # Dangerous but necessary to run Gatling; 
-        # refactor in Docker.
+        # Ugly but necessary to run Gatling; 
+        # This ensures proper ownership and permissions for 'bundle' and 'results' directories 
+        # while executing the script. Refactor in Docker to handle these adjustments 
+        # during the build phase instead of runtime.
         chown -R $(whoami):$(whoami) bundle
-        chmod -R 700 bundle  
+        chown -R $(whoami):$(whoami) results
+        chmod -R 700 bundle
+        chmod -R 700 results
 
         cd bundle
 

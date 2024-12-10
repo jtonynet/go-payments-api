@@ -35,8 +35,6 @@ __[Artigo Recomendado - `Grafana Load Testing`](https://grafana.com/load-testing
 
 <br/>
 
-Em conjunto com a `Observabilidade`, que deve ser discutida em um `ADR` futuro e provavelmente implementada, teremos um conjunto robusto, inclusive na máquina local, para validar a solução da `payment API`.
-
 ## Decisão
 
 Como o uso do script `.sh` do `Gatling` já é conhecido, utilizaremos para configurar inicialmente um teste de carga com esforço de desenvolvimento reduzido. Porém, a [configuração em novas versões](https://github.com/gatling/gatling/issues/4512) do mesmo foi [alterada](https://community.gatling.io/t/missing-command-line-options-in-gatling-3-11-bundles/9311), o que força a manter uma versão antiga (3.9.5). 

@@ -20,7 +20,8 @@ Embora já tenha tido experiências com o [`Jmeter`](https://jmeter.apache.org/)
 
 ### Referências e Opções de Clientes Sintéticos:
 
-__[Artigo Recomendado - `Grafana Load Testing`](https://grafana.com/load-testing/)__: embora da equipe `Grafana`, oferece overview abrangentes sobre estratégia, ferramentas e tipos de testes.
+Artigo Recomendado: [`Grafana Load Testing`](https://grafana.com/load-testing/)
+<br/>Embora da equipe `Grafana`, oferece overview abrangentes sobre estratégia, ferramentas e tipos de testes.
 
 
 - [`Grafana K6`](https://k6.io/)

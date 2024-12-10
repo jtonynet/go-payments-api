@@ -49,7 +49,7 @@ type accountResult struct {
 	Codes          sql.NullString
 }
 
-func (a *Account) FindByUID(_ context.Context, uid uuid.UUID) (port.AccountEntity, error) {
+func (a *Account) FindByUID(ctx context.Context, uid uuid.UUID) (port.AccountEntity, error) {
 	var account port.AccountEntity
 	var balance port.BalanceEntity
 	var results []accountResult
@@ -57,12 +57,14 @@ func (a *Account) FindByUID(_ context.Context, uid uuid.UUID) (port.AccountEntit
 	firstFound := false
 	transactionsByCategories := make(map[int]port.TransactionByCategoryEntity)
 
-	err := a.db.Table("accounts as a").
+	/*
+		https://gorm.io/docs/context.html#Context-Timeout
+	*/
+	err := a.db.WithContext(ctx).
+		Table("accounts as a").
 		Select(`
 			a.id as account_id, 
-			a.uid as account_uid, 
 			t.id as transaction_id, 
-			t.uid as transaction_uid, 
 			t.amount as amount, 
 			c.id as category_id, 
 			c.name as category_name, 
@@ -108,12 +110,11 @@ func (a *Account) FindByUID(_ context.Context, uid uuid.UUID) (port.AccountEntit
 			if !firstFound {
 				firstFound = true
 				account.ID = result.AccountID
-				account.UID = result.AccountUID
+				account.UID = uid
 			}
 
 			transactionsByCategories[int(result.TransactionID)] = port.TransactionByCategoryEntity{
 				ID:     result.TransactionID,
-				UID:    result.TransactionUID,
 				Amount: result.Amount,
 				Category: port.CategoryEntity{
 					ID:       result.CategoryID,
@@ -133,7 +134,7 @@ func (a *Account) FindByUID(_ context.Context, uid uuid.UUID) (port.AccountEntit
 	return account, nil
 }
 
-func (a *Account) SaveTransactions(_ context.Context, transactions map[int]port.TransactionEntity) error {
+func (a *Account) SaveTransactions(ctx context.Context, transactions map[int]port.TransactionEntity) error {
 	if len(transactions) == 0 {
 		return fmt.Errorf("no transactions to save")
 	}
@@ -151,7 +152,7 @@ func (a *Account) SaveTransactions(_ context.Context, transactions map[int]port.
 		})
 	}
 
-	err := a.db.Create(&tSlice).Error
+	err := a.db.WithContext(ctx).Create(&tSlice).Error
 	if err != nil {
 		return fmt.Errorf("failed to save transactions: %w", err)
 	}

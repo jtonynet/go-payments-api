@@ -29,6 +29,7 @@ import (
 // @Success 200 {object} port.TransactionPaymentResponse
 func PaymentExecution(ctx *gin.Context) {
 	timestamp := time.Now().UnixMilli()
+	code := port.CODE_REJECTED_GENERIC
 
 	app := ctx.MustGet("app").(bootstrap.RESTApp)
 	logger := app.Logger
@@ -37,7 +38,7 @@ func PaymentExecution(ctx *gin.Context) {
 		elapsedTime := time.Now().UnixMilli() - timestamp
 		debugLog(
 			logger,
-			fmt.Sprintf("Execution time: %d ms\n", elapsedTime),
+			fmt.Sprintf("Execution time: %d ms\n Code: %s", elapsedTime, code),
 		)
 	}()
 
@@ -86,8 +87,9 @@ func PaymentExecution(ctx *gin.Context) {
 		return
 	}
 
+	code = result.Code
 	ctx.JSON(http.StatusOK, port.TransactionPaymentResponse{
-		Code: result.Code,
+		Code: code,
 	})
 }
 

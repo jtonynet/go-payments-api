@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/jtonynet/go-payments-api/internal/core/domain"
 	"github.com/jtonynet/go-payments-api/internal/core/port"
@@ -39,8 +40,13 @@ func NewPayment(
 }
 
 func (p *Payment) Execute(tpr port.TransactionPaymentRequest) (string, error) {
+	start := time.Now()
+	timeout := time.Duration(p.timeoutSLA)
+
+	ctx, cancel := context.WithTimeout(context.Background(), timeout)
+	defer cancel()
 	transactionLocked, err := p.memoryLockRepository.Lock(
-		context.Background(),
+		ctx,
 		p.timeoutSLA,
 		mapTransactionRequestToMemoryLockEntity(tpr),
 	)
@@ -49,7 +55,10 @@ func (p *Payment) Execute(tpr port.TransactionPaymentRequest) (string, error) {
 	}
 	p.transactionLocked = transactionLocked
 
-	accountEntity, err := p.accountRepository.FindByUID(context.Background(), tpr.AccountUID)
+	remaining := timeout - time.Since(start)
+	ctx, cancel = context.WithTimeout(context.Background(), remaining)
+	defer cancel()
+	accountEntity, err := p.accountRepository.FindByUID(ctx, tpr.AccountUID)
 	if err != nil {
 		return p.rejectedGenericErr(fmt.Errorf("failed to retrieve account entity: %w", err))
 	}
@@ -58,7 +67,10 @@ func (p *Payment) Execute(tpr port.TransactionPaymentRequest) (string, error) {
 	account.Logger = p.logger
 
 	var merchant domain.Merchant
-	merchantEntity, err := p.merchantRepository.FindByName(context.Background(), tpr.Merchant)
+	remaining = timeout - time.Since(start)
+	ctx, cancel = context.WithTimeout(context.Background(), remaining)
+	defer cancel()
+	merchantEntity, err := p.merchantRepository.FindByName(ctx, tpr.Merchant)
 	if err != nil {
 		return p.rejectedGenericErr(fmt.Errorf("failed to retrieve merchant entity with name %s", tpr.Merchant))
 	}
@@ -79,8 +91,11 @@ func (p *Payment) Execute(tpr port.TransactionPaymentRequest) (string, error) {
 		return p.rejectedCustomErr(cErr)
 	}
 
+	remaining = timeout - time.Since(start)
+	ctx, cancel = context.WithTimeout(context.Background(), remaining)
+	defer cancel()
 	err = p.accountRepository.SaveTransactions(
-		context.Background(),
+		ctx,
 		mapTransactionDomainsToEntities(approvedTransactions),
 	)
 	if err != nil {

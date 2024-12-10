@@ -534,12 +534,12 @@ docker exec -ti gatling /entrypoint clean-test
 - Os resultados variam conforme os processos e a configuração da máquina. Recomenda-se executar com poucas aplicações rodando e monitorar via `htop`.  
 - Os resultados são apenas referência para o desenvolvimento local; sempre valide em ambientes próximos à produção.  
 
-###### Métricas Relevantes  
+##### Métricas Relevantes  
 As principais métricas incluem:  
 - `Timeout`: tempo médio, mínimo e máximo de cada request.  
 - `Erros`: Use logs de debug para mapear serviços e identificar gargalos. (No futuro, utilize as ferramentas de `observabilidade`)
 
-###### Pré-produção e Stress Tests  
+##### Pré-produção e Stress Tests  
 Nos ambientes de `pre-prod` e `stg`, use amostras maiores de dados reais (`TPS`, `usuários médios` e `picos históricos`). Realize também `stress tests`, comprimindo cargas _(e.g., simular 30 minutos de tráfego em 10)_. Esses testes ajudam a identificar falhas e garantem a escalabilidade progressiva.
 
 
@@ -583,7 +583,7 @@ SELECT
 	c.id as category_id, 
 	c.name as category_name, 
 	c.priority as priority,
-	STRING_AGG(mc.mcc, ',') AS codes
+	STRING_AGG(DISTINCT mc.mcc, ',') AS codes
 FROM 
 	accounts as a 
 JOIN 

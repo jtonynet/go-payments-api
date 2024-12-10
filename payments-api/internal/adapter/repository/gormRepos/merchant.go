@@ -33,10 +33,10 @@ func NewMerchant(conn database.Conn) (port.MerchantRepository, error) {
 	}, nil
 }
 
-func (m *Merchant) FindByName(_ context.Context, name string) (*port.MerchantEntity, error) {
+func (m *Merchant) FindByName(ctx context.Context, name string) (*port.MerchantEntity, error) {
 	merchantModel := gormModel.Merchant{}
 
-	result := m.db.Preload("MCC").Where(&gormModel.Merchant{Name: name}).First(&merchantModel)
+	result := m.db.WithContext(ctx).Preload("MCC").Where(&gormModel.Merchant{Name: name}).First(&merchantModel)
 	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 		return nil, nil
 	} else if result.Error != nil {

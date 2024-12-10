@@ -33,7 +33,7 @@ func NewRedisPubSub(cfg config.PubSub) (*RedisPubSub, error) {
 
 func (r *RedisPubSub) Subscribe(_ context.Context, key string) (<-chan string, error) {
 	keyspaceChannel := fmt.Sprintf("__keyevent@%d__:expired", r.client.Options().DB)
-	bufferSize := 500 //Quantidade maxima de mensagem enfileirada no canal
+	bufferSize := 500
 
 	r.pubsub = r.client.Subscribe(context.Background(), keyspaceChannel)
 	channel := make(chan string, bufferSize)

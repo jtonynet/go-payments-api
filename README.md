@@ -553,10 +553,6 @@ Nos ambientes de `pre-prod` e `stg`, se possível, use amostras maiores de dados
 
 
 <!-- 
-Gatling nao atualiza para usar linha de comando, migrar para K6
-https://community.gatling.io/t/missing-command-line-options-in-gatling-3-11-bundles/9311
-https://github.com/gatling/gatling/issues/4512
-
 LoadTester em Golang
 https://github.com/josephcopenhaver/loadtester-go
 -->
@@ -928,6 +924,7 @@ Via de regra, o que foi discutido naquela reunião deve ser implementado.
 - [0002: Go, Gin, Gorm e PostgreSQL com Arquitetura Hexagonal e TDD](./docs/architecture/decisions/0002-go-gin-gorm-e-postgres-com-arquitetura-hexagonal-tdd.md)
 - [0003: gRPC e Redis Keyspace Notification em API REST e Processor para reduzir Latência e evitar Concorrência](./docs/architecture/decisions/0003-grpc-e-redis-keyspace-notification-em-api-rest-e-processor-para-reduzir-latencia-e-evitar-concorrencia.md)
 - [0004: Banco Relacional Modelado Orientado a Eventos](./docs/architecture/decisions/0004-banco-relacional-modelado-de-maneira-orientada-a-eventos.md)
+- [0005: Estratégia de Testes de Carga e Performance com Cliente Sintético](./docs/architecture/decisions/0005-estrategia-de-testes-de-carga-e-performance-com-cliente-sintetico.md)
 
 <br/>
 

@@ -50,11 +50,11 @@ __[Go Payments API](#header)__<br/>
   2.  📖 [Sobre](#about)
   3.  💻 [Rodando o Projeto](#run)
       - 🌐 [Ambiente](#environment)
-      - 🐋 [Conteinerizado](#run-containerized)
+      - 🐋 [Containerizado](#run-containerized)
       - 🏠 [Local](#run-locally)
   4.  📰 [Documentação da API](#api-docs)
   5.  ✅ [Testes](#tests)
-      - 🐋 [Conteinerizado](#test-containerized)
+      - 🐋 [Containerizado](#test-containerized)
       - 🏠 [Local](#test-locally)
       - ⚙️[Automatizados](#test-auto)
       - 🚚[Carga (WIP)](#test-load)
@@ -259,7 +259,7 @@ Crie uma copia do arquivo `./payments-api/.env.SAMPLE` e renomeie para `./paymen
 <br/>
 
 <a id="run-containerized"></a>
-#### 🐋 Conteinerizado 
+#### 🐋 Containerizado 
 _Recomendado_
 
 Após a `.env` renomeada, rode os comandos `docker compose` (de acordo com sua versão do docker compose) no diretório raiz do projeto
@@ -384,10 +384,10 @@ A interface do Swagger pode executar [Testes Manuais](#test-manual) a partir de 
 
 <a id="test-containerized"></a>
 
-#### 🐋 Conteinerizado 
+#### 🐋 Containerizado 
 _Recomendado_
 
-Para rodar os [Testes Automatizados](#test-auto) usando container, é necessário que já esteja [Rodando o Projeto Conteinerizado](#run-containerized).
+Para rodar os [Testes Automatizados](#test-auto) usando container, é necessário que já esteja [Rodando o Projeto Containerizado](#run-containerized).
 
 As configurações para executar os testes de repositório e integração (dependentes de infraestrutura) de maneira _containerizada_ estão no arquivo `./payments-api/.env.TEST`. Não é necessário alterá-lo ou renomeá-lo, pois a API o usará automaticamente se a variável de ambiente `ENV` estiver definida como `test`.
 
@@ -422,14 +422,14 @@ GRPC_CLIENT_HOST=localhost      ### local: localhost | conteinerized: payment-tr
 <a id="test-auto"></a>
 #### ⚙️ Automatizados
 
-[Rodando o Projeto](#run) `payment-api`  em seu ambiente _local_ ou _conteinerizado_, levante o banco de testes com
+[Rodando o Projeto](#run) `payment-api`  em seu ambiente _local_ ou _containerizado_, levante o banco de testes com
 
 ```bash
 # Rodar o PostgreSQL de Testes
 docker compose up test-postgres-payments -d
 ```
 
-Comando para executar o teste _conteinerizado_ com a API levantada __(Recomendado)__
+Comando para executar o teste  _containerizado_com a API levantada __(Recomendado)__
 ```bash
 # Executa Testes no Docker com ENV test (PostgreSQL de Testes na Integração)
 docker compose exec -e ENV=test  payment-transaction-rest go test -v -count=1 ./internal/adapter/repository/gormRepos ./internal/adapter/repository/redisRepos ./internal/core/service ./internal/adapter/http/router
@@ -470,9 +470,9 @@ Os testes também são executados como parte da rotina minima de `CI` do <a href
 
 #### 🚚 Carga (Work In Progress)
 
-_Apenas Conteinerizado_
+_Apenas Containerizado_
 
-Atualmente o `Gatling` na versão 3.9.5 (desatualizada), realiza os testes de carga.<br/>Para executá-los, é necessário estar [Rodando o Projeto Conteinerizado](#run-containerized). Em outro terminal, no diretório raiz do projeto, execute os seguintes comandos
+Atualmente o `Gatling` na versão 3.9.5 (desatualizada), realiza os testes de carga.<br/>Para executá-los, é necessário estar [Rodando o Projeto Containerizado](#run-containerized). Em outro terminal, no diretório raiz do projeto, execute os seguintes comandos
 
 ```bash
 # Rodar o Gatling

@@ -97,7 +97,7 @@ __Resumo:__
 
 <br/>
 
-Após concluir os requisitos obrigatórios (`L1`, `L2`, `L3`) no prazo, retomei o desafio, focando melhorias do diagrama `Miro` criado em conjunto a equipe proponente. Implementei o requisito `L4` como aprimoramento técnico sugerido no diagrama e na `ADR` [0003: gRPC e Redis Keyspace Notification em API REST e Processor para reduzir Latência e evitar Concorrência](./docs/architecture/decisions/0003-grpc-e-redis-keyspace-notification-em-api-rest-e-processor-para-reduzir-latencia-e-evitar-concorrencia.md).
+Após concluir os requisitos obrigatórios (`L1`, `L2`, `L3`) no prazo, retomei o desafio, focando melhorias do diagrama `Miro` criado em conjunto a equipe proponente. Implementei o requisito `L4` como aprimoramento técnico sugerido no diagrama e na `ADR` [0003: gRPC e Redis Keyspace Notification reduzindo Latência e evitando Concorrência](./docs/architecture/decisions/0003-grpc-e-redis-keyspace-notification-em-api-rest-e-processor-para-reduzir-latencia-e-evitar-concorrencia.md).
 
 
 <div align="center">
@@ -844,7 +844,7 @@ Com [`Locks Distribuídos`](https://redis.io/glossary/redis-lock/) e [`Bloqueio 
 
 O processamento verifica se a `account` está no `lock`. Se não, a insere e inicia tarefas. Caso esteja, aguarda desbloqueio no canal por até 100 ms para evitar concorrência. Utlizando [`Redis Keyspace Notifications`](https://redis.io/docs/latest/develop/use/keyspace-notifications/), ao remover a chave `account` (pelo processo ou `ttl`), o `Redis` publica a liberação do `lock`. 
 
-Consulte a `ADR` [0003: gRPC e Redis Keyspace Notification em API REST e Processor para reduzir Latência e evitar Concorrência](./docs/architecture/decisions/0003-grpc-e-redis-keyspace-notification-em-api-rest-e-processor-para-reduzir-latencia-e-evitar-concorrencia.md) para maiores detalhes.
+Consulte a `ADR` [0003: gRPC e Redis Keyspace Notification reduzindo Latência e evitando Concorrência](./docs/architecture/decisions/0003-grpc-e-redis-keyspace-notification-em-api-rest-e-processor-para-reduzir-latencia-e-evitar-concorrencia.md) para maiores detalhes.
 
 _*Diagramas Mermaid podem apresentar problemas de visualização em aplicativos mobile_
 
@@ -907,7 +907,7 @@ _*A etapa [`Processa Autorização de Pagamento`](#diagrams-flowchart) é uma su
     <div align="center">
         <img src="./docs/assets/images/screen_captures/miro/interview_architecture_proposal_v1.jpeg">
     </div>
-A partir desse diagrama, construí uma segunda versão com poucas modificações, acrescentando detalhes e contexto para os que não estiveram presentes nessa sessão. Esse diagrama gerou o ADR __[0003: gRPC e Redis Keyspace Notification em API REST e Processor para reduzir Latência e evitar Concorrência](./docs/architecture/decisions/0003-grpc-e-redis-keyspace-notification-em-api-rest-e-processor-para-reduzir-latencia-e-evitar-concorrencia.md)__, visando nortear a implementação do requisito L4 neste projeto, com finalidade estritamente de treinamento.
+A partir desse diagrama, construí uma segunda versão com poucas modificações, acrescentando detalhes e contexto para os que não estiveram presentes nessa sessão. Esse diagrama gerou o ADR __[0003: gRPC e Redis Keyspace Notification reduzindo Latência e evitando Concorrência](./docs/architecture/decisions/0003-grpc-e-redis-keyspace-notification-em-api-rest-e-processor-para-reduzir-latencia-e-evitar-concorrencia.md)__, visando nortear a implementação do requisito L4 neste projeto, com finalidade estritamente de treinamento.
 
 Via de regra, o que foi discutido naquela reunião deve ser implementado.
 </details>
@@ -925,7 +925,7 @@ Via de regra, o que foi discutido naquela reunião deve ser implementado.
 
 - [0001: Registro de Decisões de Arquitetura (ADR)](./docs/architecture/decisions/0001-registro-de-decisoes-de-arquitetura.md)
 - [0002: Go, Gin, Gorm e PostgreSQL com Arquitetura Hexagonal e TDD](./docs/architecture/decisions/0002-go-gin-gorm-e-postgres-com-arquitetura-hexagonal-tdd.md)
-- [0003: gRPC e Redis Keyspace Notification em API REST e Processor para reduzir Latência e evitar Concorrência](./docs/architecture/decisions/0003-grpc-e-redis-keyspace-notification-em-api-rest-e-processor-para-reduzir-latencia-e-evitar-concorrencia.md)
+- [0003: gRPC e Redis Keyspace Notification reduzindo Latência e evitando Concorrência](./docs/architecture/decisions/0003-grpc-e-redis-keyspace-notification-em-api-rest-e-processor-para-reduzir-latencia-e-evitar-concorrencia.md)
 - [0004: Banco Relacional Modelado Orientado a Eventos](./docs/architecture/decisions/0004-banco-relacional-modelado-de-maneira-orientada-a-eventos.md)
 - [0005: Estratégia de Testes de Carga e Performance com Cliente Sintético](./docs/architecture/decisions/0005-estrategia-de-testes-de-carga-e-performance-com-cliente-sintetico.md)
 - [0006: Observabilidade com Prometheus e Grafana](./docs/architecture/decisions/0006-observabilidade-com-prometheus-e-grafana.md)

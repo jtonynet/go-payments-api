@@ -1,4 +1,4 @@
-# 3. gRPC e Redis Keyspace Notification em API REST e Processor para reduzir Latência e evitar Concorrência
+# 3. gRPC e Redis Keyspace Notification reduzindo Latência e evitando Concorrência
 
 Data: 10 de Novembro de 2024
 

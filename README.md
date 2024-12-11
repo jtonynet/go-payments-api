@@ -1059,9 +1059,12 @@ Contrate artistas para projetos comerciais ou mais elaborados e aprenda a ser en
 
 - Testes de performance com `Gatling` foram criados para garantir implantações seguras. Detalhes no `ADR` [0005: Estratégia de Testes de Carga e Performance com Cliente Sintético](./docs/architecture/decisions/0005-estrategia-de-testes-de-carga-e-performance-com-cliente-sintetico.md).  
 
+- Adicionar `Observabilidade RED` usando `Prometheus` e `Grafana`. Essas ferramentas também são úteis no desenvolvimento, quando usadas em conjunto aos testes de `Performance` e `Carga` citadas anteriormente. Detalhes no `ADR` [0006: Observabilidade com Prometheus e Grafana](./docs/architecture/decisions/0006-observabilidade-com-prometheus-e-grafana.md).
+
+
 - Testes adicionais devem ser criados (multiplos cenários de erros nas rotas e serviços). 
 
-Essas são minhas considerações sobre o que consegui produzir ao longo desse desafio, e continuarei me aplicando aos pontos cegos que não tive tempo ou conhecimento para aprimorar.
+Este desafio me permite consolidar conhecimentos e identificar pontos cegos para aprimoramento. Continuarei trabalhando para evoluir o projeto e expandir minhas habilidades.
 
 <br/>
 

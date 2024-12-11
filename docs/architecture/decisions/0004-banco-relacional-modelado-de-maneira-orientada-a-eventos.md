@@ -11,7 +11,7 @@ Aceito
 ### Mitigar Inconsistência (Eventual) em modelo com `balances` e `transactions`
 O modelo `ER` original do projeto, visto abaixo, possui as tabelas `balances` e `transactions`, responsáveis pelos saldos por `categories` de cada registro de `accounts`. Geralmente proposto em estágios iniciais de desenvolvimento em modelos relacionais que sigam as `formas normais`, foi útil ao desenvolvimento das principais features.
 
-<center>
+<div align="center">
 
 ```mermaid
 erDiagram
@@ -85,7 +85,7 @@ erDiagram
 
 ```
 
-</center>
+</div>
 
 No entanto, em uma reunião com apresentação em `Miro Board`, foi sugerido que esse modelo poderia não apresentar a melhor performance em um cenário de serviço com finalidade financeira, concorrência e necessidade de baixa latência. Além disso, foi apontada uma possível `inconsistência` no modelo, uma vez que eram necessárias duas consultas (um *insert* em `transaction` e *updates* nos `balances`) para registrar uma transação. De fato, a performance em persistência ficava prejudicada.
 
@@ -98,7 +98,7 @@ Uma abordagem baseada em `EDA` (*Event Driven Architecture*), embora não faça 
 
 A evolução para o modelo a seguir foi proposta:
 
-<center>
+<div align="center">
 
 ```mermaid
 erDiagram
@@ -174,7 +174,7 @@ erDiagram
 
 ```
 
-</center>
+</div>
 
 <br/>
 

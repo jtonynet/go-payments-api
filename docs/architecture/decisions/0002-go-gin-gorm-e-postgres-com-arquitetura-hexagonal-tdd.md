@@ -14,9 +14,11 @@ Existem muitas opções para a arquitetura base, pois elementos cruciais para o 
 
 O desafio cita implementação de testes, dos quais utilizarei os `unit tests` e `integration tests` em minhas `services`, `repositories` e `routes` para auxiliar no fluxo de desenvolvimento em `TDD`.
 
+<div align="center">
 <img src="../../assets/images/layout/graphics/test_pyramid.jpg">
+<br/><i><a href="https://www.headspin.io/blog/the-testing-pyramid-simplified-for-one-and-all">*Imagem retirada do artigo: The Testing Pyramid: Simplified for One and All</a></i>
+</div>
 
-_[*Imagem retirada do artigo: The Testing Pyramid: Simplified for One and All](https://www.headspin.io/blog/the-testing-pyramid-simplified-for-one-and-all)_
 
 ## Decisão
 
@@ -37,6 +39,15 @@ Evidenciando preferências, mas aceitando submissões com outras linguagens e pa
 
 ### Justificativa
 
+#### Arquitetura Hexagonal
+A Arquitetura [Hexagonal](https://alistair.cockburn.us/hexagonal-architecture/) foi escolhida por sua capacidade de isolar o domínio do problema das implementações tecnológicas, permitindo que mudanças em frameworks ou bancos de dados não impactem o núcleo da aplicação. Esse design também facilita a testabilidade e a separação de responsabilidades, o que é crítico em um projeto que deve evoluir rapidamente sem comprometer a manutenibilidade.
+
+<div align="center">
+<img src="../../assets/images/layout/graphics/hexagonal_style-1.jpg">
+
+<i><a href="https://elemarjr.com/arquivo/ensuring-the-quality-of-the-domain-model-through-the-hexagonal-architecture-pattern/">*Imagem retirada do artigo: Hexagonal Architecture Pattern</a></div>
+</div>
+
 #### GIN
 Foi selecionado como o framework de API por sua alta performance e simplicidade. Ideal para aplicações de baixa latência como esta. Sua arquitetura minimalista também facilita a rápida implementação de novos endpoints, sem sobrecarregar o processo de desenvolvimento. 
 
@@ -46,8 +57,6 @@ Escolhemos GORM pela sua flexibilidade e capacidade de integração com os princ
 #### Postgres
 Optamos pelo PostgreSQL devido à sua robustez e features modernas, como JSONB, que oferecem flexibilidade para lidar com dados estruturados e semiestruturados. Postgres também é conhecido pela sua confiabilidade em ambientes de alta carga, o que é essencial considerando o volume de transações esperadas.
 
-#### Arquitetura Hexagonal
-A Arquitetura [Hexagonal](https://alistair.cockburn.us/hexagonal-architecture/) foi escolhida por sua capacidade de isolar o domínio do problema das implementações tecnológicas, permitindo que mudanças em frameworks ou bancos de dados não impactem o núcleo da aplicação. Esse design também facilita a testabilidade e a separação de responsabilidades, o que é crítico em um projeto que deve evoluir rapidamente sem comprometer a manutenibilidade.
 
 #### TDD
 A adoção de TDD garante que a aplicação seja desenvolvida com um foco claro na cobertura de testes, minimizando bugs e retrabalho ao longo do ciclo de vida do projeto. Isso também nos prepara para uma maior resiliência em produção, especialmente considerando o impacto de falhas em um sistema financeiro.
@@ -55,10 +64,6 @@ A adoção de TDD garante que a aplicação seja desenvolvida com um foco claro 
 ### Ferramentas Adicionais
 Adotaremos também o **Swagger** para documentação da API, garantindo que o produto seja bem documentado desde o início, permitindo integração com outras equipes e sistemas. O uso do [**GitHub Projects**](https://github.com/users/jtonynet/projects/7/views/1) para um fluxo Kanban auxiliará no acompanhamento das entregas e na priorização adequada das tarefas.
 
-
-<img src="../../assets/images/layout/graphics/hexagonal_style-1.jpg">
-
-_[*Imagem retirada do artigo: Hexagonal Architecture Pattern](https://elemarjr.com/arquivo/ensuring-the-quality-of-the-domain-model-through-the-hexagonal-architecture-pattern/)_
 
 ## Consequências
 

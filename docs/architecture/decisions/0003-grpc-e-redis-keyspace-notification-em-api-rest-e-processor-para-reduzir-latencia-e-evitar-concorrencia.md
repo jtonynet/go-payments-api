@@ -131,6 +131,8 @@ A única alteração arquitetural feita nesse diagrama, se comparado ao da reuni
 
 Na 'Questão Aberta L4' do arquivo README do projeto, a sugestão do uso de `filas` foi removida e o diagrama do uso de `memory-lock` foi atualizado para uma versão que refletisse uma representação da proposta de arquitetura atual do sistema. Segue abaixo:
 
+<div align="center">
+
 ```mermaid
 flowchart TD
     A([▶️<br/>Recebe Transação JSON]) --> B[Inicia Processamento de Transação]
@@ -174,6 +176,8 @@ flowchart TD
     style J fill:#78771b,stroke:#000
     style P fill:#007bff,stroke:#000
 ```
+
+</div>
 
 <br/>
 

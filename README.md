@@ -100,15 +100,17 @@ __Resumo:__
 Após concluir os requisitos obrigatórios (`L1`, `L2`, `L3`) no prazo, retomei o desafio, focando melhorias do diagrama `Miro` criado em conjunto a equipe proponente. Implementei o requisito `L4` como aprimoramento técnico sugerido no diagrama e na `ADR` [0003: gRPC e Redis Keyspace Notification reduzindo Latência e evitando Concorrência](./docs/architecture/decisions/0003-grpc-e-redis-keyspace-notification-em-api-rest-e-processor-para-reduzir-latencia-e-evitar-concorrencia.md).
 
 
-<div align="center">
 <!-- 
     diagram by:
     https://miro.com
 -->
-    <img src="./docs/assets/images/screen_captures/miro/architectureV3_segregation_services_grpc.png">
+<div align="center">
+    <img src="./docs/assets/images/screen_captures/miro/architectureV3_segregation_services_grpc.png"> 
+    <br/>
+    <i>*Para acompanhar a evolução do projeto com seus respectivos diagramas, acesse o seguinte <a href="./docs/architecture/evolution.md">documento</a></i>
 </div>
 
-_*Para acompanhar a evolução do projeto com seus respectivos diagramas, acesse o [Evolution Doc](./docs/architecture/evolution.md)_
+
 
 <br/>
 <div align="center">. . . . . . . . . . . . . . . . . . . . . . . . . . . .</div>
@@ -768,6 +770,9 @@ __Autorização de Pagamento__
     diagram by:
     https://mermaid.js.org/
 -->
+
+<div align="center">
+
 ```mermaid
 flowchart TD
     A([▶️<br/>Recebe Transação JSON]) --> B[Mapeia Categoria pelo nome do comerciante]
@@ -801,7 +806,11 @@ flowchart TD
     style N fill:#cc0000,stroke:#000
     style Q fill:#cc0000,stroke:#000
 ```
+
+</div>
+
 _*Diagrama apresenta uma interpretação do sistema_
+
 
 <a id="diagrams-flowchart-description"></a>
 ##### 📝 Descrição
@@ -848,6 +857,9 @@ Com [`Locks Distribuídos`](https://redis.io/glossary/redis-lock/) e [`Bloqueio 
     diagram by:
     https://mermaid.js.org/
 -->
+
+<div align="center">
+
 ```mermaid
 flowchart TD
     A([▶️<br/>Recebe Transação JSON]) --> B[Inicia Processamento de Transação]
@@ -891,6 +903,8 @@ flowchart TD
     style J fill:#78771b,stroke:#000
     style P fill:#007bff,stroke:#000
 ```
+
+</div>
 
 _*A etapa [`Processa Autorização de Pagamento`](#diagrams-flowchart) é uma sub-rotina do fluxo de Autorização, simplificada para sentido isolado. Detalhes do débito de saldos estão no fluxograma vinculado._
 
@@ -1043,7 +1057,7 @@ Contrate artistas para projetos comerciais ou mais elaborados e aprenda a ser en
 
 - Refatoração das tabelas centralizou `transactions` e atualização de saldos por `categories`, garantindo `imutabilidade` e mitigando inconsistências. Detalhes no `ADR` [0004: Banco Relacional Modelado Orientado a Eventos](./docs/architecture/decisions/0004-banco-relacional-modelado-de-maneira-orientada-a-eventos.md).
 
-- Testes de performance com `Gatling` foram criados para garantir implantações seguras.  
+- Testes de performance com `Gatling` foram criados para garantir implantações seguras. Detalhes no `ADR` [0005: Estratégia de Testes de Carga e Performance com Cliente Sintético](./docs/architecture/decisions/0005-estrategia-de-testes-de-carga-e-performance-com-cliente-sintetico.md).  
 
 - Testes adicionais devem ser criados (multiplos cenários de erros nas rotas e serviços). 
 

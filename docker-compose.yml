@@ -136,6 +136,8 @@ services:
       - payment-transaction-processor
       - payment-transaction-rest
     volumes:
-      - ./tests/gatling:/usr/src/app
+      - ./tests/gatling/results:/usr/src/app/results
+      - ./tests/gatling/results/history:/usr/src/app/results/history
+      - ./tests/gatling/results/latest:/usr/src/app/results/latest
     networks:
       - payments-network

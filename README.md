@@ -534,7 +534,7 @@ testPaymentExecute.inject(rampUsers(7500).during(301.seconds))
 ```
 <br/>
 
-O comando abaixo remove o bundle do Gatling e limpa o histórico dos testes de carga.
+O comando abaixo remove o histórico dos testes de carga.
 ```bash
 # Limpa os dados do teste de carga 
 docker exec -ti gatling /entrypoint clean-test 
@@ -1075,7 +1075,6 @@ docker rm $(docker ps -aq)
 docker rmi $(docker images -q) --force
 docker volume rm $(docker volume ls -q) --force
 docker network prune -f
-
 docker system prune -a --volumes
 
 sudo systemctl restart docker

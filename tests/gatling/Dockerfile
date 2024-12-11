@@ -1,17 +1,43 @@
-FROM openjdk:17-alpine
+# SATGE 1: Build image, configure Gatling Bundle stage
+FROM openjdk:17-alpine AS builder
+
+ENV GATLING_VERSION=3.9.5 
+ENV GATLING_BUNDLE=gatling-charts-highcharts-bundle-3.9.5
+ENV GATLING_BUNDLE_ZIP=gatling-charts-highcharts-bundle-3.9.5-bundle.zip
 
 WORKDIR /usr/src/app
-
 COPY . .
 
+# Permissions
+RUN chmod +x entrypoint.sh && \
+    chown -R root:root bundle results && \
+    chmod -R 755 bundle results 
 
-# TODO: WIP FOR TEST ONLY
+# Download Gatling Bundle
+WORKDIR /usr/src/app/bundle 
+RUN wget https://repo1.maven.org/maven2/io/gatling/highcharts/gatling-charts-highcharts-bundle/${GATLING_VERSION}/${GATLING_BUNDLE_ZIP}
+
+# "Install" Gatling Bundle
+RUN unzip ${GATLING_BUNDLE_ZIP}  && \
+    rm -rf ${GATLING_BUNDLE_ZIP} && \
+    mv ${GATLING_BUNDLE}/* . && \
+    rm -rf ${GATLING_BUNDLE}
+
+# STAGE 2: Load/Performance Test Stage
+FROM openjdk:17-alpine
+
+COPY --from=builder /usr/src/app /usr/src/app
+
+# Install dependencies
 RUN apk update && apk add --no-cache \
     python3 \
     tzdata \
     wget \
     && rm -rf /var/cache/apk/*
 
-RUN chmod +x entrypoint.sh
+# Make symbolic links 
+RUN ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime && \ 
+    ln -s /usr/src/app/entrypoint.sh /entrypoint
 
+WORKDIR /usr/src/app
 ENTRYPOINT [ "./entrypoint.sh" ]

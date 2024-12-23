@@ -40,14 +40,12 @@ func NewPayment(
 }
 
 func (p *Payment) Execute(tpr port.TransactionPaymentRequest) (string, error) {
-	start := time.Now()
 	timeout := time.Duration(p.timeoutSLA)
 
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
 	defer cancel()
 	transactionLocked, err := p.memoryLockRepository.Lock(
 		ctx,
-		p.timeoutSLA,
 		mapTransactionRequestToMemoryLockEntity(tpr),
 	)
 	if err != nil {
@@ -55,9 +53,6 @@ func (p *Payment) Execute(tpr port.TransactionPaymentRequest) (string, error) {
 	}
 	p.transactionLocked = transactionLocked
 
-	remaining := timeout - time.Since(start)
-	ctx, cancel = context.WithTimeout(context.Background(), remaining)
-	defer cancel()
 	accountEntity, err := p.accountRepository.FindByUID(ctx, tpr.AccountUID)
 	if err != nil {
 		return p.rejectedGenericErr(fmt.Errorf("failed to retrieve account entity: %w", err))
@@ -67,9 +62,6 @@ func (p *Payment) Execute(tpr port.TransactionPaymentRequest) (string, error) {
 	account.Logger = p.logger
 
 	var merchant domain.Merchant
-	remaining = timeout - time.Since(start)
-	ctx, cancel = context.WithTimeout(context.Background(), remaining)
-	defer cancel()
 	merchantEntity, err := p.merchantRepository.FindByName(ctx, tpr.Merchant)
 	if err != nil {
 		return p.rejectedGenericErr(fmt.Errorf("failed to retrieve merchant entity with name %s", tpr.Merchant))
@@ -91,9 +83,6 @@ func (p *Payment) Execute(tpr port.TransactionPaymentRequest) (string, error) {
 		return p.rejectedCustomErr(cErr)
 	}
 
-	remaining = timeout - time.Since(start)
-	ctx, cancel = context.WithTimeout(context.Background(), remaining)
-	defer cancel()
 	err = p.accountRepository.SaveTransactions(
 		ctx,
 		mapTransactionDomainsToEntities(approvedTransactions),

@@ -3,6 +3,7 @@ package redisRepos
 import (
 	"context"
 	"fmt"
+	"log"
 	"strconv"
 	"time"
 
@@ -25,7 +26,6 @@ func NewMemoryLock(lockConn database.InMemory, pubsub pubSub.PubSub) (port.Memor
 
 func (ml *MemoryLock) Lock(
 	ctx context.Context,
-	timeoutSLA port.TimeoutSLA,
 	mle port.MemoryLockEntity,
 ) (port.MemoryLockEntity, error) {
 	expiration, err := ml.lockConn.GetDefaultExpiration(ctx)
@@ -48,6 +48,11 @@ func (ml *MemoryLock) Lock(
 		return port.MemoryLockEntity{}, err
 	}
 
+	deadline, ok := ctx.Deadline()
+	if !ok {
+		log.Fatalf("cannot acquire deadline from context")
+	}
+
 	select {
 	case <-unlockChannel:
 		err = ml.lockConn.Set(ctx, mle.Key, mle.Timestamp, expiration)
@@ -55,7 +60,7 @@ func (ml *MemoryLock) Lock(
 			return port.MemoryLockEntity{}, err
 		}
 		return mle, nil
-	case <-time.After(time.Duration(timeoutSLA)):
+	case <-time.After(time.Until(deadline)):
 		return port.MemoryLockEntity{}, fmt.Errorf("timeout waiting for lock release on key: %s", mle.Key)
 	case <-ctx.Done():
 		return port.MemoryLockEntity{}, ctx.Err()

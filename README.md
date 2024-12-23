@@ -476,7 +476,7 @@ Os testes também são executados como parte da rotina minima de `CI` do <a href
 
 ### 🚚 Testes Carga & Performance (Work In Progress)
 
-_Apenas Containerizado. Validado no SO Ubunto, outros SOs podem apresentar falhas_
+_Apenas Containerizado._
 
 Atualmente o `Gatling` na versão 3.9.5 (desatualizada), realiza os testes de carga.<br/>Para executá-los, é necessário estar [Rodando o Projeto Containerizado](#run-containerized). Em outro terminal, no diretório raiz do projeto, execute os seguintes comandos
 

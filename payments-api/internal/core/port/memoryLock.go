@@ -15,6 +15,6 @@ type MemoryLockEntity struct {
   - Remove a representation of `MemoryLockEntity` from my lock source
 */
 type MemoryLockRepository interface {
-	Lock(ctx context.Context, timeoutSLA TimeoutSLA, mle MemoryLockEntity) (MemoryLockEntity, error)
+	Lock(ctx context.Context, mle MemoryLockEntity) (MemoryLockEntity, error)
 	Unlock(ctx context.Context, key string) error
 }

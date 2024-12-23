@@ -207,7 +207,7 @@ func newMemoryLockRepoFake(memoryDB InMemoryDBfake) port.MemoryLockRepository {
 	}
 }
 
-func (m *MemoryLockRepoFake) Lock(_ context.Context, timeoutSLA port.TimeoutSLA, mle port.MemoryLockEntity) (port.MemoryLockEntity, error) {
+func (m *MemoryLockRepoFake) Lock(_ context.Context, mle port.MemoryLockEntity) (port.MemoryLockEntity, error) {
 	return m.memoryDB.MemoryLockRepoLock(context.Background(), mle)
 }
 

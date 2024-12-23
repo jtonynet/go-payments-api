@@ -24,7 +24,7 @@ services:
       PGTZ: America/Sao_Paulo
       TZ: America/Sao_Paulo
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U username" ]
+      test: [ "CMD-SHELL", "pg_isready -U api_user -d payments_db" ]
       interval: 2s
       timeout: 5s
       retries: 5
@@ -58,7 +58,7 @@ services:
       PGTZ: America/Sao_Paulo
       TZ: America/Sao_Paulo
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U username" ]
+      test: [ "CMD-SHELL", "pg_isready -U test_api_user -d test_payments_db" ]
       interval: 2s
       timeout: 5s
       retries: 5
@@ -136,6 +136,7 @@ services:
       - payment-transaction-processor
       - payment-transaction-rest
     volumes:
+      - ./tests/gatling/user-files:/usr/src/app/user-files
       - ./tests/gatling/results:/usr/src/app/results
       - ./tests/gatling/results/history:/usr/src/app/results/history
       - ./tests/gatling/results/latest:/usr/src/app/results/latest

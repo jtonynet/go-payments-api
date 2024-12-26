@@ -15,11 +15,8 @@
     https://devicon.dev/
     https://simpleicons.org/
 -->
-[<img src="./docs/assets/images/icons/go.svg" width="25px" height="25px" alt="Go Logo" title="Go">](https://go.dev/) [<img src="./docs/assets/images/icons/gin.svg" width="25px" height="25px" alt="Gin Logo" title="Gin">](https://gin-gonic.com/) [<img src="./docs/assets/images/icons/postgresql.svg" width="25px" height="25px" alt="PostgreSql Logo" title="PostgreSql">](https://www.postgresql.org/) [<img src="./docs/assets/images/icons/redis.svg" width="25px" height="25px" alt="Redis Logo" title="Redis">](https://redis.com/) [<img src="./docs/assets/images/icons/grpc.svg" width="45px" alt="gRPC Logo" title="gRPC">](https://grpc.io/) [<img src="./docs/assets/images/icons/docker.svg" width="25px" height="25px" alt="Docker Logo" title="Docker">](https://www.docker.com/) [<img src="./docs/assets/images/icons/ubuntu.svg" width="25px" height="25px Logo" title="Ubuntu" alt="Ubuntu" />](https://ubuntu.com/) [<img src="./docs/assets/images/icons/dotenv.svg" width="25px" height="25px" alt="Viper DotEnv Logo" title="Viper DotEnv">](https://github.com/spf13/viper) [<img src="./docs/assets/images/icons/github.svg" width="25px" height="25px" alt="GitHub Logo" title="GitHub">](https://github.com/jtonynet) [<img src="./docs/assets/images/icons/visualstudiocode.svg" width="25px" height="25px" alt="VsCode Logo" title="VsCode">](https://code.visualstudio.com/) [<img src="./docs/assets/images/icons/swagger.svg" width="25px" height="25px" alt="Swagger Logo" title="Swagger">](https://swagger.io/) [<img src="./docs/assets/images/icons/miro.svg" width="25px" height="25px" alt="Miro Logo" title="Miro">](https://https://miro.com/) [<img src="./docs/assets/images/icons/mermaidjs.svg" width="25px" height="25px" alt="MermaidJS Logo" title="MermaidJS">](https://mermaid.js.org/) [<img src="./docs/assets/images/icons/githubactions.svg" width="25px" height="25px" alt="GithubActions Logo" title="GithubActions">](https://docs.github.com/en/actions) [<img src="./docs/assets/images/icons/gatling.svg" width="35px" height="35px" alt="Gatling Logo" title="Gatling">](https://gatling.com/)
+[<img src="./docs/assets/images/icons/go.svg" width="25px" height="25px" alt="Go Logo" title="Go">](https://go.dev/) [<img src="./docs/assets/images/icons/gin.svg" width="25px" height="25px" alt="Gin Logo" title="Gin">](https://gin-gonic.com/) [<img src="./docs/assets/images/icons/postgresql.svg" width="25px" height="25px" alt="PostgreSql Logo" title="PostgreSql">](https://www.postgresql.org/) [<img src="./docs/assets/images/icons/redis.svg" width="25px" height="25px" alt="Redis Logo" title="Redis">](https://redis.com/) [<img src="./docs/assets/images/icons/grpc.svg" width="45px" alt="gRPC Logo" title="gRPC">](https://grpc.io/) [<img src="./docs/assets/images/icons/docker.svg" width="25px" height="25px" alt="Docker Logo" title="Docker">](https://www.docker.com/) [<img src="./docs/assets/images/icons/ubuntu.svg" width="25px" height="25px Logo" title="Ubuntu" alt="Ubuntu" />](https://ubuntu.com/) [<img src="./docs/assets/images/icons/dotenv.svg" width="25px" height="25px" alt="Viper DotEnv Logo" title="Viper DotEnv">](https://github.com/spf13/viper) [<img src="./docs/assets/images/icons/github.svg" width="25px" height="25px" alt="GitHub Logo" title="GitHub">](https://github.com/jtonynet) [<img src="./docs/assets/images/icons/visualstudiocode.svg" width="25px" height="25px" alt="VsCode Logo" title="VsCode">](https://code.visualstudio.com/) [<img src="./docs/assets/images/icons/swagger.svg" width="25px" height="25px" alt="Swagger Logo" title="Swagger">](https://swagger.io/) [<img src="./docs/assets/images/icons/miro.svg" width="25px" height="25px" alt="Miro Logo" title="Miro">](https://https://miro.com/) [<img src="./docs/assets/images/icons/mermaidjs.svg" width="25px" height="25px" alt="MermaidJS Logo" title="MermaidJS">](https://mermaid.js.org/) [<img src="./docs/assets/images/icons/githubactions.svg" width="25px" height="25px" alt="GithubActions Logo" title="GithubActions">](https://docs.github.com/en/actions) [<img src="./docs/assets/images/icons/gatling.svg" width="35px" height="35px" alt="Gatling Logo" title="Gatling">](https://gatling.com/) [<img src="./docs/assets/images/icons/prometheus.svg" width="25px" height="25px" alt="Prometheus Logo" title="Prometheus">](https://prometheus.io/) [<img src="./docs/assets/images/icons/grafana.svg" width="25px" height="25px" alt="Grafana Logo" title="Grafana">](https://grafana.com/)
 
-<!--
-[<img src="./docs/assets/images/icons/prometheus.svg" width="25px" height="25px" alt="Prometheus Logo" title="Prometheus">](https://prometheus.io/) [<img src="./docs/assets/images/icons/grafana.svg" width="25px" height="25px" alt="Grafana Logo" title="Grafana">](https://grafana.com/)
--->
 
 <!--
 [<img src="./docs/assets/images/icons/k6.svg" width="25px" height="25px" alt="K6 Logo" title="K6">](https://k6.io/) [<img src="./docs/assets/images/icons/grafana_loki.png" width="30px" height="30px" alt="Grafana Loki Logo" title="Grafana Loki">](https://grafana.com/oss/loki/) [<img src="./docs/assets/images/icons/opentelemetry.svg" width="25px" height="25px" alt="OpenTelemetry Logo" title="OpenTelemetry">](https://opentelemetry.io/) [<img src="./docs/assets/images/icons/jaeger.svg" width="25px" height="25px" alt="Jaeger Logo" title="Jaeger">](https://www.jaegertracing.io/) 
@@ -84,16 +81,17 @@ __Resumo:__
 > Construído com `Gin` e `Gorm`, protocolo `gRPC` entre o serviço "`REST`" `http` ("aberto" ao mundo, o ponto de entrada) e o serviço `Processor` ("fechado" ao mundo, o processador de pagamentos) por segurança.
 >
 > __Principais Tecnologias e abordagens:__
-> - `Arquitetura Hexagonal`
+> - `Hexagonal Architecture`
 > - `TDD`, `DDD`, `SOLID`, `ADRs`
 > - `Diagram as code` com `Mermaid.js` e `Miro`
 > - `Dockerized` Solução com uso de containers
 > - `gRPC` e `http` entre `Microsservices`
-> - `PostgreSQL` modelado inspirado em `Event Sourcing` para garantir `Consistência`
+> - `PostgreSQL` modelado em `Event Sourcing` para garantir `Consistência`
 > - `CI` com `GitHub Actions` 
 > - `Redis` para `Memory Lock Pessimista`
 > - `Redis Keyspace Notification` como `Pub/Sub` para `Unlocks` (outras Abordagens como `Filas` foram desconsideradas devido `Latência Adicional`)
 > - `Performance/Load Test Dockerized` com `Gatling` (WIP)
+> - `Observability` com `Prometheus` e `Grafana` com `Metricas` `RED` (WIP)
 
 <br/>
 
@@ -270,7 +268,7 @@ Após a `.env` renomeada, rode os comandos `docker compose` (de acordo com sua v
 docker compose build
 
 # Rodar o PostgreSQL e o Redis de Desenvolvimento
-docker compose up postgres-payments redis-payments -d
+docker compose up postgres redis -d
 ```
 
 <br/>
@@ -281,7 +279,7 @@ Caso seja a primeira execução do projeto, rode os comandos de `migrations` e `
 docker compose up migrate
 
 # Carga inicial no banco
-docker compose exec postgres-payments psql -U api_user -d payments_db -f /seeds/load_test_charge.up.sql
+docker compose exec postgres psql -U api_user -d payments_db -f /seeds/load_test_charge.up.sql
 ```
 
 <br/>
@@ -289,8 +287,8 @@ docker compose exec postgres-payments psql -U api_user -d payments_db -f /seeds/
 Para então subir os serviços `REST` e `Processor`
 ```bash
 # Rodar as APIs (Sugiro em terminais distintos para acompanhar debug logs)
-docker compose up payment-transaction-processor
-docker compose up payment-transaction-rest
+docker compose up transaction-processor
+docker compose up transaction-rest
 ```
 
 <img src="./docs/assets/images/screen_captures/running.jpeg">
@@ -310,21 +308,21 @@ Com o `Golang 1.23` instalado e após ter renomeado a copia de `.env.SAMPLE` par
 
 No arquivo `.env`, substitua os valores das variáveis de ambiente que contêm comentários no formato `local: valueA | containerized: valueB` pelos valores sugeridos na opção `local` (exceto o `DATABASE_PORT`).
 ```bash
-DATABASE_HOST=localhost         ### local: localhost | conteinerized: test-postgres-payments
+DATABASE_HOST=localhost         ### local: localhost | conteinerized: test-postgres
 
-PUBSUB_HOST=localhost           ### local: localhost | conteinerized: redis-payments
-IN_MEMORY_LOCK_HOST=localhost   ### local: localhost | conteinerized: redis-payments
-IN_MEMORY_CACHE_HOST=localhost  ### local: localhost | conteinerized: redis-payments
+PUBSUB_HOST=localhost           ### local: localhost | conteinerized: redis
+IN_MEMORY_LOCK_HOST=localhost   ### local: localhost | conteinerized: redis
+IN_MEMORY_CACHE_HOST=localhost  ### local: localhost | conteinerized: redis
 
-GRPC_SERVER_HOST=localhost      ### local: localhost | conteinerized: payment-transaction-processor
-GRPC_CLIENT_HOST=localhost      ### local: localhost | conteinerized: payment-transaction-processor
+GRPC_SERVER_HOST=localhost      ### local: localhost | conteinerized: transaction-processor
+GRPC_CLIENT_HOST=localhost      ### local: localhost | conteinerized: transaction-processor
 ```
 
 Após editar o arquivo, suba apenas o banco e o redis de dados com o comando:
 
 ```bash
 # Rodar o PostgreSQL e o Redis de Desenvolvimento
-docker compose up postgres-payments redis-payments -d
+docker compose up postgres redis -d
 ```
 
 <br/>
@@ -335,7 +333,7 @@ Caso seja a primeira execução do projeto, rode os comandos de `migrations` e `
 docker compose up migrate
 
 # Carga inicial no banco
-docker compose exec postgres-payments psql -U api_user -d payments_db -f /seeds/load_test_charge.up.sql
+docker compose exec postgres psql -U api_user -d payments_db -f /seeds/load_test_charge.up.sql
 ```
 
 <br/>
@@ -406,15 +404,15 @@ Para [Executar os Testes](#test-auto) com a API fora do container, de maneira _l
 
 No arquivo `/.env.TEST`, substitua os valores das variáveis de ambiente que contêm comentários no formato `local: valueA | containerized: valueB` pelos valores sugeridos na opção `local`.
 ```bash
-DATABASE_HOST=localhost         ### local: localhost | conteinerized: test-postgres-payments
+DATABASE_HOST=localhost         ### local: localhost | conteinerized: test-postgres
 DATABASE_PORT=5433              ### local: 5433      | conteinerized: 5432
 
-PUBSUB_HOST=localhost           ### local: localhost | conteinerized: redis-payments
-IN_MEMORY_LOCK_HOST=localhost   ### local: localhost | conteinerized: redis-payments
-IN_MEMORY_CACHE_HOST=localhost  ### local: localhost | conteinerized: redis-payments
+PUBSUB_HOST=localhost           ### local: localhost | conteinerized: redis
+IN_MEMORY_LOCK_HOST=localhost   ### local: localhost | conteinerized: redis
+IN_MEMORY_CACHE_HOST=localhost  ### local: localhost | conteinerized: redis
 
-GRPC_SERVER_HOST=localhost      ### local: localhost | conteinerized: payment-transaction-processor
-GRPC_CLIENT_HOST=localhost      ### local: localhost | conteinerized: payment-transaction-processor
+GRPC_SERVER_HOST=localhost      ### local: localhost | conteinerized: transaction-processor
+GRPC_CLIENT_HOST=localhost      ### local: localhost | conteinerized: transaction-processor
 ```
 
 <br/>
@@ -428,13 +426,13 @@ GRPC_CLIENT_HOST=localhost      ### local: localhost | conteinerized: payment-tr
 
 ```bash
 # Rodar o PostgreSQL de Testes
-docker compose up test-postgres-payments -d
+docker compose up test-postgres -d
 ```
 
 Comando para executar o teste  _containerizado_com a API levantada __(Recomendado)__
 ```bash
 # Executa Testes no Docker com ENV test (PostgreSQL de Testes na Integração)
-docker compose exec -e ENV=test  payment-transaction-rest go test -v -count=1 ./internal/adapter/repository/gormRepos ./internal/adapter/repository/redisRepos ./internal/core/service ./internal/adapter/http/router
+docker compose exec -e ENV=test transaction-rest go test -v -count=1 ./internal/adapter/repository/gormRepos ./internal/adapter/repository/redisRepos ./internal/core/service ./internal/adapter/http/router
 ```
 
 Comando para executar o teste _local_ em `payments-api` __(Apenas se necessário)__
@@ -521,7 +519,7 @@ docker exec -ti gatling /entrypoint run-test
 <br/>
 
 <details>
-  <summary><b>Saída esperada no site <a href="http://localhost:8082">Gatling em seu localhost</a></b></summary>
+  <summary><b>Saída esperada no site <a href="http://localhost:9091">Gatling em seu localhost</a></b></summary>
     <div align="center">
         <img src="./docs/assets/images/screen_captures/load_test_gatling_web.png">
     </div>

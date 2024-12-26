@@ -40,10 +40,12 @@ func NewPayment(
 }
 
 func (p *Payment) Execute(tpr port.TransactionPaymentRequest) (string, error) {
-	timeout := time.Duration(p.timeoutSLA)
-
-	ctx, cancel := context.WithTimeout(context.Background(), timeout)
+	ctx, cancel := context.WithTimeout(
+		context.Background(),
+		time.Duration(p.timeoutSLA),
+	)
 	defer cancel()
+
 	transactionLocked, err := p.memoryLockRepository.Lock(
 		ctx,
 		mapTransactionRequestToMemoryLockEntity(tpr),

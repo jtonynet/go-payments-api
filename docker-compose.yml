@@ -11,12 +11,14 @@ volumes:
     external: false
   redis-payments-data:
     external: false
+  prometheus-payments-data:
+    external: false
 
 services:
-  postgres-payments:
+  postgres:
     image: postgres:16.0-alpine
-    container_name: postgres-payments
-    hostname: postgres-payments
+    container_name: postgres
+    hostname: postgres
     environment:
       POSTGRES_USER: api_user
       POSTGRES_PASSWORD: api_pass
@@ -41,16 +43,16 @@ services:
     image: migrate/migrate
     volumes:
       - ./payments-api/internal/adapter/database/postgres/migrations:/migrations
-    command: [ "-path", "/migrations", "-database", "postgres://api_user:api_pass@postgres-payments:5432/payments_db?sslmode=disable", "-verbose", "up" ]
+    command: [ "-path", "/migrations", "-database", "postgres://api_user:api_pass@postgres:5432/payments_db?sslmode=disable", "-verbose", "up" ]
     depends_on:
-      - postgres-payments
+      - postgres
     networks:
       - payments-network
 
-  test-postgres-payments:
+  test-postgres:
     image: postgres:16.0-alpine
-    container_name: test-postgres-payments
-    hostname: test-postgres-payments
+    container_name: test-postgres
+    hostname: test-postgres
     environment:
       POSTGRES_USER: test_api_user
       POSTGRES_PASSWORD: test_api_pass
@@ -70,9 +72,9 @@ services:
     networks:
       - payments-network
 
-  redis-payments:
-    container_name: redis-payments
-    hostname: redis-payments
+  redis:
+    container_name: redis
+    hostname: redis
     image: redis:6.2-alpine
     ports:
       - 6379:6379
@@ -87,17 +89,17 @@ services:
       - payments-network
     command: [ "redis-server", "--notify-keyspace-events", "Ex" ]
 
-  payment-transaction-processor:
+  transaction-processor:
     build:
       context: ./payments-api
       dockerfile: Dockerfile
     depends_on:
-      - postgres-payments
-      - redis-payments
-    container_name: payment-transaction-processor
-    hostname: payment-transaction-processor
+      - postgres
+      - redis
+    container_name: transaction-processor
+    hostname: transaction-processor
     ports:
-      - "9090:9090"
+      - "8090:8090"
     volumes:
       - ./payments-api:/usr/src/app/
     tty: true
@@ -105,14 +107,14 @@ services:
       - payments-network
     command: CompileDaemon -log-prefix=false -build="go build -o /usr/src/app/bin/processor/main /usr/src/app/cmd/processor/main.go" -command="./bin/processor/main"
 
-  payment-transaction-rest:
+  transaction-rest:
     build:
       context: ./payments-api
       dockerfile: Dockerfile
     depends_on:
-      - payment-transaction-processor
-    container_name: payment-transaction-rest
-    hostname: payment-transaction-rest
+      - transaction-processor
+    container_name: transaction-rest
+    hostname: transaction-rest
     ports:
       - "8080:8080"
     volumes:
@@ -121,6 +123,27 @@ services:
     networks:
       - payments-network
     command: CompileDaemon -log-prefix=false -build="go build -o /usr/src/app/bin/rest/main /usr/src/app/cmd/rest/main.go" -command="./bin/rest/main"
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    restart: unless-stopped
+    volumes:
+      - ./tools/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-payments-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    ports:
+      - 9090:9090
+    networks:
+      - payments-network
+    depends_on:
+      - transaction-processor
+      - transaction-rest
 
   gatling:
     build:
@@ -131,10 +154,10 @@ services:
     env_file:
       - ./payments-api/.env
     ports:
-      - "8082:8082"
+      - "9091:9091"
     depends_on:
-      - payment-transaction-processor
-      - payment-transaction-rest
+      - transaction-processor
+      - transaction-rest
     volumes:
       - ./tests/gatling/user-files:/usr/src/app/user-files
       - ./tests/gatling/results:/usr/src/app/results

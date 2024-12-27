@@ -5,11 +5,15 @@ import (
 )
 
 type API struct {
-	Name       string `mapstructure:"API_NAME"`
-	Port       string `mapstructure:"API_PORT"`
-	TagVersion string `mapstructure:"API_TAG_VERSION"`
-	Env        string `mapstructure:"ENV"`
-	TimeoutSLA int64  `mapstructure:"API_TIMEOUT_SLA_IN_MS"`
+	Env string `mapstructure:"ENV"`
+
+	Name             string `mapstructure:"API_NAME"`
+	Port             string `mapstructure:"API_PORT"`
+	RestHost         string `mapstructure:"API_REST_HOST"`
+	TagVersion       string `mapstructure:"API_TAG_VERSION"`
+	TimeoutSLA       int64  `mapstructure:"API_TIMEOUT_SLA_IN_MS"`
+	MetricEnabled    bool   `mapstructure:"API_METRICS_ENABLED"`
+	TransactionRoute string `mapstructure:"API_TRANSACTION_ROUTE"`
 }
 
 type Database struct {
@@ -22,6 +26,12 @@ type Database struct {
 	DB      string `mapstructure:"DATABASE_DB"`
 	Port    string `mapstructure:"DATABASE_PORT"`
 	SSLmode string `mapstructure:"DATABASE_SSLMODE"`
+
+	MetricEnabled       bool   `mapstructure:"DATABASE_METRICS_ENABLED"`
+	MetricDBName        string `mapstructure:"DATABASE_METRICS_NAME"`
+	MetricIntervalInSec uint32 `mapstructure:"DATABASE_METRICS_INTERVAL_IN_SEC"`
+	MetricStartServer   bool   `mapstructure:"DATABASE_METRICS_START_SERVER"`
+	MetricServerPort    uint32 `mapstructure:"DATABASE_METRICS_SERVER_PORT"`
 }
 
 type Router struct {
@@ -95,18 +105,18 @@ func (c *Cache) ToInMemoryDatabase() InMemoryDatabase {
 	}
 }
 
-type Logger struct {
-	Strategy  string `mapstructure:"LOG_STRATEGY"`
-	Level     string `mapstructure:"LOG_LEVEL"`
-	Format    string `mapstructure:"LOG_OPT_FORMAT"`
-	AddSource bool   `mapstructure:"LOG_OPT_ADD_SOURCE_BOOL"`
-}
-
 type GRPC struct {
 	ServerHost string `mapstructure:"GRPC_SERVER_HOST"`
 	ServerPort string `mapstructure:"GRPC_SERVER_PORT"`
 	ClientHost string `mapstructure:"GRPC_CLIENT_HOST"`
 	ClientPort string `mapstructure:"GRPC_CLIENT_PORT"`
+}
+
+type Logger struct {
+	Strategy  string `mapstructure:"LOG_STRATEGY"`
+	Level     string `mapstructure:"LOG_LEVEL"`
+	Format    string `mapstructure:"LOG_OPT_FORMAT"`
+	AddSource bool   `mapstructure:"LOG_OPT_ADD_SOURCE_BOOL"`
 }
 
 type Config struct {
@@ -116,8 +126,8 @@ type Config struct {
 	PubSub   PubSub   `mapstructure:",squash"`
 	Lock     Lock     `mapstructure:",squash"`
 	Cache    Cache    `mapstructure:",squash"`
-	Logger   Logger   `mapstructure:",squash"`
 	GRPC     GRPC     `mapstructure:",squash"`
+	Logger   Logger   `mapstructure:",squash"`
 }
 
 func LoadConfig(path string) (*Config, error) {

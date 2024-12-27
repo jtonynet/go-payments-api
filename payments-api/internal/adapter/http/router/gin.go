@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/gin-gonic/gin"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -29,12 +30,16 @@ func (gr Gin) HandleRequests(_ context.Context, cfg config.API) error {
 	r := gin.Default()
 	docs.SwaggerInfo.BasePath = "/"
 
-	apiGroup := r.Group("/")
-	apiGroup.Use(ginMiddleware.ConfigInject(cfg))
-	apiGroup.Use(ginMiddleware.AppInject(gr.app))
+	if cfg.MetricEnabled {
+		initializeMetricsRoute(r, cfg)
+	}
 
-	apiGroup.GET("/liveness", ginHandler.Liveness)
-	apiGroup.POST("/payment", ginHandler.PaymentExecution)
+	v1 := r.Group("/")
+	v1.Use(ginMiddleware.ConfigInject(cfg))
+	v1.Use(ginMiddleware.AppInject(gr.app))
+
+	v1.GET("/liveness", ginHandler.Liveness)
+	v1.POST("/payment", ginHandler.PaymentExecution)
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
@@ -42,4 +47,11 @@ func (gr Gin) HandleRequests(_ context.Context, cfg config.API) error {
 	r.Run(port)
 
 	return nil
+}
+
+func initializeMetricsRoute(r *gin.Engine, cfg config.API) {
+	r.GET("/metrics", gin.WrapH(promhttp.Handler()))
+
+	ginMiddleware.InitPrometheus(r, cfg)
+	r.Use(ginMiddleware.Prometheus(cfg))
 }

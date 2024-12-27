@@ -1,4 +1,4 @@
-# 4. Banco Relacional Modelado de Maneira Orientada a Eventos
+# 4. Banco Relacional Modelado Inspirado em Eventos
 
 Data: 19 de Novembro de 2024
 

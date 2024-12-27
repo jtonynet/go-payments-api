@@ -13,6 +13,8 @@ volumes:
     external: false
   prometheus-payments-data:
     external: false
+  grafana-payments-data:
+    external: false
 
 services:
   postgres:
@@ -127,7 +129,6 @@ services:
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
-    restart: unless-stopped
     volumes:
       - ./tools/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
       - prometheus-payments-data:/prometheus
@@ -144,6 +145,18 @@ services:
     depends_on:
       - transaction-processor
       - transaction-rest
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    volumes:
+      - grafana-payments-data:/var/lib/grafana
+    ports:
+      - 3000:3000
+    networks:
+      - payments-network
+    depends_on:
+      - prometheus
 
   gatling:
     build:

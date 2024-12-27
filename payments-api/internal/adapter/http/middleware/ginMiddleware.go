@@ -217,7 +217,7 @@ func Prometheus(cfg config.API) gin.HandlerFunc {
 
 		c.Next()
 
-		if c.FullPath() == cfg.TransactionRoute {
+		if c.FullPath() == cfg.TransactionPath {
 			bodyBytes := writer.body.Bytes()
 			var responseBody map[string]interface{}
 			if len(bodyBytes) > 0 {

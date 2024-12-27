@@ -54,18 +54,19 @@ __[Go Payments API](#header)__<br/>
       - 🐋 [Containerizado](#test-containerized)
       - 🏠 [Local](#test-locally)
       - ⚙️  [Executando Testes](#test-auto)
-  6.  🚚 [Testes Carga & Performance (WIP)](#test-load)
-  7.  🧑‍🔧 [Validação Manual](#test-manual)
-  8.  📊 [Diagramas](#diagrams)
+  6.  🚚 [Testes Carga & Performance](#test-load)
+  7.  🕵️ [Observabilidade WIP](#observability)
+  8.  🧑‍🔧 [Validação Manual](#test-manual)
+  9.  📊 [Diagramas](#diagrams)
       - 📈 [ER](#diagrams-erchart)
-      - 📈 [Fluxo](#diagrams-flowchart)
-  9.  🅻 [Questão Aberta L4](#open-question)
-  10. 🧠 [ADR - Architecture Decision Records](#adr)
-  11. 🔢 [Versões](#versions)
-  12. 🧰 [Ferramentas](#tools)
-  13. 👏 [Boas Práticas](#best-practices)
-  14. 🤖 [Uso de IA](#ia)
-  15. 🏁 [Conclusão](#conclusion)
+      - 📈 [Fluxo](#diagrams-flowchart) 
+  10. 🅻 [Questão Aberta L4](#open-question)
+  11.  🧠 [ADR - Architecture Decision Records](#adr)
+  12.  🔢 [Versões](#versions)
+  13.  🧰 [Ferramentas](#tools)
+  14.  👏 [Boas Práticas](#best-practices)
+  15.  🤖 [Uso de IA](#ia)
+  16.  🏁 [Conclusão](#conclusion)
 
 ---
 
@@ -86,11 +87,11 @@ __Resumo:__
 > - `Diagram as code` com `Mermaid.js` e `Miro`
 > - `Dockerized` Solução com uso de containers
 > - `gRPC` e `http` entre `Microsservices`
-> - `PostgreSQL` modelado em `Event Sourcing` para garantir `Consistência`
+> - `PostgreSQL` modelado inspirado em `Event Sourcing` para garantir `Consistência`
 > - `CI` com `GitHub Actions` 
 > - `Redis` para `Memory Lock Pessimista`
 > - `Redis Keyspace Notification` como `Pub/Sub` para `Unlocks` (outras Abordagens como `Filas` foram desconsideradas devido `Latência Adicional`)
-> - `Performance/Load Test Dockerized` com `Gatling` (WIP)
+> - `Performance/Load Test Dockerized` com `Gatling`
 > - `Observability` com `Prometheus` e `Grafana` com `Metricas` `RED` (WIP)
 
 <br/>
@@ -472,7 +473,7 @@ Os testes também são executados como parte da rotina minima de `CI` do <a href
 
 <a id="test-load"></a>
 
-### 🚚 Testes Carga & Performance (Work In Progress)
+### 🚚 Testes Carga & Performance
 
 _Apenas Containerizado._
 
@@ -562,6 +563,72 @@ docker exec -ti gatling /entrypoint clean-test
 <br/>
 
 [⤴️ de volta ao índice](#index)
+
+---
+
+<br/>
+
+<a id="observability"></a>
+### 🕵️ Observabilidade (Work In Progress)
+
+_Apenas Containerizado._
+
+__Métricas com Prometheus:__
+
+Apos rodar com sucesso o `docker compose up` como visto anteriormente, acesse:
+
+```bash
+# Rodar o Prometheus
+docker compose up prometheus grafana -d
+```
+
+<details>
+  <summary><b>Saída esperada no site <a href="http://localhost:9090/">Prometheus em seu localhost</a> rodando a consulta</b> <i>gin_gonic_request_duration_bucket{path="/payment"}</i></summary>
+    <div align="center">
+        <img src="./docs/assets/images/screen_captures/prometheus.png">
+    </div>
+</details>
+
+<br/>
+<br/>
+
+__Configurando o Grafana:__
+
+A primeira vez que executarmos o Grafana, entramos com `usuário/senha` padrão de `admin/admin`. Ele solicita a alteração da senha, para facilitar o desenvolvimento local, alteramos para `admin/12345`.
+- Grafana - http://localhost:3000/ (usuário/senha: admin/admin | admin/12345)
+  
+<details>
+  <summary>Uma vez dentro do Grafana em sua primeira execução, também precisamos criar uma conexão Datasource com o Prometheus (que acessamos acima). Procure por <i>`Connections > Add New Connection`</i> digite <i>Prometheus</i> no campo de Search, selecione-o, clique em <i>`Add New Datasource`</i> e configure-o com a URL: <i>http://prometheus:9090</i> e clique no botão <i>Save & test</i> no final da página</summary>
+  <img src="./docs/assets/images/screen_captures/grafana_create_prometheus_conn.png">
+</details>
+
+<br/>
+
+<details>
+  <summary>Agora você pode usar o menu <i>`Dashboards > New > Import`</i> para importar o arquivo <b>dash-go-products-api.json</b> que está localizado no diretório: <a href="./scripts/grafana-dashboards/">./scripts/grafana-dashboards</a>. Acesse o diretório em seu computador, clique e arraste o arquivo para o campo correto especificado pela tela <b>Upload Dashboard JSON File</b></summary>
+  <img src="./docs/assets/images/screen_captures/grafana_import_dashboard.png">
+</details>
+
+<br/>
+
+<details>
+  <summary>Vincule o Dashboard a conexão previamente criada e acesse-o</summary>
+  <img src="./docs/assets/images/screen_captures/grafana_import_dashboard_prometheus.png">
+</details>
+
+<br/>
+
+Quando adequadamente importado, o Dashboard estará disponível e responderá às solicitações que você pode simular pela [Documentação da API](#api-docs) ou pelos [Testes Carga & Performance](#test-load) (fortemente recomendados).
+
+<div align="center">
+    <img src="./docs/assets/images/screen_captures/grafana_red.png">
+    <i>*Imagem retirada durante teste de carga</i>
+</div>
+
+<br/>
+
+[⤴️ de volta ao índice](#index)
+
 
 ---
 
@@ -934,7 +1001,7 @@ Via de regra, o que foi discutido naquela reunião deve ser implementado.
 - [0001: Registro de Decisões de Arquitetura (ADR)](./docs/architecture/decisions/0001-registro-de-decisoes-de-arquitetura.md)
 - [0002: Go, Gin, Gorm e PostgreSQL com Arquitetura Hexagonal e TDD](./docs/architecture/decisions/0002-go-gin-gorm-e-postgres-com-arquitetura-hexagonal-tdd.md)
 - [0003: gRPC e Redis Keyspace Notification reduzindo Latência e evitando Concorrência](./docs/architecture/decisions/0003-grpc-e-redis-keyspace-notification-em-api-rest-e-processor-para-reduzir-latencia-e-evitar-concorrencia.md)
-- [0004: Banco Relacional Modelado Orientado a Eventos](./docs/architecture/decisions/0004-banco-relacional-modelado-de-maneira-orientada-a-eventos.md)
+- [0004: Banco Relacional Modelado Inspirado em Eventos](./docs/architecture/decisions/0004-banco-relacional-modelado-de-maneira-orientada-a-eventos.md)
 - [0005: Estratégia de Testes de Carga e Performance com Cliente Sintético](./docs/architecture/decisions/0005-estrategia-de-testes-de-carga-e-performance-com-cliente-sintetico.md)
 - [0006: Observabilidade com Prometheus e Grafana](./docs/architecture/decisions/0006-observabilidade-com-prometheus-e-grafana.md)
 
@@ -1053,12 +1120,11 @@ Contrate artistas para projetos comerciais ou mais elaborados e aprenda a ser en
 
 - Para o `L4`, filas foram descartadas pelo proponente no `Miro Board` devido à latência. Isso é detalhado no `ADR` [0003: gRPC e Redis Keyspace Notification](./docs/architecture/decisions/0003-grpc-e-redis-keyspace-notification-em-api-rest-e-processor-para-reduzir-latencia-e-evitar-concorrencia.md) e no `Kanban`.
 
-- Refatoração das tabelas centralizou `transactions` e atualização de saldos por `categories`, garantindo `imutabilidade` e mitigando inconsistências. Detalhes no `ADR` [0004: Banco Relacional Modelado Orientado a Eventos](./docs/architecture/decisions/0004-banco-relacional-modelado-de-maneira-orientada-a-eventos.md).
+- Refatoração das tabelas centralizou `transactions` e atualização de saldos por `categories`, garantindo `imutabilidade` e mitigando inconsistências. Detalhes no `ADR` [0004: Banco Relacional Modelado Inspirado em Eventos](./docs/architecture/decisions/0004-banco-relacional-modelado-de-maneira-orientada-a-eventos.md).
 
 - Testes de performance com `Gatling` foram criados para garantir implantações seguras. Detalhes no `ADR` [0005: Estratégia de Testes de Carga e Performance com Cliente Sintético](./docs/architecture/decisions/0005-estrategia-de-testes-de-carga-e-performance-com-cliente-sintetico.md).  
 
-- Adicionar `Observabilidade RED` usando `Prometheus` e `Grafana`. Essas ferramentas também são úteis no desenvolvimento, quando usadas em conjunto aos testes de `Performance` e `Carga` citadas anteriormente. Detalhes no `ADR` [0006: Observabilidade com Prometheus e Grafana](./docs/architecture/decisions/0006-observabilidade-com-prometheus-e-grafana.md).
-
+- Adicionada `Observabilidade Métricas RED` usando `Prometheus` e `Grafana`. Essas ferramentas também são úteis no desenvolvimento, quando usadas em conjunto aos testes de `Performance` e `Carga` citadas anteriormente. Detalhes no `ADR` [0006: Observabilidade com Prometheus e Grafana](./docs/architecture/decisions/0006-observabilidade-com-prometheus-e-grafana.md).
 
 - Testes adicionais devem ser criados (multiplos cenários de erros nas rotas e serviços). 
 
@@ -1079,9 +1145,9 @@ Este desafio me permite consolidar conhecimentos e identificar pontos cegos para
 >  _Mr. Spock, maybe_   🖖🏾🚀
 
 <div align="center">
-<a href="#footer">
-<img src="./docs/assets/images/layout/footer_learn_ingenuity_bg_hexagonal.png" />
-</a>
+    <a href="#footer">
+        <img src="./docs/assets/images/layout/footer_learn_ingenuity_bg_hexagonal.png" />
+    </a>
 </div>
 
 <!--

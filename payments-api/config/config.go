@@ -7,13 +7,13 @@ import (
 type API struct {
 	Env string `mapstructure:"ENV"`
 
-	Name             string `mapstructure:"API_NAME"`
-	Port             string `mapstructure:"API_PORT"`
-	RestHost         string `mapstructure:"API_REST_HOST"`
-	TagVersion       string `mapstructure:"API_TAG_VERSION"`
-	TimeoutSLA       int64  `mapstructure:"API_TIMEOUT_SLA_IN_MS"`
-	MetricEnabled    bool   `mapstructure:"API_METRICS_ENABLED"`
-	TransactionRoute string `mapstructure:"API_TRANSACTION_ROUTE"`
+	Name            string `mapstructure:"API_NAME"`
+	Port            string `mapstructure:"API_PORT"`
+	RestHost        string `mapstructure:"API_REST_HOST"`
+	TagVersion      string `mapstructure:"API_TAG_VERSION"`
+	TimeoutSLA      int64  `mapstructure:"API_TIMEOUT_SLA_IN_MS"`
+	MetricEnabled   bool   `mapstructure:"API_METRICS_ENABLED"`
+	TransactionPath string `mapstructure:"API_TRANSACTION_PATH"`
 }
 
 type Database struct {

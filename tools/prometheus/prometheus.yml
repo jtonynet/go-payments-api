@@ -19,4 +19,3 @@ scrape_configs:
     - transaction-rest:8080
     labels: 
       application: 'payments'
-

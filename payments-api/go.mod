@@ -23,6 +23,7 @@ require (
 	gopkg.in/go-playground/assert.v1 v1.2.1
 	gorm.io/driver/postgres v1.5.9
 	gorm.io/gorm v1.25.12
+	gorm.io/plugin/prometheus v0.1.0
 )
 
 require (

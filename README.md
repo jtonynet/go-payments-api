@@ -553,7 +553,7 @@ docker exec -ti gatling /entrypoint clean-test
 
 - __Métricas Relevantes__ 
     - `Timeout`: tempo médio, mínimo e máximo de cada request.  
-    - `Erros`: Use logs de debug para mapear serviços e identificar gargalos. (No futuro, utilize as ferramentas de `Observabilidade`)
+    - `Erros`: Use logs de debug para mapear serviços e identificar gargalos. (Utilize as ferramentas de [Observabilidade](#observability))
     
 <br/>
 

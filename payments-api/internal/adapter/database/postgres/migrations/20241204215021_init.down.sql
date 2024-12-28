@@ -1,3 +1,7 @@
+DROP TRIGGER IF EXISTS trg_update_latest_transaction ON transactions;
+DROP FUNCTION IF EXISTS update_latest_transaction();
+
+DROP TABLE IF EXISTS public.transactions_latest;
 DROP TABLE IF EXISTS public.transactions;
 DROP TABLE IF EXISTS public.account_categories;
 DROP TABLE IF EXISTS public.merchants;

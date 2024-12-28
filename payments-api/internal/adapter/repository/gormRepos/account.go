@@ -64,8 +64,8 @@ func (a *Account) FindByUID(ctx context.Context, uid uuid.UUID) (port.AccountEnt
 		Table("accounts as a").
 		Select(`
 			a.id as account_id, 
-			t.id as transaction_id, 
-			t.amount as amount, 
+			lt.transactions_latest_id as transaction_id, 
+			lt.amount as amount, 
 			c.id as category_id, 
 			c.name as category_name, 
 			c.priority as priority,
@@ -73,15 +73,7 @@ func (a *Account) FindByUID(ctx context.Context, uid uuid.UUID) (port.AccountEnt
 		`).
 		Joins("JOIN account_categories as ac ON ac.account_id = a.id").
 		Joins("JOIN categories as c ON c.id = ac.category_id").
-		Joins(`
-        	JOIN transactions as t ON t.account_id = a.id AND 
-				t.category_id = c.id AND 
-				t.id = (
-        	    	SELECT MAX(t2.id) 
-        	    	FROM transactions t2 
-        	    	WHERE t2.account_id = a.id AND t2.category_id = c.id
-        		)
-    	`).
+		Joins("JOIN transactions_latest as lt ON lt.account_id = a.id AND lt.category_id = c.id").
 		Joins("LEFT JOIN mccs as mc ON mc.category_id = c.id").
 		Where("a.uid = ?", uid).
 		Where(`
@@ -89,7 +81,7 @@ func (a *Account) FindByUID(ctx context.Context, uid uuid.UUID) (port.AccountEnt
 			AND ac.deleted_at IS NULL
 			AND c.deleted_at IS NULL
 		`).
-		Group("a.id, a.uid, t.id, t.uid, t.amount, c.id, c.name, c.priority").
+		Group("a.id, lt.transactions_latest_id, lt.amount, c.id, c.name, c.priority").
 		Scan(&results).Error
 
 	if err != nil {

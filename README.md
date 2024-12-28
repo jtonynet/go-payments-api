@@ -575,7 +575,7 @@ _Apenas Containerizado._
 
 __Métricas com Prometheus:__
 
-Apos rodar com sucesso o `docker compose up` como visto anteriormente, acesse:
+Após rodar com sucesso o `docker compose up` como visto anteriormente, acesse:
 
 ```bash
 # Rodar o Prometheus
@@ -590,22 +590,26 @@ docker compose up prometheus grafana -d
 </details>
 
 <br/>
+
+__Acesse o [Grafana em seu localhost](http://localhost:3000/)__ _(usuário/senha: admin/admin | admin/12345)_
+
+<br/>
 <br/>
 
 __Configurando o Grafana:__
 
 A primeira vez que executarmos o Grafana, entramos com `usuário/senha` padrão de `admin/admin`. Ele solicita a alteração da senha, para facilitar o desenvolvimento local, alteramos para `admin/12345`.
-- Grafana - http://localhost:3000/ (usuário/senha: admin/admin | admin/12345)
+
   
 <details>
-  <summary>Uma vez dentro do Grafana em sua primeira execução, também precisamos criar uma conexão Datasource com o Prometheus (que acessamos acima). Procure por <i>`Connections > Add New Connection`</i> digite <i>Prometheus</i> no campo de Search, selecione-o, clique em <i>`Add New Datasource`</i> e configure-o com a URL: <i>http://prometheus:9090</i> e clique no botão <i>Save & test</i> no final da página</summary>
+  <summary>Uma vez dentro do Grafana em sua primeira execução, também precisamos criar uma conexão Datasource com o Prometheus (que acessamos acima). Procure por <i>`Connections > Add New Connection`</i> digite <i>Prometheus</i> no campo de Search, selecione-o, clique em <i>`Add New Datasource`</i> e configure-o com a URL: <i>http://prometheus:9090</i> e clique no botão <i>`Save & test`</i> no final da página</summary>
   <img src="./docs/assets/images/screen_captures/grafana_create_prometheus_conn.png">
 </details>
 
 <br/>
 
 <details>
-  <summary>Agora você pode usar o menu <i>`Dashboards > New > Import`</i> para importar o arquivo <b>dash-go-products-api.json</b> que está localizado no diretório: <a href="./scripts/grafana-dashboards/">./scripts/grafana-dashboards</a>. Acesse o diretório em seu computador, clique e arraste o arquivo para o campo correto especificado pela tela <b>Upload Dashboard JSON File</b></summary>
+  <summary>Agora você pode usar o menu <i>`Dashboards > New > Import`</i> para importar o arquivo <b>dash-payments-api.json</b> que está localizado no diretório: <a href="./scripts/grafana-dashboards/">./scripts/grafana-dashboards</a>. Acesse o diretório em seu computador, clique e arraste o arquivo para o campo correto especificado pela tela <b>Upload Dashboard JSON File</b>, selecione o Prometheus previamente configurado como data source e proceda o import</summary>
   <img src="./docs/assets/images/screen_captures/grafana_import_dashboard.png">
 </details>
 

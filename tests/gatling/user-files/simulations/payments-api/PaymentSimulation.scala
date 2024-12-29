@@ -36,6 +36,6 @@ class Payment extends Simulation {
     30000k in 5min - 100 TPS
   */
   setUp(
-    testPaymentExecute.inject(rampUsers(30000).during(301.seconds)) // 7500k in 5min - 25 TPS
+    testPaymentExecute.inject(rampUsers(7500).during(301.seconds)) // 7500k in 5min - 25 TPS
   ).protocols(httpProtocol)
 }

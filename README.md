@@ -1135,7 +1135,7 @@ Contrate artistas para projetos comerciais ou mais elaborados e aprenda a ser en
 <a id="conclusion"></a>
 ### 🏁 Conclusão
 
-- Adotei o modelo hexagonal por sua flexibilidade com `ports` e `adapters`, permitindo suporte a `http` e fácil extensão para `mensagens` ou `pub/sub` para atender ao requisito `L4`, sem impacto no `core` e com responsabilidades bem separadas.
+- Adotei o modelo hexagonal por sua flexibilidade com `ports` e `adapters`, permitindo suporte a `HTTP`, `gRPC` e fácil extensão para `Mensagens` ou `pub/sub` para atender ao requisito `L4`, sem impacto no `core` e com responsabilidades bem separadas.
 
 - Para o `L4`, filas foram descartadas pelo proponente no `Miro Board` devido à latência. Detalhes no `ADR` [0003: gRPC e Redis Keyspace Notification](./docs/architecture/decisions/0003-grpc-e-redis-keyspace-notification-em-api-rest-e-processor-para-reduzir-latencia-e-evitar-concorrencia.md) e no `Kanban`.
 
@@ -1145,9 +1145,9 @@ Contrate artistas para projetos comerciais ou mais elaborados e aprenda a ser en
 
 - Adicionada `Observabilidade Métricas RED` usando `Prometheus` e `Grafana`. Essas ferramentas também são úteis no desenvolvimento, quando usadas em conjunto aos testes de `Performance` e `Carga` citadas anteriormente. Detalhes no `ADR` [0006: Observabilidade com Prometheus e Grafana](./docs/architecture/decisions/0006-observabilidade-com-prometheus-e-grafana.md). 
 
-- Os números de métricas entre os testes do `Gatling` e do `Grafana` (WIP) estão descolados. É necessário maior investigação para entender os motivos. Também é esperado que, ao se adotar o `Cliente Sintético` `K6`, pertencente ao ecossistema `Grafana`, esse descolamento deixe de ocorrer.
+- Os números de métricas entre os testes do `Gatling` e do `Grafana` (WIP) estão descolados (não de maneira muito significativa). É necessário maior investigação para entender os motivos. Também é esperado que, ao se adotar o `Cliente Sintético` `K6`, pertencente ao ecossistema `Grafana`, esse descolamento deixe de ocorrer.
 
-- Teste de stress abaixo foi realizado em um [Notebook ROG Strix G16 - 13ª Geração](https://br.store.asus.com/notebook-gamer-rog-strix-g16-13-geracao.html?config=90NR0D41-M00Y60). Os resultados podem variar dependendo das configurações e processos abertos na máquina de desenvolvimento. Detalhes no `ADR` [0007: Tabela Auxiliar para Melhoria de Performance](./docs/architecture/decisions/0007-tabela-auxiliar-para-melhoria-de_performance.md). <div align="center"><img src="./docs/assets/images/screen_captures/improvement/load_test_400_tps_after_improvement.jpeg"></div>
+- Teste de stress abaixo foi realizado em um [Notebook ROG Strix G16 - 13ª Geração](https://br.store.asus.com/notebook-gamer-rog-strix-g16-13-geracao.html?config=90NR0D41-M00Y60) após melhorias no banco e consultas para `Performance`. Os resultados podem variar dependendo das configurações e processos abertos na máquina de desenvolvimento. Detalhes no `ADR` [0007: Tabela Auxiliar para Melhoria de Performance](./docs/architecture/decisions/0007-tabela-auxiliar-para-melhoria-de_performance.md). <div align="center"><img src="./docs/assets/images/screen_captures/improvement/load_test_400_tps_after_improvement.jpeg"></div>
 
 - Testes adicionais devem ser criados (multiplos cenários de erros nas rotas e serviços).
 

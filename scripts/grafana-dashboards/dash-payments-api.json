@@ -142,7 +142,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "sum(increase(gin_gonic_request_duration_count{application=\"$application\", path!=\"/metrics\"}[1m]))",
+          "expr": "sum(increase(gin_gonic_request_duration_count{application=\"$application\", path=\"/payment\"}[1m]))",
           "instant": false,
           "legendFormat": "__auto",
           "range": true,
@@ -212,7 +212,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "sum(increase(gin_gonic_requests_total{application=\"$application\", path!=\"/metrics\", transactionCode=\"07\"}[1m]))",
+          "expr": "sum(increase(gin_gonic_requests_total{application=\"$application\", path=\"/payment\", transactionCode=\"07\"}[1m]))",
           "instant": false,
           "legendFormat": "__auto",
           "range": true,
@@ -313,7 +313,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.99, (sum(rate(gin_gonic_request_duration_bucket{application=\"$application\", path!=\"/metrics\"}[1m])) by (le)))",
+          "expr": "histogram_quantile(0.99, (sum(rate(gin_gonic_request_duration_bucket{application=\"$application\", path=\"/payment\"}[1m])) by (le)))",
           "instant": false,
           "legendFormat": "99%",
           "range": true,
@@ -325,7 +325,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.90, (sum(rate(gin_gonic_request_duration_bucket{application=\"$application\", path!=\"/metrics\"}[1m])) by (le)))",
+          "expr": "histogram_quantile(0.90, (sum(rate(gin_gonic_request_duration_bucket{application=\"$application\", path=\"/payment\"}[1m])) by (le)))",
           "hide": false,
           "instant": false,
           "legendFormat": "90%",
@@ -338,7 +338,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.75, (sum(rate(gin_gonic_request_duration_bucket{application=\"$application\", path!=\"/metrics\"}[1m])) by (le)))",
+          "expr": "histogram_quantile(0.75, (sum(rate(gin_gonic_request_duration_bucket{application=\"$application\", path=\"/payment\"}[1m])) by (le)))",
           "hide": false,
           "instant": false,
           "legendFormat": "75%",
@@ -351,7 +351,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.50, (sum(rate(gin_gonic_request_duration_bucket{application=\"$application\", path!=\"/metrics\"}[1m])) by (le)))",
+          "expr": "histogram_quantile(0.50, (sum(rate(gin_gonic_request_duration_bucket{application=\"$application\", path=\"/payment\"}[1m])) by (le)))",
           "hide": false,
           "instant": false,
           "legendFormat": "50%",
@@ -364,7 +364,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.25, (sum(rate(gin_gonic_request_duration_bucket{application=\"$application\", path!=\"/metrics\"}[1m])) by (le)))",
+          "expr": "histogram_quantile(0.25, (sum(rate(gin_gonic_request_duration_bucket{application=\"$application\", path=\"/payment\"}[1m])) by (le)))",
           "hide": false,
           "instant": false,
           "legendFormat": "25%",
@@ -468,7 +468,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "sum(rate(gin_gonic_requests_total{application=\"$application\", path!=\"/metrics\",  transactionCode=\"07\"}[5m])) / sum(rate(gin_gonic_requests_total{application=\"$application\", path!=\"/metrics\"}[5m]))",
+          "expr": "sum(rate(gin_gonic_requests_total{application=\"$application\", path=\"/payment\",  transactionCode=\"07\"}[5m])) / sum(rate(gin_gonic_requests_total{application=\"$application\", path=\"/payment\"}[5m]))",
           "instant": false,
           "legendFormat": "07 Failure",
           "range": true,
@@ -480,7 +480,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "sum(rate(gin_gonic_requests_total{application=\"$application\", path!=\"/metrics\",  transactionCode=\"51\"}[5m])) / sum(rate(gin_gonic_requests_total{application=\"$application\", path!=\"/metrics\"}[5m]))",
+          "expr": "sum(rate(gin_gonic_requests_total{application=\"$application\", path=\"/payment\",  transactionCode=\"51\"}[5m])) / sum(rate(gin_gonic_requests_total{application=\"$application\", path=\"/payment\"}[5m]))",
           "hide": false,
           "instant": false,
           "legendFormat": "51 Insuficient funds",
@@ -601,7 +601,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "rate(gin_gonic_request_duration_sum{application=\"$application\", path!=\"/metrics\"}[5m])",
+          "expr": "rate(gin_gonic_request_duration_sum{application=\"$application\", path=\"/payment\"}[5m])",
           "instant": false,
           "legendFormat": "{{path}} {{method}} {{transactionCode}}",
           "range": true,
@@ -913,7 +913,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "gin_gonic_requests_total{application=\"$application\", transactionCode=\"00\", path !=\"/metrics\"}",
+          "expr": "gin_gonic_requests_total{application=\"$application\", transactionCode=\"00\", path=\"/payment\"}",
           "instant": false,
           "legendFormat": "{{path}} {{method}} {{code}}",
           "range": true,
@@ -1738,6 +1738,6 @@
   "timezone": "",
   "title": "dash-payments-api",
   "uid": "ed2b5e95-6752-4701-8c9a-6116df59624c",
-  "version": 12,
+  "version": 7,
   "weekStart": ""
 }

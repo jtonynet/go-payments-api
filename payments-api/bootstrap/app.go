@@ -64,12 +64,12 @@ func NewProcessorApp(cfg *config.Config) (*ProcessorApp, error) {
 		return nil, err
 	}
 
-	lockClient, err := initializeDatabaseInMemory(cfg.Lock.ToInMemoryDatabase(), "lock", logger)
+	lockClient, err := initializeDatabaseInMemory(cfg.Lock.ToInMemoryDatabase(), "Lock", logger)
 	if err != nil {
 		return nil, err
 	}
 
-	cacheClient, err := initializeDatabaseInMemory(cfg.Cache.ToInMemoryDatabase(), "cache", logger)
+	cacheClient, err := initializeDatabaseInMemory(cfg.Cache.ToInMemoryDatabase(), "Cache", logger)
 	if err != nil {
 		return nil, err
 	}

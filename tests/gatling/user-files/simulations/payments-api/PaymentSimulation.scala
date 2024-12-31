@@ -19,7 +19,7 @@ class Payment extends Simulation {
       println(s"Payload JSON: $payload")
       session
     })
-    .exec(http("Requisição para /payments")
+    .exec(http("Requisição para /payment")
       .post("/payment")
       .body(StringBody("#{payload}"))
       .header("Content-Type", "application/json")
@@ -36,6 +36,6 @@ class Payment extends Simulation {
     30000k in 5min - 100 TPS
   */
   setUp(
-    testPaymentExecute.inject(rampUsers(7500).during(301.seconds)) // 7500k in 5min - 25 TPS
+    testPaymentExecute.inject(rampUsers(60000).during(301.seconds)) // 7500k in 5min - 25 TPS
   ).protocols(httpProtocol)
 }

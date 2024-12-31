@@ -571,14 +571,14 @@ docker exec -ti gatling /entrypoint clean-test
 <a id="observability"></a>
 ### 🕵️ Observabilidade (Work In Progress)
 
-_Apenas Containerizado._
+_Apenas Containerizado. Validado no SO Ubunto 22_
 
 __Métricas com Prometheus:__
 
 Após rodar com sucesso o `docker compose up` como visto anteriormente, acesse:
 
 ```bash
-# Rodar o Prometheus
+# Rodar o Prometheus e Grafana
 docker compose up prometheus grafana -d
 ```
 

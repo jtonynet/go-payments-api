@@ -43,7 +43,7 @@ func (ml *MemoryLock) Lock(
 		return mle, nil
 	}
 
-	unlockChannel, err := ml.pubsub.Subscribe(ctx, mle.Key)
+	unlockSubscription, err := ml.pubsub.GetSubscription(context.Background())
 	if err != nil {
 		return port.MemoryLockEntity{}, err
 	}
@@ -53,18 +53,23 @@ func (ml *MemoryLock) Lock(
 		log.Fatalf("cannot acquire deadline from context")
 	}
 
-	select {
-	case <-unlockChannel:
-		err = ml.lockConn.Set(ctx, mle.Key, mle.Timestamp, expiration)
-		if err != nil {
-			return port.MemoryLockEntity{}, err
+	for {
+		select {
+		case key := <-unlockSubscription:
+			if key == mle.Key {
+				err = ml.lockConn.Set(ctx, mle.Key, mle.Timestamp, expiration)
+				if err != nil {
+					return port.MemoryLockEntity{}, err
+				}
+				return mle, nil
+			}
+		case <-time.After(time.Until(deadline)):
+			return port.MemoryLockEntity{}, fmt.Errorf("timeout waiting for lock release on key: %s", mle.Key)
+		case <-ctx.Done():
+			return port.MemoryLockEntity{}, ctx.Err()
 		}
-		return mle, nil
-	case <-time.After(time.Until(deadline)):
-		return port.MemoryLockEntity{}, fmt.Errorf("timeout waiting for lock release on key: %s", mle.Key)
-	case <-ctx.Done():
-		return port.MemoryLockEntity{}, ctx.Err()
 	}
+
 }
 
 func (ml *MemoryLock) Unlock(ctx context.Context, key string) error {

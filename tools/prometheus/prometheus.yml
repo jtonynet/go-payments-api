@@ -15,7 +15,6 @@ scrape_configs:
   metrics_path: /metrics
   static_configs:
   - targets:
-    - transaction-processor:8090
     - transaction-rest:8080
     labels: 
       application: 'payments'

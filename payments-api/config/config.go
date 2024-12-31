@@ -39,12 +39,13 @@ type Router struct {
 }
 
 type PubSub struct {
-	Strategy string `mapstructure:"PUBSUB_STRATEGY"`
-	Pass     string `mapstructure:"PUBSUB_PASSWORD"`
-	Port     string `mapstructure:"PUBSUB_PORT"`
-	Host     string `mapstructure:"PUBSUB_HOST"`
-	DB       int    `mapstructure:"PUBSUB_DB"`
-	Protocol int    `mapstructure:"PUBSUB_PROTOCOL"`
+	Strategy   string `mapstructure:"PUBSUB_STRATEGY"`
+	Pass       string `mapstructure:"PUBSUB_PASSWORD"`
+	Port       string `mapstructure:"PUBSUB_PORT"`
+	Host       string `mapstructure:"PUBSUB_HOST"`
+	DB         int    `mapstructure:"PUBSUB_DB"`
+	Protocol   int    `mapstructure:"PUBSUB_PROTOCOL"`
+	BufferSize int    `mapstructure:"PUBSUB_BUFFER_SIZE"`
 }
 
 type InMemoryDatabase struct {

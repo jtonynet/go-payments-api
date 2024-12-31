@@ -13,6 +13,9 @@ type RedisPubSub struct {
 	pubsub *redis.PubSub
 
 	strategy string
+
+	subscription <-chan string
+	bufferSize   int
 }
 
 func NewRedisPubSub(cfg config.PubSub) (*RedisPubSub, error) {
@@ -25,25 +28,34 @@ func NewRedisPubSub(cfg config.PubSub) (*RedisPubSub, error) {
 		Protocol: cfg.Protocol,
 	})
 
-	return &RedisPubSub{
-		client:   client,
-		strategy: cfg.Strategy,
-	}, nil
+	rps := &RedisPubSub{
+		client:     client,
+		strategy:   cfg.Strategy,
+		bufferSize: cfg.BufferSize,
+	}
+	subscriptionChan, err := rps.Subscribe(context.Background())
+	if err != nil {
+		return &RedisPubSub{}, err
+	}
+	rps.subscription = subscriptionChan
+
+	return rps, nil
 }
 
-func (r *RedisPubSub) Subscribe(_ context.Context, key string) (<-chan string, error) {
+func (r *RedisPubSub) GetSubscription(_ context.Context) (<-chan string, error) {
+	return r.subscription, nil
+}
+
+func (r *RedisPubSub) Subscribe(_ context.Context) (<-chan string, error) {
 	keyspaceChannel := fmt.Sprintf("__keyevent@%d__:expired", r.client.Options().DB)
-	bufferSize := 500
 
 	r.pubsub = r.client.Subscribe(context.Background(), keyspaceChannel)
-	channel := make(chan string, bufferSize)
+	channel := make(chan string, r.bufferSize)
 
 	go func() {
 		defer close(channel)
 		for msg := range r.pubsub.Channel() {
-			if msg.Payload == key {
-				channel <- msg.Payload
-			}
+			channel <- msg.Payload
 		}
 	}()
 

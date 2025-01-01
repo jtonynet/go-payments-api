@@ -135,7 +135,7 @@ func (a *Account) SaveTransactions(ctx context.Context, transactions map[int]por
 
 	for _, transaction := range transactions {
 		tSlice = append(tSlice, gormModel.Transaction{
-			UID:          uuid.New(),
+			UID:          transaction.UID,
 			AccountID:    transaction.AccountID,
 			CategoryID:   transaction.CategoryID,
 			Amount:       transaction.Amount,

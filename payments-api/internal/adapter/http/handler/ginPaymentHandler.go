@@ -71,6 +71,7 @@ func PaymentExecution(ctx *gin.Context) {
 		context.Background(),
 		&pb.TransactionRequest{
 			Account:     transactionRequest.AccountUID.String(),
+			Transaction: uuid.NewString(),
 			Mcc:         transactionRequest.MCC,
 			Merchant:    transactionRequest.Merchant,
 			TotalAmount: transactionRequest.TotalAmount.String(),

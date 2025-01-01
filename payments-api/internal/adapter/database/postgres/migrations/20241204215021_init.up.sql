@@ -81,7 +81,6 @@ CREATE TABLE public.transactions (
     mcc varchar(5) NULL,
     merchant_name varchar(255) NULL,
     CONSTRAINT transactions_pkey PRIMARY KEY (id),
-    CONSTRAINT uni_transactions_uid UNIQUE (uid),
     CONSTRAINT fk_categories_transactions FOREIGN KEY (category_id) REFERENCES public.categories(id),
     CONSTRAINT fk_transactions_account FOREIGN KEY (account_id) REFERENCES public.accounts(id)
 );

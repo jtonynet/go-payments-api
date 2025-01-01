@@ -51,6 +51,11 @@ func (ps *PaymentServer) Execute(
 		return nil, err
 	}
 
+	transactionUID, err := uuid.Parse(tr.Transaction)
+	if err != nil {
+		return nil, err
+	}
+
 	totalAmount, err := decimal.NewFromString(tr.TotalAmount)
 	if err != nil {
 		return nil, err
@@ -58,10 +63,11 @@ func (ps *PaymentServer) Execute(
 
 	code, _ := ps.paymentService.Execute(
 		port.TransactionPaymentRequest{
-			AccountUID:  accountUID,
-			TotalAmount: totalAmount,
-			MCC:         tr.Mcc,
-			Merchant:    tr.Merchant,
+			AccountUID:     accountUID,
+			TransactionUID: transactionUID,
+			TotalAmount:    totalAmount,
+			MCC:            tr.Mcc,
+			Merchant:       tr.Merchant,
 		},
 	)
 

@@ -6,6 +6,7 @@ import (
 )
 
 type Transaction struct {
+	UID          uuid.UUID
 	AccountID    uint
 	AccountUID   uuid.UUID
 	CategoryID   uint

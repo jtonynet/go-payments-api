@@ -8,9 +8,10 @@ service Payment {
 
 message TransactionRequest {
     string account = 1;         // UUID of the account
-    string mcc = 2;             // Merchant Category Code
-    string merchant = 3;        // Merchant name
-    string total_amount = 4;    // Total transaction amount
+    string transaction = 2;     // UUID of the transaction 
+    string mcc = 3;             // Merchant Category Code
+    string merchant = 4;        // Merchant name
+    string total_amount = 5;    // Total transaction amount
 }
 
 message TransactionResponse {

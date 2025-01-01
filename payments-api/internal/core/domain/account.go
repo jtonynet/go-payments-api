@@ -101,6 +101,7 @@ func (a *Account) debugLog(msg string) {
 
 func (a *Account) mapCategoryToTransaction(tc TransactionCategory, t Transaction) Transaction {
 	return Transaction{
+		UID:          t.UID,
 		AccountID:    a.ID,
 		AccountUID:   a.UID,
 		CategoryID:   tc.CategoryID,

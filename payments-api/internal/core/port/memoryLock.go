@@ -5,8 +5,9 @@ import (
 )
 
 type MemoryLockEntity struct {
-	Key       string //accountUID
-	Timestamp int64  //startTimestamp.UnixMilli
+	Key         string //accountUID
+	Transcation string //transactionUID
+	Timestamp   int64  //startTimestamp.UnixMilli
 }
 
 /*

@@ -1,6 +1,9 @@
 package domain
 
-import "github.com/shopspring/decimal"
+import (
+	"github.com/google/uuid"
+	"github.com/shopspring/decimal"
+)
 
 type Merchant struct {
 	Name string
@@ -8,9 +11,11 @@ type Merchant struct {
 }
 
 func (m *Merchant) NewTransaction(
+	transactionUID uuid.UUID,
 	mcc string,
 	totalAmount decimal.Decimal,
 	name string,
+
 	account Account,
 ) Transaction {
 	correctMCC := mcc
@@ -19,6 +24,7 @@ func (m *Merchant) NewTransaction(
 	}
 
 	return Transaction{
+		UID:          transactionUID,
 		AccountID:    account.ID,
 		AccountUID:   account.UID,
 		MCC:          correctMCC,

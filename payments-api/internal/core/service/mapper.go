@@ -10,8 +10,9 @@ import (
 
 func mapTransactionRequestToMemoryLockEntity(tMemoryLock port.TransactionPaymentRequest) port.MemoryLockEntity {
 	return port.MemoryLockEntity{
-		Key:       tMemoryLock.AccountUID.String(),
-		Timestamp: time.Now().UnixMilli(),
+		Key:         tMemoryLock.AccountUID.String(),
+		Transcation: tMemoryLock.TransactionUID.String(),
+		Timestamp:   time.Now().UnixMilli(),
 	}
 }
 
@@ -56,6 +57,7 @@ func mapTransactionDomainsToEntities(approvedTransactions map[int]domain.Transac
 	transactionEntities := make(map[int]port.TransactionEntity)
 	for priority, tDomain := range approvedTransactions {
 		transactionEntities[priority] = port.TransactionEntity{
+			UID:          tDomain.UID,
 			AccountID:    tDomain.AccountID,
 			Amount:       tDomain.Amount,
 			MCC:          tDomain.MCC,

@@ -3,6 +3,7 @@ package pubSub
 import (
 	"context"
 	"fmt"
+	"sync"
 
 	"github.com/jtonynet/go-payments-api/config"
 	"github.com/redis/go-redis/v9"
@@ -12,10 +13,10 @@ type RedisPubSub struct {
 	client *redis.Client
 	pubsub *redis.PubSub
 
-	strategy string
+	bufferSize            int
+	subscriptionListeners sync.Map
 
-	subscription <-chan string
-	bufferSize   int
+	strategy string
 }
 
 func NewRedisPubSub(cfg config.PubSub) (*RedisPubSub, error) {
@@ -29,33 +30,48 @@ func NewRedisPubSub(cfg config.PubSub) (*RedisPubSub, error) {
 	})
 
 	rps := &RedisPubSub{
-		client:     client,
-		strategy:   cfg.Strategy,
-		bufferSize: cfg.BufferSize,
+		client:                client,
+		strategy:              cfg.Strategy,
+		bufferSize:            cfg.BufferSize,
+		subscriptionListeners: sync.Map{},
 	}
-	subscriptionChan, err := rps.Subscribe(context.Background())
+
+	_, err := rps.subscribe(context.Background())
 	if err != nil {
 		return &RedisPubSub{}, err
 	}
-	rps.subscription = subscriptionChan
 
 	return rps, nil
 }
 
-func (r *RedisPubSub) GetSubscription(_ context.Context) (<-chan string, error) {
-	return r.subscription, nil
+func (r *RedisPubSub) Subscribe(_ context.Context, key string) (<-chan string, error) {
+	if value, ok := r.subscriptionListeners.Load(key); ok {
+		subscriptionListener, _ := value.(chan string)
+		return subscriptionListener, nil
+	}
+
+	listnerBufferSize := 1
+	listnerChannel := make(chan string, listnerBufferSize)
+	r.subscriptionListeners.Store(key, listnerChannel)
+	return listnerChannel, nil
 }
 
-func (r *RedisPubSub) Subscribe(_ context.Context) (<-chan string, error) {
-	keyspaceChannel := fmt.Sprintf("__keyevent@%d__:expired", r.client.Options().DB)
+func (r *RedisPubSub) UnSubscribe(_ context.Context, key string) error {
+	r.subscriptionListeners.Delete(key)
+	return nil
+}
 
+func (r *RedisPubSub) subscribe(_ context.Context) (<-chan string, error) {
+	keyspaceChannel := fmt.Sprintf("__keyevent@%d__:expired", r.client.Options().DB)
 	r.pubsub = r.client.Subscribe(context.Background(), keyspaceChannel)
 	channel := make(chan string, r.bufferSize)
 
 	go func() {
-		defer close(channel)
 		for msg := range r.pubsub.Channel() {
-			channel <- msg.Payload
+			if listner, ok := r.subscriptionListeners.Load(msg.Payload); ok {
+				listener, _ := listner.(chan string)
+				listener <- msg.Payload
+			}
 		}
 	}()
 

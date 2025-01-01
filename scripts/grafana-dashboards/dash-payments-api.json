@@ -277,15 +277,15 @@
       "pluginVersion": "11.4.0",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
           "editorMode": "code",
           "expr": "sum(increase(gin_gonic_requests_total{application=\"$application\", path=\"/payment\", transactionCode=\"51\"}[1m]))",
           "legendFormat": "__auto",
           "range": true,
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          }
+          "refId": "A"
         }
       ],
       "title": "INSUFFICIENT FUNDS 51",
@@ -1816,13 +1816,13 @@
     ]
   },
   "time": {
-    "from": "2024-12-30T23:16:18.618Z",
-    "to": "2024-12-30T23:26:18.618Z"
+    "from": "now-5m",
+    "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "dash-payments-api",
   "uid": "ed2b5e95-6752-4701-8c9a-6116df59624c",
-  "version": 5,
+  "version": 2,
   "weekStart": ""
 }

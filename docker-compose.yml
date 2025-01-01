@@ -5,15 +5,15 @@ networks:
     driver: bridge
 
 volumes:
-  postgres-payments-data:
+  postgres-data:
     external: false
-  test-postgres-payments-data:
+  test-postgres-data:
     external: false
-  redis-payments-data:
+  redis-data:
     external: false
-  prometheus-payments-data:
+  prometheus-data:
     external: false
-  grafana-payments-data:
+  grafana-data:
     external: false
 
 services:
@@ -35,7 +35,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgres-payments-data:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql/data
       - ./payments-api/internal/adapter/database/postgres/seeds:/seeds
     command: postgres -c timezone=America/Sao_Paulo
     networks:
@@ -69,7 +69,7 @@ services:
     ports:
       - "5433:5432"
     volumes:
-      - test-postgres-payments-data:/var/lib/postgresql/data
+      - test-postgres-data:/var/lib/postgresql/data
     command: postgres -c timezone=America/Sao_Paulo
     networks:
       - payments-network
@@ -86,7 +86,7 @@ services:
       timeout: 30s
       retries: 50
     volumes:
-      - redis-payments-data:/data
+      - redis-data:/data
     networks:
       - payments-network
     command: [ "redis-server", "--notify-keyspace-events", "Ex" ]
@@ -131,7 +131,7 @@ services:
     container_name: prometheus
     volumes:
       - ./tools/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-      - prometheus-payments-data:/prometheus
+      - prometheus-data:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
@@ -150,7 +150,7 @@ services:
     image: grafana/grafana
     container_name: grafana
     volumes:
-      - grafana-payments-data:/var/lib/grafana
+      - grafana-data:/var/lib/grafana
     ports:
       - 3000:3000
     networks:

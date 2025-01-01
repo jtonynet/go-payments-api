@@ -43,10 +43,13 @@ func (ml *MemoryLock) Lock(
 		return mle, nil
 	}
 
-	unlockSubscription, err := ml.pubsub.GetSubscription(context.Background())
+	unlockSubscription, err := ml.pubsub.Subscribe(context.Background(), mle.Key)
 	if err != nil {
 		return port.MemoryLockEntity{}, err
 	}
+	defer func() {
+		ml.pubsub.UnSubscribe(context.Background(), mle.Key)
+	}()
 
 	deadline, ok := ctx.Deadline()
 	if !ok {
@@ -55,14 +58,12 @@ func (ml *MemoryLock) Lock(
 
 	for {
 		select {
-		case key := <-unlockSubscription:
-			if key == mle.Key {
-				err = ml.lockConn.Set(ctx, mle.Key, mle.Timestamp, expiration)
-				if err != nil {
-					return port.MemoryLockEntity{}, err
-				}
-				return mle, nil
+		case <-unlockSubscription:
+			err = ml.lockConn.Set(ctx, mle.Key, mle.Timestamp, expiration)
+			if err != nil {
+				return port.MemoryLockEntity{}, err
 			}
+			return mle, nil
 		case <-time.After(time.Until(deadline)):
 			return port.MemoryLockEntity{}, fmt.Errorf("timeout waiting for lock release on key: %s", mle.Key)
 		case <-ctx.Done():

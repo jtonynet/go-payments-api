@@ -3,6 +3,7 @@ package pubSub
 import (
 	"context"
 	"fmt"
+	"strings"
 	"sync"
 
 	"github.com/jtonynet/go-payments-api/config"
@@ -13,10 +14,8 @@ type RedisPubSub struct {
 	client *redis.Client
 	pubsub *redis.PubSub
 
-	bufferSize            int
 	subscriptionListeners sync.Map
-
-	strategy string
+	strategy              string
 }
 
 func NewRedisPubSub(cfg config.PubSub) (*RedisPubSub, error) {
@@ -32,11 +31,10 @@ func NewRedisPubSub(cfg config.PubSub) (*RedisPubSub, error) {
 	rps := &RedisPubSub{
 		client:                client,
 		strategy:              cfg.Strategy,
-		bufferSize:            cfg.BufferSize,
 		subscriptionListeners: sync.Map{},
 	}
 
-	_, err := rps.subscribe(context.Background())
+	err := rps.subscribe(context.Background())
 	if err != nil {
 		return &RedisPubSub{}, err
 	}
@@ -45,8 +43,8 @@ func NewRedisPubSub(cfg config.PubSub) (*RedisPubSub, error) {
 }
 
 func (r *RedisPubSub) Subscribe(_ context.Context, key string) (<-chan string, error) {
-	if value, ok := r.subscriptionListeners.Load(key); ok {
-		subscriptionListener, _ := value.(chan string)
+	if listner, ok := r.subscriptionListeners.Load(key); ok {
+		subscriptionListener, _ := listner.(chan string)
 		return subscriptionListener, nil
 	}
 
@@ -57,25 +55,34 @@ func (r *RedisPubSub) Subscribe(_ context.Context, key string) (<-chan string, e
 }
 
 func (r *RedisPubSub) UnSubscribe(_ context.Context, key string) error {
-	r.subscriptionListeners.Delete(key)
+	if listener, ok := r.subscriptionListeners.Load(key); ok {
+		r.subscriptionListeners.Delete(key)
+		close(listener.(chan string))
+	}
+
 	return nil
 }
 
-func (r *RedisPubSub) subscribe(_ context.Context) (<-chan string, error) {
+func (r *RedisPubSub) subscribe(_ context.Context) error {
 	keyspaceChannel := fmt.Sprintf("__keyevent@%d__:expired", r.client.Options().DB)
 	r.pubsub = r.client.Subscribe(context.Background(), keyspaceChannel)
-	channel := make(chan string, r.bufferSize)
 
 	go func() {
 		for msg := range r.pubsub.Channel() {
-			if listner, ok := r.subscriptionListeners.Load(msg.Payload); ok {
-				listener, _ := listner.(chan string)
-				listener <- msg.Payload
-			}
+			// Necessary to message multiple `transaction` requests for the same `account` by `UIDs`
+			keyPrefix := msg.Payload // msg.Payload is a key `accountUID` of expired register
+			r.subscriptionListeners.Range(func(key, value any) bool {
+				if strKey, ok := key.(string); ok && strings.HasPrefix(strKey, keyPrefix) {
+					if ch, ok := value.(chan string); ok {
+						ch <- keyPrefix
+					}
+				}
+				return true
+			})
 		}
 	}()
 
-	return channel, nil
+	return nil
 }
 
 func (r *RedisPubSub) Publish(ctx context.Context, topic, message string) error {

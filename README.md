@@ -89,7 +89,7 @@ __Resumo:__
 > - `gRPC` e `http` entre `Microsservices`
 > - `PostgreSQL` modelado inspirado em `Event Sourcing` para garantir `Consistência`
 > - `CI` com `GitHub Actions` 
-> - `Redis` para `Memory Lock Pessimista`
+> - `Redis` para `Memory Lock Pessimista` e `Concurrent Programming`
 > - `Redis Keyspace Notification` como `Pub/Sub` para `Unlocks` (outras Abordagens como `Filas` foram desconsideradas devido `Latência Adicional`)
 > - `Performance/Load Test Dockerized` com `Gatling`
 > - `Observability` com `Prometheus` e `Grafana` com `Metricas` `RED` (WIP)
@@ -1148,6 +1148,8 @@ Contrate artistas para projetos comerciais ou mais elaborados e aprenda a ser en
 - Os números de métricas entre os testes do `Gatling` e do `Grafana` (WIP) estão descolados (não de maneira muito significativa). É necessário maior investigação para entender os motivos. Também é esperado que, ao se adotar o `Cliente Sintético` `K6`, pertencente ao ecossistema `Grafana`, esse descolamento deixe de ocorrer.
 
 - Teste de stress abaixo foi realizado em um [Notebook ROG Strix G16 - 13ª Geração](https://br.store.asus.com/notebook-gamer-rog-strix-g16-13-geracao.html?config=90NR0D41-M00Y60) após melhorias no banco e consultas para `Performance`. Os resultados podem variar dependendo das configurações e processos abertos na máquina de desenvolvimento. Detalhes no `ADR` [0007: Tabela Auxiliar para Melhoria de Performance](./docs/architecture/decisions/0007-tabela-auxiliar-para-melhoria-de_performance.md). <div align="center"><img src="./docs/assets/images/screen_captures/improvement/load_test_400_tps_after_improvement.jpeg"></div>
+
+- O requisito `L4` foi aprimorado em sua `concorrência` com o `refactor` do `adapter` de `PubSub` `Redis` e do `repository` de `memoryLock`. A instância da aplicação se sobrescreve no `PubSub` `Redis` uma única vez e distribui as mensagens de desbloqueio apenas para as `requests` bloqueadas, através de `channels` com `bufferSize` de `1`, armazenados em um `syncMap` com chave `accountUID:TransactionUID`, tornando cada requisição única e eliminando conexões custosas com o `Redis`.
 
 - Testes adicionais devem ser criados (multiplos cenários de erros nas rotas e serviços).
 

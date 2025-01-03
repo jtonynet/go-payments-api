@@ -45,22 +45,21 @@ func (r *RedisPubSub) Subscribe(_ context.Context, key Key) (<-chan string, erro
 	listenerBufferSize := 1
 
 	if transactionsSubscriptions, ok := r.subscriptions.Load(key.Account); ok {
-		transactionMap, _ := transactionsSubscriptions.(map[string]chan string)
+		transactionMap, _ := transactionsSubscriptions.(*sync.Map)
 
-		if subscription, exists := transactionMap[key.Transaction]; exists {
-			return subscription, nil
+		if subscription, exists := transactionMap.Load(key.Transaction); exists {
+			return subscription.(chan string), nil
 		}
 
 		subscription := make(chan string, listenerBufferSize)
-		transactionMap[key.Transaction] = subscription
+		transactionMap.Store(key.Transaction, subscription)
 		r.subscriptions.Store(key.Account, transactionMap)
 		return subscription, nil
 	}
 
 	subscription := make(chan string, listenerBufferSize)
-	transactionMap := map[string]chan string{
-		key.Transaction: subscription,
-	}
+	transactionMap := &sync.Map{}
+	transactionMap.Store(key.Transaction, subscription)
 
 	r.subscriptions.Store(key.Account, transactionMap)
 	return subscription, nil
@@ -68,17 +67,20 @@ func (r *RedisPubSub) Subscribe(_ context.Context, key Key) (<-chan string, erro
 
 func (r *RedisPubSub) UnSubscribe(_ context.Context, key Key) error {
 	if transactionsSubscriptions, ok := r.subscriptions.Load(key.Account); ok {
-		transactionMap, _ := transactionsSubscriptions.(map[string]chan string)
+		transactionMap, _ := transactionsSubscriptions.(*sync.Map)
 
-		if subscription, exists := transactionMap[key.Transaction]; exists {
+		if subscription, exists := transactionMap.Load(key.Transaction); exists {
+			transactionMap.Delete(key.Transaction)
+			close(subscription.(chan string))
 
-			delete(transactionMap, key.Transaction)
-			close(subscription)
+			hasRemaining := false
+			transactionMap.Range(func(_, _ interface{}) bool {
+				hasRemaining = true
+				return false
+			})
 
-			if len(transactionMap) == 0 {
+			if !hasRemaining {
 				r.subscriptions.Delete(key.Account)
-			} else {
-				r.subscriptions.Store(key.Account, transactionMap)
 			}
 		}
 	}
@@ -104,18 +106,16 @@ func (r *RedisPubSub) subscribe(ctx context.Context) error {
 
 				accountUID := msg.Payload
 				if transactionsSubscriptions, ok := r.subscriptions.Load(accountUID); ok {
-					subscriptions, valid := transactionsSubscriptions.(map[string]chan string)
-					if !valid {
-						continue
-					}
+					transactionMap := transactionsSubscriptions.(*sync.Map)
 
-					for _, subscription := range subscriptions {
+					transactionMap.Range(func(_, sub interface{}) bool {
+						subscription := sub.(chan string)
 						select {
 						case subscription <- accountUID:
 						default:
-							continue
 						}
-					}
+						return true
+					})
 				}
 			}
 		}

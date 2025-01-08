@@ -623,9 +623,17 @@ __Acesse o [Grafana em seu localhost](http://localhost:3000/)__ _(usr/pwd: admin
 A primeira vez que executarmos o Grafana, entramos com `usr/pwd` padrão de `admin/admin`. Ele solicita a alteração da senha, para facilitar o desenvolvimento local, alteramos para `admin/12345`.
 
 <details>
-  <summary><b>Criando conexão com <u>Datasource Prometheus</u></b></summary>
-  <p>Procure por <i>`Connections > Add New Connection`</i> digite <i>Prometheus</i> no campo de Search, selecione-o, clique em <i>`Add New Datasource`</i> e configure-o com a URL: <i>http://prometheus:9090</i> e clique no botão <i>`Save & test`</i> no final da página</p>
+  <summary><b>Criando conexão <u>Datasource com Prometheus</u></b></summary>
+  <p>No menu lateral procure por <i>`Connections > Add New Connection`</i> digite <i>Prometheus</i> no campo de Search, selecione-o, clique em <i>`Add New Datasource`</i> e configure-o com a URL: <i>http://prometheus:9090</i> e clique no botão <i>`Save & test`</i> no final da página</p>
   <img src="./docs/assets/images/screen_captures/grafana_create_prometheus_conn.png">
+</details>
+
+<br/>
+
+<details>
+  <summary><b>Criando conexão <u>Datasource com Loki</u></b></summary>
+  <p>Volte para <i>`Connections > Add New Connection`</i> e dessa vez digite <i>Loki</i> no campo de Search, selecione-o, clique em <i>`Add New Datasource`</i> e configure-o com a URL: <i>http://loki:3100</i> e clique no botão <i>`Save & test`</i> no final da página</p>
+  <img src="./docs/assets/images/screen_captures/grafana_create_loki_conn.png">
 </details>
 
 <br/>
@@ -1274,5 +1282,17 @@ migrate create -ext=sql -dir=payments-api/scripts/database/postgres/migrations i
 migrate -source file://payments-api/scripts/database/postgres/migrations -database "postgres://api_user:api_pass@localhost:5432/payments_db?sslmode=disable" -verbose up 
 
 docker compose exec postgres-payments psql -U api_user -d payments_db -f /seeds/load_test_charge.up.sql
+-->
+
+<!--
+sum(increase(log_events_total{level="DEBUG"}[5m]))
+sum(increase(log_events_total{level="INFO"}[5m]))
+sum(increase(log_events_total{level="WARN"}[5m]))
+sum(increase(log_events_total{level="ERROR"}[5m]))
+
+sum(increase(log_events_total{level="debug"}[5m]))
+sum(increase(log_events_total{level="info"}[5m]))
+sum(increase(log_events_total{level="warn"}[5m]))
+sum(increase(log_events_total{level="error"}[5m]))
 -->
 

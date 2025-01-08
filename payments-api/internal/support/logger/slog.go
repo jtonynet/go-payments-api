@@ -62,17 +62,23 @@ func (h *LokiHandler) Handle(ctx context.Context, r slog.Record) error {
 	}
 
 	if err := json.NewEncoder(&buf).Encode(stream); err != nil {
-		return fmt.Errorf("failed to encode log entry: %w", err)
+		// TODO:
+		//return fmt.Errorf("failed to encode log entry: %w", err)
+		return nil
 	}
 
 	resp, err := h.client.Post(h.url, "application/json", &buf)
 	if err != nil {
-		return fmt.Errorf("failed to send log to Loki: %w", err)
+		// TODO:
+		//return fmt.Errorf("failed to send log to Loki: %w", err)
+		return nil
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode >= 400 {
-		return fmt.Errorf("loki responded with status: %s", resp.Status)
+		// TODO:
+		//return fmt.Errorf("loki responded with status: %s", resp.Status)
+		return nil
 	}
 
 	return nil

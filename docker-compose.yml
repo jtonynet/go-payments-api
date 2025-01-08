@@ -170,6 +170,26 @@ services:
       - pushgateway
       - redis-exporter
 
+  loki:
+    image: grafana/loki:latest
+    ports:
+      - 3100:3100
+    volumes:
+      - ./tools/loki/loki-config.yml:/etc/loki/loki-config.yaml
+    networks:
+      - payments-network
+
+  promtail:
+    image: grafana/promtail:latest
+    ports:
+      - 9080:9080
+    volumes:
+      - ./tools/promtail/promtail-config.yml:/etc/promtail/promtail-config.yaml
+    networks:
+      - payments-network
+    depends_on:
+      - loki
+
   grafana:
     image: grafana/grafana
     container_name: grafana
@@ -181,6 +201,7 @@ services:
       - payments-network
     depends_on:
       - prometheus
+      - loki
 
   gatling:
     build:

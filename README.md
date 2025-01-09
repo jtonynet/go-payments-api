@@ -583,21 +583,19 @@ _Apenas Containerizado. Validado no SO Ubunto 22_
 
 #### Ambiente & Stack:
 
-Em seu arquivo `.env`, altere a configuração de métricas do `database` para `true` e o `log_output` para `loki` e reinicie o `transaction-processor` e o `transaction-rest`.
-
-```bash
-DATABASE_METRICS_ENABLED=true
-...
-LOG_OPT_OUTPUT=loki                   ### text | json | loki
-```
-
-<br/>
-
 [Rodando o Projeto](#run) `payment-api`  em seu ambiente _containerizado_ com seu `.env` configurado, suba as imagens necessarias com o comando
 
 ```bash
 # Rodar o pushgateway, redis-exporter, prometheus e grafana
 docker compose up pushgateway redis-exporter prometheus loki promtail grafana -d
+```
+
+Agora altere em seu arquivo `.env`, as configurações de métricas do `database` para `true` e o `log_output` para `loki` e reinicie o `transaction-processor` e o `transaction-rest`.
+
+```bash
+DATABASE_METRICS_ENABLED=true
+...
+LOG_OPT_OUTPUT=loki                   ### text | json | loki
 ```
 
 <br/>

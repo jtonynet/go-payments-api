@@ -65,7 +65,8 @@ func (a *Account) ApproveTransaction(tDomain Transaction) (map[int]Transaction, 
 				"Error retrieving fallback category. Rolling back changes and returning an error.",
 			)
 
-			return transactions, NewCustomError(CODE_REJECTED_GENERIC, "Category Fallback not found")
+			fallbackNotFoundErr := fmt.Sprintf("Category Fallback not found for :%s", tDomain.AccountUID.String())
+			return transactions, NewCustomError(CODE_REJECTED_INSUFICIENT_FUNDS, fallbackNotFoundErr)
 
 		} else if CategoryFallback.Amount.GreaterThanOrEqual(amountDebtRemaining) {
 			a.debugLog(

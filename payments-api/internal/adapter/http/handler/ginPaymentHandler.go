@@ -28,6 +28,8 @@ import (
 // @Router /payment [post]
 // @Success 200 {object} port.TransactionPaymentResponse
 func PaymentExecution(ctx *gin.Context) {
+	var transaction, account string
+
 	timestamp := time.Now().UnixMilli()
 	code := port.CODE_REJECTED_GENERIC
 
@@ -38,7 +40,7 @@ func PaymentExecution(ctx *gin.Context) {
 		elapsedTime := time.Now().UnixMilli() - timestamp
 		debugLog(
 			logger,
-			fmt.Sprintf("Execution time: %d ms\n Code: %s", elapsedTime, code),
+			fmt.Sprintf("Execution time: %d ms\n Code: %s, Account: %s, Transaction: %s", elapsedTime, code, transaction, account),
 		)
 	}()
 
@@ -67,11 +69,14 @@ func PaymentExecution(ctx *gin.Context) {
 		return
 	}
 
+	transaction = uuid.NewString()
+	account = transactionRequest.AccountUID.String()
+
 	result, err := app.GRPCpayment.Execute(
 		context.Background(),
 		&pb.TransactionRequest{
-			Transaction: uuid.NewString(),
-			Account:     transactionRequest.AccountUID.String(),
+			Transaction: transaction,
+			Account:     account,
 			Mcc:         transactionRequest.MCC,
 			Merchant:    transactionRequest.Merchant,
 			TotalAmount: transactionRequest.TotalAmount.String(),

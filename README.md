@@ -647,8 +647,8 @@ A primeira vez que executarmos o Grafana, entramos com `usr/pwd` padrão de `adm
 <br/>
 
 <details>
-  <summary><b>Vincule o <u>Dashboard</u> a conexão previamente criada e acesse-o</b></summary>
-  <img src="./docs/assets/images/screen_captures/grafana_import_dashboard_prometheus.png">
+  <summary><b>Vincule o <u>Dashboard</u> as conexões previamente criadas e acesse-o</b></summary>
+  <img src="./docs/assets/images/screen_captures/grafana_import_dashboard_prometheus_loki_conn.png">
 </details>
 
 <br/>
@@ -1285,14 +1285,8 @@ docker compose exec postgres-payments psql -U api_user -d payments_db -f /seeds/
 -->
 
 <!--
-sum(increase(log_events_total{level="DEBUG"}[5m]))
-sum(increase(log_events_total{level="INFO"}[5m]))
-sum(increase(log_events_total{level="WARN"}[5m]))
-sum(increase(log_events_total{level="ERROR"}[5m]))
+payload
 
-sum(increase(log_events_total{level="debug"}[5m]))
-sum(increase(log_events_total{level="info"}[5m]))
-sum(increase(log_events_total{level="warn"}[5m]))
-sum(increase(log_events_total{level="error"}[5m]))
+go-payments-api/tests/gatling/user-files/resources/payments-api$
+shuf transactions.tsv -o transactions.tsv
 -->
-

@@ -590,7 +590,9 @@ _Apenas Containerizado. Validado no SO Ubunto 22_
 docker compose up pushgateway redis-exporter prometheus loki promtail grafana -d
 ```
 
-Agora altere em seu arquivo `.env`, as configurações de métricas do `database` para `true` e o `log_output` para `loki` e reinicie o `transaction-processor` e o `transaction-rest`.
+<br/>
+
+Agora altere em seu arquivo `.env` as configurações de métricas do `database` para `true` e o `log_output` para `loki` e reinicie o `transaction-processor` e o `transaction-rest`.
 
 ```bash
 DATABASE_METRICS_ENABLED=true

@@ -17,8 +17,8 @@ type MccMerchant struct {
 }
 
 func main() {
-	start := 2001
-	end := 2500
+	start := 2501
+	end := 3000
 
 	if generate == "account" {
 		for i := start; i <= end; i++ {
@@ -88,9 +88,9 @@ func uniqueName() string {
 	}
 
 	return fmt.Sprintf("%s %s %s %s",
-		nouns1[rand.Intn(len(nouns3))],
-		nouns2[rand.Intn(len(nouns1))],
-		nouns3[rand.Intn(len(nouns2))],
+		nouns1[rand.Intn(len(nouns2))],
+		nouns2[rand.Intn(len(nouns4))],
+		nouns3[rand.Intn(len(nouns1))],
 		nouns4[rand.Intn(len(nouns3))],
 	)
 }

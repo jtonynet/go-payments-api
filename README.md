@@ -583,7 +583,7 @@ _Apenas Containerizado. Validado no SO Ubunto 22_
 
 #### Ambiente & Stack:
 
-Em seu arquivo `.env`, altere a configuração de métricas do `database` para `true` e o `log_output` para `loki` e reinicie o `transaction-processor`.
+Em seu arquivo `.env`, altere a configuração de métricas do `database` para `true` e o `log_output` para `loki` e reinicie o `transaction-processor` e o `transaction-rest`.
 
 ```bash
 DATABASE_METRICS_ENABLED=true

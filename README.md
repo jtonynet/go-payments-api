@@ -537,12 +537,12 @@ O teste executa **7500k transações em 5 minutos** (ou `25 TPS`, `Transações 
   private val activeUsers = (window.toSeconds * tps).toInt
 ```
 
-Picos de `TPS` sugeridos para testes seriam
-- __50, 100__ : Cenários de carga regular em ambientes controlados (máquina local).
-- __Acima de 100__: Considerados como `stress test` quando realizados em máquina local, devido à concorrência por recursos.
-- __200, 250, ...__: Cenários de carga avançada para validação de `homologação/produção`.
-- Em ambientes de `homologação/produção`, espera-se que o sistema suporte valores superiores a `250 TPS` (a validar).
-- Em ambientes de `homologação/produção`, a carga ofensora deve ser distribuída entre diferentes `pods`.
+- __Picos de `TPS` sugeridos:__
+    - __50, 100__ : Cenários de carga regular em ambientes controlados (máquina local).
+    - __Acima de 100__: Considerados como `stress test` quando realizados em máquina local, devido à concorrência por recursos.
+    - __200, 250, ...__: Cenários de carga avançada para validação de `homologação/produção`.
+    - Em ambientes de `homologação/produção`, espera-se que o sistema suporte valores superiores a `250 TPS` (a validar).
+    - Em ambientes de `homologação/produção`, a carga ofensora deve ser distribuída entre diferentes `pods`.
 
 <br/>
 

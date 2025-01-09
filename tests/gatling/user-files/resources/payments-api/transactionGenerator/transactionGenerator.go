@@ -97,7 +97,7 @@ func uniqueName() string {
 
 func generatePayload() {
 	//Genereted accountUIDs here "000-000,000-000,..."
-	uuidListStr := ""
+	uuidListStr := "d16e42ac-dc9d-46ef-8c5d-7a6f5207eaab,0a7eb116-8114-4e7b-b81c-3ce14d4b4102,..."
 
 	rand.Seed(time.Now().UnixNano())
 	uuidList := strings.Split(uuidListStr, ",")

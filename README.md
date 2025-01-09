@@ -529,7 +529,7 @@ __Saída esperada no site [Gatling em seu localhost](http://localhost:9099)__
 
 <br/>
 
-O teste executa **7500k transações em 5 minutos** (ou `25 TPS`, `Transações Por Segundo`. Valor pico médio de tráfego de esperado pelo proponente do desafio, validado por benchmarks reais), validando o `timeoutSLA` de `100ms` na máquina local. Essa configuração pode ser encontrada nas seguintes linhas do arquivo [PaymentSimulation.scala](./tests/gatling/user-files/simulations/payments-api/PaymentSimulation.scala):
+O teste executa **7500k transações em 5 minutos** (ou `25 TPS`, `Transações Por Segundo`. Valor pico médio de tráfego de esperado pelo proponente do desafio, validado por benchmarks reais). O objetivo é validar o `timeoutSLA` de `100ms` em uma máquina local. Essa configuração pode ser encontrada nas seguintes linhas do arquivo [PaymentSimulation.scala](./tests/gatling/user-files/simulations/payments-api/PaymentSimulation.scala):
 
 ```scala
   private val tps = 25
@@ -538,9 +538,12 @@ O teste executa **7500k transações em 5 minutos** (ou `25 TPS`, `Transações 
 ```
 
 Picos de `TPS` sugeridos para testes seriam
-- 50, 100
-- 200, 250
-- Os valores acima de 100 podem ser considerados como `stress test`. Em um sistema de produção, carga ofensora deve ser distribuída entre diferentes `pods`.
+- __50, 100__ : Cenários de carga regular em ambientes controlados (máquina local).
+- __Acima de 100__: Considerados como `stress test` quando realizados em máquina local, devido à concorrência por recursos.
+- __200, 250, ...__: Cenários de carga avançada para validação de `homologação/produção`.
+- Em ambientes de `homologação/produção`, espera-se que o sistema suporte valores superiores a `250 TPS` (a validar).
+- Em ambientes de `homologação/produção`, a carga ofensora deve ser distribuída entre diferentes `pods`.
+
 <br/>
 
 O comando abaixo remove o histórico dos testes de carga.
@@ -581,6 +584,8 @@ docker exec -ti gatling /entrypoint clean-test
 
 _Apenas Containerizado. Validado no SO Ubunto 22_
 
+<br/>
+
 #### Ambiente & Stack:
 
 [Rodando o Projeto](#run) `payment-api`  em seu ambiente _containerizado_ com seu `.env` configurado, suba as imagens necessarias com o comando
@@ -612,7 +617,7 @@ LOG_OPT_OUTPUT=loki                   ### text | json | loki
 
 <br/>
 
-__Acesse o [Grafana em seu localhost](http://localhost:3000/)__ _(usr/pwd: admin/admin)_
+__Acesse e configure o [Grafana em seu localhost](http://localhost:3000/)__ _(usr/pwd: admin/admin)_
 
 <br/>
 <div align="center">. . . . . . . . . . . . . . . . . . . . . . . . . . . .</div>

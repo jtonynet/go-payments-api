@@ -17,11 +17,11 @@ type MccMerchant struct {
 }
 
 func main() {
-	start := 401
-	end := 999
+	start := 1500
+	end := 2000
 
 	if generate == "account" {
-		for i := 1; i <= end; i++ {
+		for i := start; i <= end; i++ {
 			fmt.Println(generateAccount())
 		}
 	}
@@ -88,21 +88,19 @@ func uniqueName() string {
 	}
 
 	return fmt.Sprintf("%s %s %s %s",
-		nouns1[rand.Intn(len(nouns4))],
-		nouns2[rand.Intn(len(nouns3))],
-		nouns3[rand.Intn(len(nouns2))],
-		nouns4[rand.Intn(len(nouns1))],
+		nouns1[rand.Intn(len(nouns3))],
+		nouns2[rand.Intn(len(nouns4))],
+		nouns3[rand.Intn(len(nouns1))],
+		nouns4[rand.Intn(len(nouns2))],
 	)
 }
 
 func generatePayload() {
-	//Genereted accountUIDs here
-	uuidListStr := "cf33a2d3-3fc1-4dc6-909f-a059c928c652, ccc2cb88-23f2-4919-8269-baa37d8e95c7, 6a2dc5a9-a336-4360-a31e-7107d6dd76eb, e53042e3-a05f-46bc-8970-1daf7c31dca2, 946a8e33-795c-4cde-bb1c-43400a6a263a, 9e8d2b04-4baa-4ccf-b14d-22f30bc5398c"
+	//Genereted accountUIDs here "000-000,000-000,..."
+	uuidListStr := ""
 
 	rand.Seed(time.Now().UnixNano())
-	uuidList := strings.Split(uuidListStr, ", ")
-
-	fmt.Printf("LEN EH: %v", len(uuidList))
+	uuidList := strings.Split(uuidListStr, ",")
 
 	mccMerchantMap := []MccMerchant{
 		{MCC: "5811", Merchant: "UBER EATS                   SAO PAULO BR"},

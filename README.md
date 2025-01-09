@@ -1287,6 +1287,6 @@ docker compose exec postgres-payments psql -U api_user -d payments_db -f /seeds/
 <!--
 payload
 
-go-payments-api/tests/gatling/user-files/resources/payments-api$
+cd tests/gatling/user-files/resources/payments-api
 shuf transactions.tsv -o transactions.tsv
 -->

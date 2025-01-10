@@ -8,6 +8,7 @@ import (
 	"log/slog"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/jtonynet/go-payments-api/config"
@@ -62,23 +63,17 @@ func (h *LokiHandler) Handle(ctx context.Context, r slog.Record) error {
 	}
 
 	if err := json.NewEncoder(&buf).Encode(stream); err != nil {
-		// TODO:
-		//return fmt.Errorf("failed to encode log entry: %w", err)
-		return nil
+		return fmt.Errorf("failed to encode log entry: %w", err)
 	}
 
 	resp, err := h.client.Post(h.url, "application/json", &buf)
 	if err != nil {
-		// TODO:
-		//return fmt.Errorf("failed to send log to Loki: %w", err)
-		return nil
+		return fmt.Errorf("failed to send log to Loki: %w", err)
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode >= 400 {
-		// TODO:
-		//return fmt.Errorf("loki responded with status: %s", resp.Status)
-		return nil
+		return fmt.Errorf("loki responded with status: %s", resp.Status)
 	}
 
 	return nil
@@ -99,12 +94,17 @@ func (h *LokiHandler) WithGroup(name string) slog.Handler {
 }
 
 func formatRecord(r slog.Record) string {
-	var attrs []string
+	var attrsJSON strings.Builder
 	r.Attrs(func(a slog.Attr) bool {
-		attrs = append(attrs, fmt.Sprintf("%s=%v", a.Key, a.Value))
+		attrsJSON.WriteString(fmt.Sprintf(`, "%s":"%v"`, a.Key, a.Value))
 		return true
 	})
-	return fmt.Sprintf("%s %s [%s]", r.Time.Format(time.RFC3339), r.Message, attrs)
+
+	return fmt.Sprintf(`{"time":"%s", "msg":"%s"%s}`,
+		r.Time.Format(time.RFC3339),
+		r.Message,
+		attrsJSON.String(),
+	)
 }
 
 type SLogger struct {
@@ -136,18 +136,40 @@ func NewSlog(cfg config.Logger) (Logger, error) {
 	}, nil
 }
 
-func (l SLogger) Info(msg string, args ...interface{}) {
+func (l SLogger) Info(ctx context.Context, msg string, args ...interface{}) {
+	args = getAdditionalArgs(ctx, args)
 	l.instance.Info(msg, args...)
 }
 
-func (l SLogger) Debug(msg string, args ...interface{}) {
+func (l SLogger) Debug(ctx context.Context, msg string, args ...interface{}) {
+	args = getAdditionalArgs(ctx, args)
 	l.instance.Debug(msg, args...)
 }
 
-func (l SLogger) Warn(msg string, args ...interface{}) {
+func (l SLogger) Warn(ctx context.Context, msg string, args ...interface{}) {
+	args = getAdditionalArgs(ctx, args)
 	l.instance.Warn(msg, args...)
 }
 
-func (l SLogger) Error(msg string, args ...interface{}) {
+func (l SLogger) Error(ctx context.Context, msg string, args ...interface{}) {
+	args = getAdditionalArgs(ctx, args)
 	l.instance.Error(msg, args...)
+}
+
+func getAdditionalArgs(ctx context.Context, args ...interface{}) []interface{} {
+	var finalArgs []interface{}
+	finalArgs = append(finalArgs, args...)
+
+	finalArgs = append(finalArgs, "instance", os.Getenv("HOSTNAME"))
+	finalArgs = append(finalArgs, "service_name", os.Getenv("SERVICE_NAME"))
+
+	for strKey, ctxKey := range CtxKeysMap {
+		argValue := ctx.Value(ctxKey)
+		if argValue != nil {
+			finalArgs = append(finalArgs, strKey, fmt.Sprintf("%v", argValue))
+		}
+	}
+
+	finalArgs = finalArgs[1:]
+	return finalArgs
 }

@@ -588,22 +588,23 @@ _Apenas Containerizado. Validado no SO Ubunto 22_
 
 #### Ambiente & Stack:
 
-[Rodando o Projeto](#run) `payment-api`  em seu ambiente _containerizado_ com seu `.env` configurado, suba as imagens necessarias com o comando
-
-```bash
-# Rodar o pushgateway, redis-exporter, prometheus e grafana
-docker compose up pushgateway redis-exporter prometheus loki promtail grafana -d
-```
-
-<br/>
-
-Agora altere em seu arquivo `.env` as configurações de métricas do `database` para `true` e o `log_output` para `loki` e reinicie o `transaction-processor` e o `transaction-rest`.
+Altere em seu arquivo `.env` as configurações de métricas do `database` para `true` e o `log_output` para `loki`.
 
 ```bash
 DATABASE_METRICS_ENABLED=true
 ...
 LOG_OPT_OUTPUT=loki                   ### text | json | loki
 ```
+
+<br/>
+
+Agora, [Rodando o Projeto](#run) `payment-api`  em seu ambiente _containerizado_ com seu `.env` configurado, suba as imagens necessarias com o comando abaixo e reinicie o `transaction-processor` e o `transaction-rest`.
+
+```bash
+# Rodar o pushgateway, redis-exporter, prometheus e grafana
+docker compose up pushgateway redis-exporter prometheus loki promtail grafana -d
+```
+
 
 <br/>
 
@@ -1294,4 +1295,24 @@ payload
 
 cd tests/gatling/user-files/resources/payments-api
 shuf transactions.tsv -o transactions.tsv
+-->
+
+<!-- 
+
+Não necessariamente.
+51 sem saldo nao precisaria de um log info. Talvez um debug. O log INFO ficaria no handler. Inicialmente você precisa saber se a request foi feita.
+E mais detalhes (debug) apenas se você está debugando algo.
+Imagina que quem vai consumir o log info é o pessoal DevOps, que não conhece os detalhes da sua aplicação. Eles precisam saber que a request foi efetuada, que o response foi 2xx, 4xx ou 5xx. Quanto tempo levou e etc.
+Já o DEBUG é pra alguém dentro do seu time debugando em alto nível, sem descer pro código. Apenas pra saber alguns dados e ajudar no entendimento do problema.
+Já quando o problema é mais complicado a gente desce pro TRACE pra saber exatamente qual dado foi inputado ou de saída.
+
+-->
+
+
+<!--
+    log-id
+    type
+
+    message
+    stacktrace
 -->

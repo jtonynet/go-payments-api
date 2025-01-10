@@ -98,8 +98,10 @@ services:
     depends_on:
       - postgres
       - redis
-    container_name: transaction-processor
-    hostname: transaction-processor
+    #container_name: transaction-processor # commented to add replica addition approach in future
+    #hostname: transaction-processor       # commented to add replica addition approach in future
+    environment:
+      SERVICE_NAME: transaction-processor
     ports:
       - "8090:8090"
     volumes:
@@ -115,8 +117,10 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - transaction-processor
-    container_name: transaction-rest
-    hostname: transaction-rest
+    #container_name: transaction-rest
+    #hostname: transaction-rest
+    environment:
+      SERVICE_NAME: transaction-processor
     ports:
       - "8080:8080"
     volumes:

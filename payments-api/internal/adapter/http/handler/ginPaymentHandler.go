@@ -28,26 +28,32 @@ import (
 // @Router /payment [post]
 // @Success 200 {object} port.TransactionPaymentResponse
 func PaymentExecution(ctx *gin.Context) {
-	var transaction, account string
-
 	timestamp := time.Now().UnixMilli()
 	code := port.CODE_REJECTED_GENERIC
 
 	app := ctx.MustGet("app").(bootstrap.RESTApp)
-	logger := app.Logger
+	loggerInstance := app.Logger
 
+	transactionUID := uuid.NewString()
+
+	requestCtx := context.Background()
+	requestCtx = context.WithValue(requestCtx, logger.CtxTransactionUIDKey, transactionUID)
 	defer func() {
 		elapsedTime := time.Now().UnixMilli() - timestamp
+		requestCtx = context.WithValue(requestCtx, logger.CtxExecutionTimeKey, elapsedTime)
+		requestCtx = context.WithValue(requestCtx, logger.CtxResponseCodeKey, code)
 		debugLog(
-			logger,
-			fmt.Sprintf("Execution time: %d ms\n Code: %s, Account: %s, Transaction: %s", elapsedTime, code, transaction, account),
+			requestCtx,
+			loggerInstance,
+			"Transaction Fineshed",
 		)
 	}()
 
 	var transactionRequest port.TransactionPaymentRequest
 	if err := ctx.ShouldBindBodyWith(&transactionRequest, binding.JSON); err != nil {
 		debugLog(
-			logger,
+			context.Background(),
+			loggerInstance,
 			fmt.Sprintf("rejected: %s, error:%s ms\n", port.CODE_REJECTED_GENERIC, err.Error()),
 		)
 
@@ -57,10 +63,12 @@ func PaymentExecution(ctx *gin.Context) {
 
 		return
 	}
+	accountUID := transactionRequest.AccountUID.String()
+	requestCtx = context.WithValue(requestCtx, logger.CtxAccountUIDKey, accountUID)
 
 	validationErrors, ok := dtoIsValid(transactionRequest)
 	if !ok {
-		debugLog(logger, validationErrors)
+		debugLog(context.Background(), loggerInstance, validationErrors)
 
 		ctx.JSON(http.StatusOK, port.TransactionPaymentResponse{
 			Code: port.CODE_REJECTED_GENERIC,
@@ -69,14 +77,11 @@ func PaymentExecution(ctx *gin.Context) {
 		return
 	}
 
-	transaction = uuid.NewString()
-	account = transactionRequest.AccountUID.String()
-
 	result, err := app.GRPCpayment.Execute(
 		context.Background(),
 		&pb.TransactionRequest{
-			Transaction: transaction,
-			Account:     account,
+			Transaction: transactionUID,
+			Account:     accountUID,
 			Mcc:         transactionRequest.MCC,
 			Merchant:    transactionRequest.Merchant,
 			TotalAmount: transactionRequest.TotalAmount.String(),
@@ -84,7 +89,7 @@ func PaymentExecution(ctx *gin.Context) {
 	)
 
 	if err != nil {
-		debugLog(logger, err.Error())
+		debugLog(context.Background(), loggerInstance, err.Error())
 
 		ctx.JSON(http.StatusOK, port.TransactionPaymentResponse{
 			Code: port.CODE_REJECTED_GENERIC,
@@ -99,9 +104,9 @@ func PaymentExecution(ctx *gin.Context) {
 	})
 }
 
-func debugLog(logger logger.Logger, msg string) {
+func debugLog(ctx context.Context, logger logger.Logger, msg string) {
 	if logger != nil {
-		logger.Debug(msg)
+		logger.Debug(ctx, msg)
 	}
 }
 

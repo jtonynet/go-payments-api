@@ -114,7 +114,7 @@ func (p *Payment) Execute(tpr port.TransactionPaymentRequest) (string, error) {
 }
 
 func (p *Payment) rejectedGenericErr(ctx context.Context, err error) (string, error) {
-	p.debugLog(ctx, err.Error())
+	p.logger.Warn(ctx, err.Error())
 
 	_ = p.memoryLockRepository.Unlock(context.Background(), p.transactionLocked.Key)
 
@@ -122,15 +122,9 @@ func (p *Payment) rejectedGenericErr(ctx context.Context, err error) (string, er
 }
 
 func (p *Payment) rejectedCustomErr(ctx context.Context, cErr *domain.CustomError) (string, error) {
-	p.debugLog(ctx, cErr.Error())
+	p.logger.Warn(ctx, cErr.Error())
 
 	_ = p.memoryLockRepository.Unlock(context.Background(), p.transactionLocked.Key)
 
 	return cErr.Code, fmt.Errorf("failed to approve transaction: %s", cErr.Message)
-}
-
-func (p *Payment) debugLog(ctx context.Context, msg string) {
-	if p.logger != nil {
-		p.logger.Debug(ctx, msg)
-	}
 }

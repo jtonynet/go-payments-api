@@ -117,10 +117,10 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - transaction-processor
-    #container_name: transaction-rest
-    #hostname: transaction-rest
+    #container_name: transaction-rest # commented to add replica addition approach in future
+    #hostname: transaction-rest       # commented to add replica addition approach in future
     environment:
-      SERVICE_NAME: transaction-processor
+      SERVICE_NAME: transaction-rest
     ports:
       - "8080:8080"
     volumes:

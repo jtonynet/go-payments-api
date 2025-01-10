@@ -28,32 +28,34 @@ import (
 // @Router /payment [post]
 // @Success 200 {object} port.TransactionPaymentResponse
 func PaymentExecution(ctx *gin.Context) {
-	timestamp := time.Now().UnixMilli()
+	startTIme := time.Now().UnixMilli()
 	code := port.CODE_REJECTED_GENERIC
-
-	app := ctx.MustGet("app").(bootstrap.RESTApp)
-	loggerInstance := app.Logger
-
 	transactionUID := uuid.NewString()
 
 	requestCtx := context.Background()
 	requestCtx = context.WithValue(requestCtx, logger.CtxTransactionUIDKey, transactionUID)
+
+	app := ctx.MustGet("app").(bootstrap.RESTApp)
+
+	app.Logger.Info(
+		requestCtx,
+		"Transaction Initialized",
+	)
+
 	defer func() {
-		elapsedTime := time.Now().UnixMilli() - timestamp
+		elapsedTime := time.Now().UnixMilli() - startTIme
 		requestCtx = context.WithValue(requestCtx, logger.CtxExecutionTimeKey, elapsedTime)
 		requestCtx = context.WithValue(requestCtx, logger.CtxResponseCodeKey, code)
-		debugLog(
+		app.Logger.Info(
 			requestCtx,
-			loggerInstance,
 			"Transaction Fineshed",
 		)
 	}()
 
 	var transactionRequest port.TransactionPaymentRequest
 	if err := ctx.ShouldBindBodyWith(&transactionRequest, binding.JSON); err != nil {
-		debugLog(
+		app.Logger.Warn(
 			context.Background(),
-			loggerInstance,
 			fmt.Sprintf("rejected: %s, error:%s ms\n", port.CODE_REJECTED_GENERIC, err.Error()),
 		)
 
@@ -68,7 +70,7 @@ func PaymentExecution(ctx *gin.Context) {
 
 	validationErrors, ok := dtoIsValid(transactionRequest)
 	if !ok {
-		debugLog(context.Background(), loggerInstance, validationErrors)
+		app.Logger.Info(requestCtx, validationErrors)
 
 		ctx.JSON(http.StatusOK, port.TransactionPaymentResponse{
 			Code: port.CODE_REJECTED_GENERIC,
@@ -89,7 +91,7 @@ func PaymentExecution(ctx *gin.Context) {
 	)
 
 	if err != nil {
-		debugLog(context.Background(), loggerInstance, err.Error())
+		app.Logger.Warn(requestCtx, err.Error())
 
 		ctx.JSON(http.StatusOK, port.TransactionPaymentResponse{
 			Code: port.CODE_REJECTED_GENERIC,
@@ -102,12 +104,6 @@ func PaymentExecution(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, port.TransactionPaymentResponse{
 		Code: code,
 	})
-}
-
-func debugLog(ctx context.Context, logger logger.Logger, msg string) {
-	if logger != nil {
-		logger.Debug(ctx, msg)
-	}
 }
 
 func validateUUID(fl validator.FieldLevel) bool {

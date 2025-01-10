@@ -25,7 +25,7 @@ func (a *Account) ApproveTransaction(ctx context.Context, tDomain Transaction) (
 
 	categoryMCC, err := a.Balance.TransactionByCategories.GetByMCC(tDomain.MCC)
 	if err != nil {
-		a.debugLog(
+		a.Logger.Debug(
 			ctx,
 			fmt.Sprintf(
 				"Error retrieving category by MCC, attempting to debit amount (%s) from fallback.",
@@ -34,7 +34,7 @@ func (a *Account) ApproveTransaction(ctx context.Context, tDomain Transaction) (
 		)
 
 	} else if categoryMCC.Amount.GreaterThanOrEqual(tDomain.Amount) {
-		a.debugLog(
+		a.Logger.Debug(
 			ctx,
 			fmt.Sprintf(
 				"Sufficient funds available in category '%s'",
@@ -48,7 +48,7 @@ func (a *Account) ApproveTransaction(ctx context.Context, tDomain Transaction) (
 		transactions[categoryMCC.Priority] = a.mapCategoryToTransaction(categoryMCC, tDomain)
 
 	} else if categoryMCC.Amount.IsPositive() {
-		a.debugLog(
+		a.Logger.Debug(
 			ctx,
 			fmt.Sprintf(
 				"Category '%s' has a positive balance but insufficient funds, attempting to debit amount (%s) from fallback.",
@@ -66,7 +66,7 @@ func (a *Account) ApproveTransaction(ctx context.Context, tDomain Transaction) (
 	if amountDebtRemaining.GreaterThan(decimal.Zero) {
 		CategoryFallback, err := a.Balance.TransactionByCategories.GetFallback()
 		if err != nil {
-			a.debugLog(
+			a.Logger.Debug(
 				ctx,
 				"Error retrieving fallback category.",
 			)
@@ -75,7 +75,7 @@ func (a *Account) ApproveTransaction(ctx context.Context, tDomain Transaction) (
 			return transactions, NewCustomError(CODE_REJECTED_INSUFICIENT_FUNDS, fallbackNotFoundErr)
 
 		} else if CategoryFallback.Amount.GreaterThanOrEqual(amountDebtRemaining) {
-			a.debugLog(
+			a.Logger.Debug(
 				ctx,
 				"Fallback category has sufficient funds available.",
 			)
@@ -85,7 +85,7 @@ func (a *Account) ApproveTransaction(ctx context.Context, tDomain Transaction) (
 
 			amountDebtRemaining = decimal.NewFromFloat(0)
 		} else {
-			a.debugLog(
+			a.Logger.Debug(
 				ctx,
 				"Insufficient funds in the fallback category.",
 			)
@@ -100,12 +100,6 @@ func (a *Account) ApproveTransaction(ctx context.Context, tDomain Transaction) (
 	}
 
 	return transactions, nil
-}
-
-func (a *Account) debugLog(ctx context.Context, msg string) {
-	if a.Logger != nil {
-		a.Logger.Debug(ctx, msg)
-	}
 }
 
 func (a *Account) mapCategoryToTransaction(tc TransactionCategory, t Transaction) Transaction {

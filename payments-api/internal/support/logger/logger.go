@@ -11,16 +11,16 @@ type contextKey string
 
 const (
 	CtxResponseCodeKey   contextKey = "code"
-	CtxExecutionTimeKey  contextKey = "execution_time"
+	CtxExecutionTimeKey  contextKey = "execution_time_in_ms"
 	CtxTransactionUIDKey contextKey = "transaction_uid"
 	CtxAccountUIDKey     contextKey = "account_uid"
 )
 
 var CtxKeysMap = map[string]contextKey{
-	"code":            CtxResponseCodeKey,
-	"execution_time":  CtxExecutionTimeKey,
-	"transaction_uid": CtxTransactionUIDKey,
-	"account_uid":     CtxAccountUIDKey,
+	"code":                 CtxResponseCodeKey,
+	"execution_time_in_ms": CtxExecutionTimeKey,
+	"transaction_uid":      CtxTransactionUIDKey,
+	"account_uid":          CtxAccountUIDKey,
 }
 
 type Logger interface {

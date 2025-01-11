@@ -27,10 +27,7 @@ func (a *Account) ApproveTransaction(ctx context.Context, tDomain Transaction) (
 	if err != nil {
 		a.Logger.Debug(
 			ctx,
-			fmt.Sprintf(
-				"Error retrieving category by MCC, attempting to debit amount (%s) from fallback.",
-				amountDebtRemaining,
-			),
+			"Error retrieving category by MCC, attempting fallback.",
 		)
 
 	} else if categoryMCC.Amount.GreaterThanOrEqual(tDomain.Amount) {
@@ -51,9 +48,8 @@ func (a *Account) ApproveTransaction(ctx context.Context, tDomain Transaction) (
 		a.Logger.Debug(
 			ctx,
 			fmt.Sprintf(
-				"Category '%s' has a positive balance but insufficient funds, attempting to debit amount (%s) from fallback.",
+				"Category '%s' has a positive balance but insufficient funds, attempting from fallback.",
 				categoryMCC.Name,
-				amountDebtRemaining,
 			),
 		)
 

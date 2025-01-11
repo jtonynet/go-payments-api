@@ -93,7 +93,9 @@ __Resumo:__
 > - `Redis Keyspace Notification` como `Pub/Sub` para `Unlocks` <br/>(`Robust Queues` foram desconsideradas devido `Additional Latency`)
 > - `CI` com `GitHub Actions` 
 > - `Performance/Load Test Dockerized` com `Gatling`
-> - `Observability` com `Prometheus` e `Grafana` com `RED Metrics` (WIP)
+> - `Observability` (WIP)
+>   - `Prometheus` e `Grafana` para `RED Metrics`
+>   - `Grafana Loki` e `Promtail` para `Logs`
 > - `Diagram as code` com `Mermaid.js` e `Miro`
 
 <br/>
@@ -677,9 +679,9 @@ Repita os passos de importação de dashboard anteriores para o arquivo __dash-r
 
 <br/>
 
-<!-- 
-https://grafana.com/grafana/dashboards/13186-loki-dashboard/
--->
+Também é possível utilizar o `Grafana` agora para filtrar seus logs através do menu `Home > Connections > Data sources`  e na lista de `sources`, na linha do `Loki`, clique no botão `Explore` para ter acesso à sessão de consultas de `logs`.
+
+<br/>
 
 [⤴️ de volta ao índice](#index)
 

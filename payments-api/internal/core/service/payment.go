@@ -114,7 +114,7 @@ func (p *Payment) Execute(tpr port.TransactionPaymentRequest) (string, error) {
 }
 
 func (p *Payment) rejectedGenericErr(ctx context.Context, err error) (string, error) {
-	p.logger.Warn(ctx, err.Error())
+	p.logger.Error(ctx, err.Error())
 
 	_ = p.memoryLockRepository.Unlock(context.Background(), p.transactionLocked.Key)
 
@@ -122,7 +122,11 @@ func (p *Payment) rejectedGenericErr(ctx context.Context, err error) (string, er
 }
 
 func (p *Payment) rejectedCustomErr(ctx context.Context, cErr *domain.CustomError) (string, error) {
-	p.logger.Warn(ctx, cErr.Error())
+	if cErr.Code == domain.CODE_REJECTED_GENERIC {
+		p.logger.Error(ctx, cErr.Error())
+	} else {
+		p.logger.Warn(ctx, cErr.Error())
+	}
 
 	_ = p.memoryLockRepository.Unlock(context.Background(), p.transactionLocked.Key)
 

@@ -48,13 +48,13 @@ func PaymentExecution(ctx *gin.Context) {
 		requestCtx = context.WithValue(requestCtx, logger.CtxResponseCodeKey, code)
 		app.Logger.Info(
 			requestCtx,
-			"Transaction Fineshed",
+			"Transaction Finished",
 		)
 	}()
 
 	var transactionRequest port.TransactionPaymentRequest
 	if err := ctx.ShouldBindBodyWith(&transactionRequest, binding.JSON); err != nil {
-		app.Logger.Warn(
+		app.Logger.Error(
 			context.Background(),
 			fmt.Sprintf("rejected: %s, error:%s ms\n", port.CODE_REJECTED_GENERIC, err.Error()),
 		)
@@ -70,7 +70,7 @@ func PaymentExecution(ctx *gin.Context) {
 
 	validationErrors, ok := dtoIsValid(transactionRequest)
 	if !ok {
-		app.Logger.Info(requestCtx, validationErrors)
+		app.Logger.Error(requestCtx, validationErrors)
 
 		ctx.JSON(http.StatusOK, port.TransactionPaymentResponse{
 			Code: port.CODE_REJECTED_GENERIC,
@@ -91,7 +91,7 @@ func PaymentExecution(ctx *gin.Context) {
 	)
 
 	if err != nil {
-		app.Logger.Warn(requestCtx, err.Error())
+		app.Logger.Error(requestCtx, err.Error())
 
 		ctx.JSON(http.StatusOK, port.TransactionPaymentResponse{
 			Code: port.CODE_REJECTED_GENERIC,

@@ -2,11 +2,19 @@
   "__inputs": [
     {
       "name": "DS_PROMETHEUS",
-      "label": "Prometheus",
+      "label": "prometheus",
       "description": "",
       "type": "datasource",
       "pluginId": "prometheus",
       "pluginName": "Prometheus"
+    },
+    {
+      "name": "DS_LOKI",
+      "label": "loki",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "loki",
+      "pluginName": "Loki"
     }
   ],
   "__elements": {},
@@ -22,6 +30,18 @@
       "id": "grafana",
       "name": "Grafana",
       "version": "11.4.0"
+    },
+    {
+      "type": "panel",
+      "id": "logs",
+      "name": "Logs",
+      "version": ""
+    },
+    {
+      "type": "datasource",
+      "id": "loki",
+      "name": "Loki",
+      "version": "1.0.0"
     },
     {
       "type": "datasource",
@@ -1033,8 +1053,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -1054,7 +1073,7 @@
             "h": 8,
             "w": 4,
             "x": 0,
-            "y": 23
+            "y": 201
           },
           "id": 15,
           "options": {
@@ -1138,8 +1157,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -1155,7 +1173,7 @@
             "h": 8,
             "w": 20,
             "x": 4,
-            "y": 23
+            "y": 201
           },
           "id": 16,
           "options": {
@@ -1220,8 +1238,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -1241,7 +1258,7 @@
             "h": 8,
             "w": 4,
             "x": 0,
-            "y": 44
+            "y": 303
           },
           "id": 18,
           "options": {
@@ -1326,8 +1343,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -1342,7 +1358,7 @@
             "h": 8,
             "w": 20,
             "x": 4,
-            "y": 44
+            "y": 303
           },
           "id": 19,
           "options": {
@@ -1421,8 +1437,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "dark-blue",
@@ -1436,9 +1451,9 @@
           },
           "gridPos": {
             "h": 5,
-            "w": 4,
+            "w": 8,
             "x": 0,
-            "y": 24
+            "y": 202
           },
           "id": 1,
           "options": {
@@ -1491,8 +1506,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "dark-blue",
-                    "value": null
+                    "color": "dark-blue"
                   }
                 ]
               },
@@ -1502,9 +1516,9 @@
           },
           "gridPos": {
             "h": 5,
-            "w": 4,
-            "x": 4,
-            "y": 24
+            "w": 8,
+            "x": 8,
+            "y": 202
           },
           "id": 3,
           "options": {
@@ -1557,8 +1571,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "dark-blue",
-                    "value": null
+                    "color": "dark-blue"
                   }
                 ]
               },
@@ -1568,9 +1581,9 @@
           },
           "gridPos": {
             "h": 5,
-            "w": 4,
-            "x": 8,
-            "y": 24
+            "w": 8,
+            "x": 16,
+            "y": 202
           },
           "id": 23,
           "options": {
@@ -1593,15 +1606,15 @@
           "pluginVersion": "11.4.0",
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
               "editorMode": "code",
               "expr": "process_start_time_seconds{application=\"$application\", instance=\"pushgateway:9091\"} * 1000",
               "legendFormat": "__auto",
               "range": true,
-              "refId": "A",
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
-              }
+              "refId": "A"
             }
           ],
           "title": "PROCESSOR START TIME",
@@ -1650,14 +1663,12 @@
                   "mode": "off"
                 }
               },
-              "decimals": 0,
               "mappings": [],
               "thresholds": {
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               },
@@ -1666,134 +1677,10 @@
             "overrides": []
           },
           "gridPos": {
-            "h": 13,
-            "w": 12,
-            "x": 12,
-            "y": 24
-          },
-          "id": 5,
-          "options": {
-            "legend": {
-              "calcs": [
-                "min",
-                "max",
-                "lastNotNull"
-              ],
-              "displayMode": "table",
-              "placement": "right",
-              "showLegend": true
-            },
-            "tooltip": {
-              "mode": "single",
-              "sort": "none"
-            }
-          },
-          "pluginVersion": "11.4.0",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
-              },
-              "editorMode": "code",
-              "expr": "sum(increase(log_events_total{application=\"$application\", level=\"info\"}[5m]))",
-              "instant": false,
-              "legendFormat": "Info",
-              "range": true,
-              "refId": "A"
-            },
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
-              },
-              "editorMode": "code",
-              "expr": "sum(increase(log_events_total{application=\"$application\", level=\"warning\"}[5m]))",
-              "hide": false,
-              "instant": false,
-              "legendFormat": "warning",
-              "range": true,
-              "refId": "B"
-            },
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
-              },
-              "editorMode": "code",
-              "expr": "sum(increase(log_events_total{application=\"$application\", level=\"error\"}[5m]))",
-              "hide": false,
-              "instant": false,
-              "legendFormat": "error",
-              "range": true,
-              "refId": "C"
-            }
-          ],
-          "title": "WARN & ERROR LOG",
-          "type": "timeseries"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisBorderShow": false,
-                "axisCenteredZero": false,
-                "axisColorMode": "text",
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "barWidthFactor": 0.6,
-                "drawStyle": "line",
-                "fillOpacity": 10,
-                "gradientMode": "opacity",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "insertNulls": false,
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  }
-                ]
-              },
-              "unit": "short"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
+            "h": 9,
+            "w": 24,
             "x": 0,
-            "y": 29
+            "y": 267
           },
           "id": 4,
           "options": {
@@ -1859,6 +1746,189 @@
       ],
       "title": "API BASICS",
       "type": "row"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 24
+      },
+      "id": 24,
+      "panels": [],
+      "title": "WIP LOGS LOKI",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "${DS_LOKI}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 24,
+        "x": 0,
+        "y": 25
+      },
+      "id": 26,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.4.0",
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "sum without(level,app,host,class,message,thread) (count_over_time({level=\"DEBUG\"}[5m]))",
+          "legendFormat": "debug",
+          "queryType": "range",
+          "refId": "A",
+          "datasource": {
+            "type": "loki",
+            "uid": "${DS_LOKI}"
+          }
+        },
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${DS_LOKI}"
+          },
+          "editorMode": "code",
+          "expr": "sum without(level,app,host,class,message,thread) (count_over_time({level=\"INFO\"}[5m]))",
+          "hide": false,
+          "legendFormat": "info",
+          "queryType": "range",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${DS_LOKI}"
+          },
+          "editorMode": "code",
+          "expr": "sum without(level,app,host,class,message,thread) (count_over_time({level=\"WARN\"}[5m]))",
+          "hide": false,
+          "legendFormat": "warn",
+          "queryType": "range",
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${DS_LOKI}"
+          },
+          "editorMode": "code",
+          "expr": "sum without(level,app,host,class,message,thread) (count_over_time({level=\"ERROR\"}[5m]))",
+          "hide": false,
+          "legendFormat": "error",
+          "queryType": "range",
+          "refId": "D"
+        }
+      ],
+      "title": "LOGS GRAPHICS",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "${DS_LOKI}"
+      },
+      "gridPos": {
+        "h": 14,
+        "w": 24,
+        "x": 0,
+        "y": 31
+      },
+      "id": 25,
+      "options": {
+        "dedupStrategy": "none",
+        "enableLogDetails": true,
+        "prettifyLogMessage": false,
+        "showCommonLabels": false,
+        "showLabels": false,
+        "showTime": false,
+        "sortOrder": "Descending",
+        "wrapLogMessage": false
+      },
+      "pluginVersion": "11.4.0",
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "{level=\"DEBUG\"}",
+          "queryType": "range",
+          "refId": "A",
+          "datasource": {
+            "type": "loki",
+            "uid": "${DS_LOKI}"
+          }
+        }
+      ],
+      "title": "LOGS",
+      "type": "logs"
     }
   ],
   "refresh": "5s",
@@ -1896,6 +1966,6 @@
   "timezone": "",
   "title": "dash-payments-api",
   "uid": "ed2b5e95-6752-4701-8c9a-6116df59624c",
-  "version": 8,
+  "version": 4,
   "weekStart": ""
 }

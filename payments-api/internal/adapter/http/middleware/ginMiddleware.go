@@ -6,6 +6,7 @@ import (
 	"runtime"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -120,7 +121,7 @@ var (
 		Help:      "The HTTP request latency bucket.",
 	}, []string{"statusCode", "transactionCode", "method", "host", "path"})
 
-	maxDurations        = make(map[string]float64)
+	maxDurations        = sync.Map{}
 	requestsMaxDuration = promauto.NewGaugeVec(
 		prometheus.GaugeOpts{
 			Namespace: "gin",
@@ -241,9 +242,15 @@ func Prometheus(cfg config.API) gin.HandlerFunc {
 		duration := time.Since(initialRequestTime).Seconds()
 		requestsDuration.WithLabelValues(labels...).Observe(duration)
 
-		maxDuration, exists := maxDurations[strings.Join(labels, "_")]
-		if !exists || duration > maxDuration {
-			maxDurations[strings.Join(labels, "_")] = duration
+		maxDurationValue := float64(0)
+		var maxDuration any
+		var exists bool
+		if maxDuration, exists = maxDurations.Load(strings.Join(labels, "_")); exists {
+			maxDurationValue, _ = maxDuration.(float64)
+		}
+
+		if !exists || duration > maxDurationValue {
+			maxDurations.Store(strings.Join(labels, "_"), duration)
 			requestsMaxDuration.WithLabelValues(labels...).Set(duration)
 		}
 	}

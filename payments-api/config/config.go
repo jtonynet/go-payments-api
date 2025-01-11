@@ -114,10 +114,11 @@ type GRPC struct {
 }
 
 type Logger struct {
-	Strategy  string `mapstructure:"LOG_STRATEGY"`
-	Level     string `mapstructure:"LOG_LEVEL"`
-	Format    string `mapstructure:"LOG_OPT_FORMAT"`
-	AddSource bool   `mapstructure:"LOG_OPT_ADD_SOURCE_BOOL"`
+	Strategy    string `mapstructure:"LOG_STRATEGY"`
+	Level       string `mapstructure:"LOG_LEVEL"`
+	Output      string `mapstructure:"LOG_OPT_OUTPUT"`
+	AddSource   bool   `mapstructure:"LOG_OPT_ADD_SOURCE_BOOL"`
+	LokiPushURL string `mapstructure:"LOG_LOKI_PUSH_URL"`
 }
 
 type Config struct {

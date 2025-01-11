@@ -116,7 +116,7 @@ func initializeLogger(cfg config.Logger) (logger.Logger, error) {
 		return nil, fmt.Errorf("failed to create logger: %w", err)
 	}
 
-	logger.Debug("Logger initialized successfully")
+	logger.Debug(context.Background(), "Logger initialized successfully")
 	return logger, nil
 }
 
@@ -126,7 +126,7 @@ func initializePubSub(cfg config.PubSub, logger logger.Logger) (pubSub.PubSub, e
 		return nil, fmt.Errorf("failed to initialize pub/sub client: %w", err)
 	}
 
-	logger.Debug("Pub/Sub client initialized successfully")
+	logger.Debug(context.Background(), "Pub/Sub client initialized successfully")
 	return pubsub, nil
 }
 
@@ -144,7 +144,7 @@ func initializeDatabaseInMemory(
 		return nil, fmt.Errorf("%s client is not ready: %w", componentName, err)
 	}
 
-	logger.Debug(fmt.Sprintf("%s client initialized successfully", componentName))
+	logger.Debug(context.Background(), fmt.Sprintf("%s client initialized successfully", componentName))
 	return conn, nil
 }
 
@@ -158,6 +158,6 @@ func initializeDatabase(cfg config.Database, logger logger.Logger) (database.Con
 		return nil, fmt.Errorf("database connection is not ready: %w", err)
 	}
 
-	logger.Debug("Database connection initialized successfully")
+	logger.Debug(context.Background(), "Database connection initialized successfully")
 	return conn, nil
 }

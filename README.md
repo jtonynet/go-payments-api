@@ -15,10 +15,11 @@
     https://devicon.dev/
     https://simpleicons.org/
 -->
-[<img src="./docs/assets/images/icons/go.svg" width="25px" height="25px" alt="Go Logo" title="Go">](https://go.dev/) [<img src="./docs/assets/images/icons/gin.svg" width="25px" height="25px" alt="Gin Logo" title="Gin">](https://gin-gonic.com/) [<img src="./docs/assets/images/icons/postgresql.svg" width="25px" height="25px" alt="PostgreSql Logo" title="PostgreSql">](https://www.postgresql.org/) [<img src="./docs/assets/images/icons/redis.svg" width="25px" height="25px" alt="Redis Logo" title="Redis">](https://redis.com/) [<img src="./docs/assets/images/icons/grpc.svg" width="45px" alt="gRPC Logo" title="gRPC">](https://grpc.io/) [<img src="./docs/assets/images/icons/docker.svg" width="25px" height="25px" alt="Docker Logo" title="Docker">](https://www.docker.com/) [<img src="./docs/assets/images/icons/ubuntu.svg" width="25px" height="25px Logo" title="Ubuntu" alt="Ubuntu" />](https://ubuntu.com/) [<img src="./docs/assets/images/icons/dotenv.svg" width="25px" height="25px" alt="Viper DotEnv Logo" title="Viper DotEnv">](https://github.com/spf13/viper) [<img src="./docs/assets/images/icons/github.svg" width="25px" height="25px" alt="GitHub Logo" title="GitHub">](https://github.com/jtonynet) [<img src="./docs/assets/images/icons/visualstudiocode.svg" width="25px" height="25px" alt="VsCode Logo" title="VsCode">](https://code.visualstudio.com/) [<img src="./docs/assets/images/icons/swagger.svg" width="25px" height="25px" alt="Swagger Logo" title="Swagger">](https://swagger.io/) [<img src="./docs/assets/images/icons/miro.svg" width="25px" height="25px" alt="Miro Logo" title="Miro">](https://https://miro.com/) [<img src="./docs/assets/images/icons/mermaidjs.svg" width="25px" height="25px" alt="MermaidJS Logo" title="MermaidJS">](https://mermaid.js.org/) [<img src="./docs/assets/images/icons/githubactions.svg" width="25px" height="25px" alt="GithubActions Logo" title="GithubActions">](https://docs.github.com/en/actions) [<img src="./docs/assets/images/icons/gatling.svg" width="35px" height="35px" alt="Gatling Logo" title="Gatling">](https://gatling.com/) [<img src="./docs/assets/images/icons/prometheus.svg" width="25px" height="25px" alt="Prometheus Logo" title="Prometheus">](https://prometheus.io/) [<img src="./docs/assets/images/icons/grafana.svg" width="25px" height="25px" alt="Grafana Logo" title="Grafana">](https://grafana.com/) <!-- [<img src="./docs/assets/images/icons/grafana_loki.png" width="30px" height="30px" alt="Grafana Loki Logo" title="Grafana Loki">](https://grafana.com/oss/loki/) [<img src="./docs/assets/images/icons/opentelemetry.svg" width="25px" height="25px" alt="OpenTelemetry Logo" title="OpenTelemetry">](https://opentelemetry.io/) [<img src="./docs/assets/images/icons/jaeger.svg" width="25px" height="25px" alt="Jaeger Logo" title="Jaeger">](https://www.jaegertracing.io/) -->
-
+[<img src="./docs/assets/images/icons/go.svg" width="25px" height="25px" alt="Go Logo" title="Go">](https://go.dev/) [<img src="./docs/assets/images/icons/gin.svg" width="25px" height="25px" alt="Gin Logo" title="Gin">](https://gin-gonic.com/) [<img src="./docs/assets/images/icons/postgresql.svg" width="25px" height="25px" alt="PostgreSql Logo" title="PostgreSql">](https://www.postgresql.org/) [<img src="./docs/assets/images/icons/redis.svg" width="25px" height="25px" alt="Redis Logo" title="Redis">](https://redis.com/) [<img src="./docs/assets/images/icons/grpc.svg" width="45px" alt="gRPC Logo" title="gRPC">](https://grpc.io/) [<img src="./docs/assets/images/icons/docker.svg" width="25px" height="25px" alt="Docker Logo" title="Docker">](https://www.docker.com/) [<img src="./docs/assets/images/icons/ubuntu.svg" width="25px" height="25px Logo" title="Ubuntu" alt="Ubuntu" />](https://ubuntu.com/) [<img src="./docs/assets/images/icons/dotenv.svg" width="25px" height="25px" alt="Viper DotEnv Logo" title="Viper DotEnv">](https://github.com/spf13/viper) [<img src="./docs/assets/images/icons/github.svg" width="25px" height="25px" alt="GitHub Logo" title="GitHub">](https://github.com/jtonynet) [<img src="./docs/assets/images/icons/visualstudiocode.svg" width="25px" height="25px" alt="VsCode Logo" title="VsCode">](https://code.visualstudio.com/) [<img src="./docs/assets/images/icons/swagger.svg" width="25px" height="25px" alt="Swagger Logo" title="Swagger">](https://swagger.io/) [<img src="./docs/assets/images/icons/miro.svg" width="25px" height="25px" alt="Miro Logo" title="Miro">](https://https://miro.com/) [<img src="./docs/assets/images/icons/mermaidjs.svg" width="25px" height="25px" alt="MermaidJS Logo" title="MermaidJS">](https://mermaid.js.org/) [<img src="./docs/assets/images/icons/githubactions.svg" width="25px" height="25px" alt="GithubActions Logo" title="GithubActions">](https://docs.github.com/en/actions) [<img src="./docs/assets/images/icons/gatling.svg" width="35px" height="35px" alt="Gatling Logo" title="Gatling">](https://gatling.com/) [<img src="./docs/assets/images/icons/prometheus.svg" width="25px" height="25px" alt="Prometheus Logo" title="Prometheus">](https://prometheus.io/) [<img src="./docs/assets/images/icons/grafana.svg" width="25px" height="25px" alt="Grafana Logo" title="Grafana">](https://grafana.com/)  [<img src="./docs/assets/images/icons/grafana_loki.png" width="30px" height="30px" alt="Grafana Loki Logo" title="Grafana Loki">](https://grafana.com/oss/loki/) 
 
 <!--
+[<img src="./docs/assets/images/icons/opentelemetry.svg" width="25px" height="25px" alt="OpenTelemetry Logo" title="OpenTelemetry">](https://opentelemetry.io/) [<img src="./docs/assets/images/icons/jaeger.svg" width="25px" height="25px" alt="Jaeger Logo" title="Jaeger">](https://www.jaegertracing.io/) 
+
 [<img src="./docs/assets/images/icons/k6.svg" width="25px" height="25px" alt="K6 Logo" title="K6">](https://k6.io/) 
 --> 
 
@@ -92,7 +93,9 @@ __Resumo:__
 > - `Redis Keyspace Notification` como `Pub/Sub` para `Unlocks` <br/>(`Robust Queues` foram desconsideradas devido `Additional Latency`)
 > - `CI` com `GitHub Actions` 
 > - `Performance/Load Test Dockerized` com `Gatling`
-> - `Observability` com `Prometheus` e `Grafana` com `RED Metrics` (WIP)
+> - `Observability` (WIP)
+>   - `Prometheus` e `Grafana` para `RED Metrics`
+>   - `Grafana Loki` e `Promtail` para `Logs`
 > - `Diagram as code` com `Mermaid.js` e `Miro`
 
 <br/>
@@ -528,7 +531,7 @@ __Saída esperada no site [Gatling em seu localhost](http://localhost:9099)__
 
 <br/>
 
-O teste executa **7500k transações em 5 minutos** (ou `25 TPS`, `Transações Por Segundo`. Valor pico médio de tráfego de esperado pelo proponente do desafio, validado por benchmarks reais), validando o `timeoutSLA` de `100ms` na máquina local. Essa configuração pode ser encontrada nas seguintes linhas do arquivo [PaymentSimulation.scala](./tests/gatling/user-files/simulations/payments-api/PaymentSimulation.scala):
+O teste executa **7500k transações em 5 minutos** (ou `25 TPS`, `Transações Por Segundo`. Valor pico médio de tráfego de esperado pelo proponente do desafio, validado por benchmarks reais). O objetivo é validar o `timeoutSLA` de `100ms` em uma máquina local. Essa configuração pode ser encontrada nas seguintes linhas do arquivo [PaymentSimulation.scala](./tests/gatling/user-files/simulations/payments-api/PaymentSimulation.scala):
 
 ```scala
   private val tps = 25
@@ -536,10 +539,13 @@ O teste executa **7500k transações em 5 minutos** (ou `25 TPS`, `Transações 
   private val activeUsers = (window.toSeconds * tps).toInt
 ```
 
-Picos de `TPS` sugeridos para testes seriam
-- 50, 100
-- 200, 250
-- Os valores acima de 100 podem ser considerados como `stress test`. Em um sistema de produção, carga ofensora deve ser distribuída entre diferentes `pods`.
+- __Picos de `TPS` sugeridos:__
+    - __50, 100__ : Cenários de carga regular em ambientes controlados (máquina local).
+    - __Acima de 100__: Considerados como `stress test` quando realizados em máquina local, devido à concorrência por recursos.
+    - __200, 250, ...__: Cenários de carga avançada para validação de `homologação/produção`.
+    - Em ambientes de `homologação/produção`, espera-se que o sistema suporte valores superiores a `250 TPS` (a validar).
+    - Em ambientes de `homologação/produção`, a carga ofensora deve ser distribuída entre diferentes `pods`.
+
 <br/>
 
 O comando abaixo remove o histórico dos testes de carga.
@@ -580,27 +586,33 @@ docker exec -ti gatling /entrypoint clean-test
 
 _Apenas Containerizado. Validado no SO Ubunto 22_
 
-__Métricas com Prometheus:__
+<br/>
 
-Em seu arquivo `.env`, altere a configuração de métricas do `database` para `true` e reinicie o `transaction-processor`.
+#### Ambiente & Stack:
 
-```
+Altere em seu arquivo `.env` as configurações de métricas do `database` para `true` e o `log_output` para `loki`.
+
+```bash
 DATABASE_METRICS_ENABLED=true
+...
+LOG_OPT_OUTPUT=loki                   ### text | json | loki
 ```
 
 <br/>
 
-[Rodando o Projeto](#run) `payment-api`  em seu ambiente _containerizado_ com seu `.env` configurado, suba as imagens necessarias com o comando
+Agora, [Rodando o Projeto](#run) `payment-api`  em seu ambiente _containerizado_ com seu `.env` configurado, suba as imagens necessarias com o comando abaixo e reinicie o `transaction-processor` e o `transaction-rest`.
 
 ```bash
 # Rodar o pushgateway, redis-exporter, prometheus e grafana
-docker compose up pushgateway redis-exporter prometheus grafana -d
+docker compose up pushgateway redis-exporter prometheus loki promtail grafana -d
 ```
+
 
 <br/>
 
 <details>
-  <summary><b>Saída esperada no site <a href="http://localhost:9090/">Prometheus em seu localhost</a> rodando a consulta</b> <i>gin_gonic_request_duration_bucket{path="/payment"}</i></summary>
+  <summary><b>Saída esperada no site <a href="http://localhost:9090/">Prometheus em seu localhost</a></b></summary>
+    <p>Rodando a consulta <i>gin_gonic_request_duration_bucket{path="/payment"}</i></p>
     <div align="center">
         <img src="./docs/assets/images/screen_captures/prometheus.png">
     </div>
@@ -608,32 +620,43 @@ docker compose up pushgateway redis-exporter prometheus grafana -d
 
 <br/>
 
-__Acesse o [Grafana em seu localhost](http://localhost:3000/)__ _(usuário/senha: admin/admin | admin/12345)_
+__Acesse e configure o [Grafana em seu localhost](http://localhost:3000/)__ _(usr/pwd: admin/admin)_
 
 <br/>
+<div align="center">. . . . . . . . . . . . . . . . . . . . . . . . . . . .</div>
+<br/>
 
-__Configurando o Grafana:__
+#### Configurando o Grafana:
 
-A primeira vez que executarmos o Grafana, entramos com `usuário/senha` padrão de `admin/admin`. Ele solicita a alteração da senha, para facilitar o desenvolvimento local, alteramos para `admin/12345`.
+A primeira vez que executarmos o Grafana, entramos com `usr/pwd` padrão de `admin/admin`. Ele solicita a alteração da senha, para facilitar o desenvolvimento local, alteramos para `admin/12345`.
 
-  
 <details>
-  <summary>Uma vez dentro do Grafana em sua primeira execução, também precisamos criar uma conexão Datasource com o Prometheus (que acessamos acima). Procure por <i>`Connections > Add New Connection`</i> digite <i>Prometheus</i> no campo de Search, selecione-o, clique em <i>`Add New Datasource`</i> e configure-o com a URL: <i>http://prometheus:9090</i> e clique no botão <i>`Save & test`</i> no final da página</summary>
+  <summary><b>Criando conexão <u>Datasource com Prometheus</u></b></summary>
+  <p>No menu lateral procure por <i>`Connections > Add New Connection`</i> digite <i>Prometheus</i> no campo de Search, selecione-o, clique em <i>`Add New Datasource`</i> e configure-o com a URL: <i>http://prometheus:9090</i> e clique no botão <i>`Save & test`</i> no final da página</p>
   <img src="./docs/assets/images/screen_captures/grafana_create_prometheus_conn.png">
 </details>
 
 <br/>
 
 <details>
-  <summary>Agora você pode usar o menu <i>`Dashboards > New > Import`</i> para importar o arquivo <b>dash-payments-api.json</b> que está localizado no diretório: <a href="./scripts/grafana-dashboards/">./scripts/grafana-dashboards</a>. Acesse o diretório em seu computador, clique e arraste o arquivo para o campo correto especificado pela tela <b>Upload Dashboard JSON File</b>, selecione o Prometheus previamente configurado como data source e proceda o import</summary>
+  <summary><b>Criando conexão <u>Datasource com Loki</u></b></summary>
+  <p>Volte para <i>`Connections > Add New Connection`</i> e dessa vez digite <i>Loki</i> no campo de Search, selecione-o, clique em <i>`Add New Datasource`</i> e configure-o com a URL: <i>http://loki:3100</i> e clique no botão <i>`Save & test`</i> no final da página</p>
+  <img src="./docs/assets/images/screen_captures/grafana_create_loki_conn.png">
+</details>
+
+<br/>
+
+<details>
+  <summary><b>Importando o <u>Dashboard</u></b></summary>
+  <p>Agora você pode usar o menu <i>`Dashboards > New > Import`</i> para importar o arquivo <b>dash-payments-api.json</b> que está localizado no diretório: <a href="./scripts/grafana-dashboards/">./scripts/grafana-dashboards</a>. Acesse o diretório em seu computador, clique e arraste o arquivo para o campo correto especificado pela tela <b>Upload Dashboard JSON File</b>, selecione o Prometheus previamente configurado como data source e proceda o import</p>
   <img src="./docs/assets/images/screen_captures/grafana_import_dashboard.png">
 </details>
 
 <br/>
 
 <details>
-  <summary>Vincule o Dashboard a conexão previamente criada e acesse-o</summary>
-  <img src="./docs/assets/images/screen_captures/grafana_import_dashboard_prometheus.png">
+  <summary><b>Vincule o <u>Dashboard</u> as conexões previamente criadas e acesse-o</b></summary>
+  <img src="./docs/assets/images/screen_captures/grafana_import_dashboard_prometheus_loki_conn.png">
 </details>
 
 <br/>
@@ -651,8 +674,12 @@ Repita os passos de importação de dashboard anteriores para o arquivo __dash-r
 
 <div align="center">
     <img src="./docs/assets/images/screen_captures/grafana_redis.png">
-    <i>*Imagem retirada durante teste de carga</i>
+    <i>*Imagem retirada durante teste de carga. **Dashboard baixado da <a href="https://grafana.com/grafana/dashboards/763-redis-dashboard-for-prometheus-redis-exporter-1-x/">GrafanaLabs</a></i>
 </div>
+
+<br/>
+
+Também é possível utilizar o `Grafana` agora para filtrar seus logs através do menu `Home > Connections > Data sources`  e na lista de `sources`, na linha do `Loki`, clique no botão `Explore` para ter acesso à sessão de consultas de `logs`.
 
 <br/>
 
@@ -1264,4 +1291,3 @@ migrate -source file://payments-api/scripts/database/postgres/migrations -databa
 
 docker compose exec postgres-payments psql -U api_user -d payments_db -f /seeds/load_test_charge.up.sql
 -->
-

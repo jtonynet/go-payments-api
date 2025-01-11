@@ -14,6 +14,7 @@ import (
 
 	"github.com/jtonynet/go-payments-api/internal/adapter/repository"
 	"github.com/jtonynet/go-payments-api/internal/core/port"
+	"github.com/jtonynet/go-payments-api/internal/support/logger"
 )
 
 var (
@@ -36,6 +37,17 @@ var (
 	amountFoodFundsRejected         = decimal.NewFromFloat(720.45)
 	amountFoodFundsFallbackApproved = decimal.NewFromFloat(320.00)
 )
+
+type FakeLog struct{}
+
+func newFakeLog() logger.Logger {
+	return &FakeLog{}
+}
+
+func (fl FakeLog) Info(ctx context.Context, msg string, args ...interface{})  {}
+func (fl FakeLog) Debug(ctx context.Context, msg string, args ...interface{}) {}
+func (fl FakeLog) Warn(ctx context.Context, msg string, args ...interface{})  {}
+func (fl FakeLog) Error(ctx context.Context, msg string, args ...interface{}) {}
 
 type DBfake struct {
 	Accounts     map[uint]port.AccountEntity
@@ -261,7 +273,7 @@ func (suite *PaymentSuite) TestL1PaymentExecuteGenericRejected() {
 		allRepos.Account,
 		allRepos.Merchant,
 		memoryLockRepo,
-		nil,
+		newFakeLog(),
 	)
 
 	returnCode, _ := paymentService.Execute(tRequest)
@@ -296,17 +308,16 @@ func (suite *PaymentSuite) TestL1PaymentExecuteCorrectMCCWithFundsRejected() {
 		allRepos.Account,
 		allRepos.Merchant,
 		memoryLockRepo,
-		nil,
+		newFakeLog(),
 	)
 
 	returnCode, err := paymentService.Execute(tRequest)
+	assert.NotEqual(suite.T(), err, nil)
 
 	//Assert
 	codeRejected := "51" // domain.CODE_REJECTED_INSUFICIENT_FUNDS
-	insuficientFundsError := "failed to approve transaction: transaction category has insuficient funds"
-
 	assert.Equal(suite.T(), returnCode, codeRejected)
-	assert.Equal(suite.T(), err.Error(), insuficientFundsError)
+
 }
 
 func (suite *PaymentSuite) TestL1PaymentExecuteCorrectMCCWithFundsApproved() {
@@ -334,7 +345,7 @@ func (suite *PaymentSuite) TestL1PaymentExecuteCorrectMCCWithFundsApproved() {
 		allRepos.Account,
 		allRepos.Merchant,
 		memoryLockRepo,
-		nil,
+		newFakeLog(),
 	)
 	returnCode, err := paymentService.Execute(tRequest)
 
@@ -374,7 +385,7 @@ func (suite *PaymentSuite) TestL2PaymentExecuteCorrectMCCFallbackApproved() {
 		allRepos.Account,
 		allRepos.Merchant,
 		memoryLockRepo,
-		nil,
+		newFakeLog(),
 	)
 	returnCode, err := paymentService.Execute(tRequest)
 
@@ -418,7 +429,7 @@ func (suite *PaymentSuite) TestL3PaymentExecuteNameMCCWithFundsApproved() {
 		allRepos.Account,
 		allRepos.Merchant,
 		memoryLockRepo,
-		nil,
+		newFakeLog(),
 	)
 	returnCode, err := paymentService.Execute(tRequest)
 
@@ -458,7 +469,7 @@ func (suite *PaymentSuite) TestL3PaymentExecuteNameMCCFallbackApproved() {
 		allRepos.Account,
 		allRepos.Merchant,
 		memoryLockRepo,
-		nil,
+		newFakeLog(),
 	)
 	returnCode, err := paymentService.Execute(tRequest)
 

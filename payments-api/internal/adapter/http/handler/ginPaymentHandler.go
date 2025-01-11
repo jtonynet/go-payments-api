@@ -55,7 +55,7 @@ func PaymentExecution(ctx *gin.Context) {
 	var transactionRequest port.TransactionPaymentRequest
 	if err := ctx.ShouldBindBodyWith(&transactionRequest, binding.JSON); err != nil {
 		app.Logger.Error(
-			context.Background(),
+			requestCtx,
 			fmt.Sprintf("rejected: %s, error:%s ms\n", port.CODE_REJECTED_GENERIC, err.Error()),
 		)
 

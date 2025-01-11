@@ -9,6 +9,7 @@ import (
 	"github.com/jtonynet/go-payments-api/internal/adapter/database"
 	"github.com/jtonynet/go-payments-api/internal/adapter/pubSub"
 	"github.com/jtonynet/go-payments-api/internal/core/port"
+	"github.com/jtonynet/go-payments-api/internal/support/logger"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 )
@@ -24,6 +25,17 @@ type RedisReposSuite struct {
 	lockConn             database.InMemory
 	memoryLockRepository port.MemoryLockRepository
 }
+
+type FakeLog struct{}
+
+func newFakeLog() logger.Logger {
+	return &FakeLog{}
+}
+
+func (fl FakeLog) Info(ctx context.Context, msg string, args ...interface{})  {}
+func (fl FakeLog) Debug(ctx context.Context, msg string, args ...interface{}) {}
+func (fl FakeLog) Warn(ctx context.Context, msg string, args ...interface{})  {}
+func (fl FakeLog) Error(ctx context.Context, msg string, args ...interface{}) {}
 
 type DBfake struct {
 	Merchant map[uint]port.MerchantEntity
@@ -74,7 +86,7 @@ func (suite *RedisReposSuite) SetupSuite() {
 		log.Fatalf("cannot load config: %v", err)
 	}
 
-	cacheConn, err := database.NewInMemory(cfg.Cache.ToInMemoryDatabase())
+	cacheConn, err := database.NewInMemory(cfg.Cache.ToInMemoryDatabase(), newFakeLog())
 	if err != nil {
 		log.Fatalf("error: dont instantiate cache client: %v", err)
 	}
@@ -96,7 +108,7 @@ func (suite *RedisReposSuite) SetupSuite() {
 	suite.cacheConn = cacheConn
 	suite.cachedMerchantRepo = cachedMerchantRepo
 
-	lockConn, err := database.NewInMemory(cfg.Lock.ToInMemoryDatabase())
+	lockConn, err := database.NewInMemory(cfg.Lock.ToInMemoryDatabase(), newFakeLog())
 	if err != nil {
 		log.Fatalf("error: dont instantiate lock client: %v", err)
 	}

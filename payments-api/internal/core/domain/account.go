@@ -15,7 +15,7 @@ type Account struct {
 
 	Balance
 
-	Logger logger.Logger
+	Log logger.Logger
 }
 
 func (a *Account) ApproveTransaction(ctx context.Context, tDomain Transaction) (map[int]Transaction, *CustomError) {
@@ -25,13 +25,13 @@ func (a *Account) ApproveTransaction(ctx context.Context, tDomain Transaction) (
 
 	categoryMCC, err := a.Balance.TransactionByCategories.GetByMCC(tDomain.MCC)
 	if err != nil {
-		a.Logger.Debug(
+		a.Log.Debug(
 			ctx,
 			"Error retrieving category by MCC, attempting fallback.",
 		)
 
 	} else if categoryMCC.Amount.GreaterThanOrEqual(tDomain.Amount) {
-		a.Logger.Debug(
+		a.Log.Debug(
 			ctx,
 			fmt.Sprintf(
 				"Sufficient funds available in category '%s'",
@@ -45,7 +45,7 @@ func (a *Account) ApproveTransaction(ctx context.Context, tDomain Transaction) (
 		transactions[categoryMCC.Priority] = a.mapCategoryToTransaction(categoryMCC, tDomain)
 
 	} else if categoryMCC.Amount.IsPositive() {
-		a.Logger.Debug(
+		a.Log.Debug(
 			ctx,
 			fmt.Sprintf(
 				"Category '%s' has a positive balance but insufficient funds, attempting from fallback.",
@@ -62,7 +62,7 @@ func (a *Account) ApproveTransaction(ctx context.Context, tDomain Transaction) (
 	if amountDebtRemaining.GreaterThan(decimal.Zero) {
 		CategoryFallback, err := a.Balance.TransactionByCategories.GetFallback()
 		if err != nil {
-			a.Logger.Debug(
+			a.Log.Debug(
 				ctx,
 				"Error retrieving fallback category.",
 			)
@@ -71,7 +71,7 @@ func (a *Account) ApproveTransaction(ctx context.Context, tDomain Transaction) (
 			return transactions, NewCustomError(CODE_REJECTED_INSUFICIENT_FUNDS, fallbackNotFoundErr)
 
 		} else if CategoryFallback.Amount.GreaterThanOrEqual(amountDebtRemaining) {
-			a.Logger.Debug(
+			a.Log.Debug(
 				ctx,
 				"Fallback category has sufficient funds available.",
 			)
@@ -81,7 +81,7 @@ func (a *Account) ApproveTransaction(ctx context.Context, tDomain Transaction) (
 
 			amountDebtRemaining = decimal.NewFromFloat(0)
 		} else {
-			a.Logger.Debug(
+			a.Log.Debug(
 				ctx,
 				"Insufficient funds in the fallback category.",
 			)

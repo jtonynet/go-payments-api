@@ -35,6 +35,8 @@ func (ml *MemoryLock) Lock(
 
 	isUnlocked, _ := ml.isUnlocked(ctx, mle)
 	if isUnlocked {
+		// ml.lockConn.Log.Debug(ctx, "Blocked in distributed memory lock")
+
 		err = ml.lockConn.Set(ctx, mle.Key, mle.Timestamp, expiration)
 		if err != nil {
 			return port.MemoryLockEntity{}, err

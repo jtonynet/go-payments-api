@@ -90,13 +90,13 @@ __Resumo:__
 > - `PostgreSQL` modelado inspirado em `Event Sourcing` garantindo `Consistency`
 > -  `Concurrent Programming`
 > - `Redis` para `Pessimistic Memory Lock`
-> - `Redis Keyspace Notification` como `Pub/Sub` para `Unlocks` <br/>(`Robust Queues` foram desconsideradas devido `Additional Latency`)
+> - `Redis Keyspace Notification` como `Pub/Sub` para notificar `Unlocks` <br/>(`Robust Queues` foram desconsideradas devido `Additional Latency`)
 > - `CI` com `GitHub Actions` 
+> - `Diagram as code` com `Mermaid.js` e `Miro`
 > - `Performance/Load Test Dockerized` com `Gatling`
 > - `Observability` (WIP)
 >   - `Prometheus` e `Grafana` para `RED Metrics`
 >   - `Grafana Loki` e `Promtail` para `Logs`
-> - `Diagram as code` com `Mermaid.js` e `Miro`
 
 <br/>
 

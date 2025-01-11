@@ -32,7 +32,7 @@ type ProcessorApp struct {
 }
 
 func NewRESTApp(cfg *config.Config) (*RESTApp, error) {
-	logger, err := initializeLogger(cfg.Logger)
+	log, err := initializeLogger(cfg.Logger)
 	if err != nil {
 		return nil, fmt.Errorf("failed to initialize logger: %w", err)
 	}
@@ -43,7 +43,7 @@ func NewRESTApp(cfg *config.Config) (*RESTApp, error) {
 	}
 
 	return &RESTApp{
-		Logger:      logger,
+		Logger:      log,
 		GRPCpayment: gRPCPaymentClient,
 	}, nil
 }
@@ -53,28 +53,28 @@ func NewProcessorApp(cfg *config.Config) (*ProcessorApp, error) {
 	timeoutSLA := port.TimeoutSLA(time.Duration(cfg.API.TimeoutSLA) * time.Millisecond)
 
 	// Initialize supports
-	logger, err := initializeLogger(cfg.Logger)
+	log, err := initializeLogger(cfg.Logger)
 	if err != nil {
 		return nil, fmt.Errorf("failed to initialize logger: %w", err)
 	}
 
 	// Initialize adapters
-	pubSubClient, err := initializePubSub(cfg.PubSub, logger)
+	pubSubClient, err := initializePubSub(cfg.PubSub, log)
 	if err != nil {
 		return nil, err
 	}
 
-	lockClient, err := initializeDatabaseInMemory(cfg.Lock.ToInMemoryDatabase(), "Lock", logger)
+	lockClient, err := initializeDatabaseInMemory(cfg.Lock.ToInMemoryDatabase(), "Lock", log)
 	if err != nil {
 		return nil, err
 	}
 
-	cacheClient, err := initializeDatabaseInMemory(cfg.Cache.ToInMemoryDatabase(), "Cache", logger)
+	cacheClient, err := initializeDatabaseInMemory(cfg.Cache.ToInMemoryDatabase(), "Cache", log)
 	if err != nil {
 		return nil, err
 	}
 
-	dbConn, err := initializeDatabase(cfg.Database, logger)
+	dbConn, err := initializeDatabase(cfg.Database, log)
 	if err != nil {
 		return nil, err
 	}
@@ -101,41 +101,41 @@ func NewProcessorApp(cfg *config.Config) (*ProcessorApp, error) {
 		allRepos.Account,
 		cachedMerchantRepo,
 		memoryLockRepo,
-		logger,
+		log,
 	)
 
 	return &ProcessorApp{
-		Logger:         logger,
+		Logger:         log,
 		PaymentService: paymentService,
 	}, nil
 }
 
 func initializeLogger(cfg config.Logger) (logger.Logger, error) {
-	logger, err := logger.New(cfg)
+	log, err := logger.New(cfg)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create logger: %w", err)
 	}
 
-	logger.Debug(context.Background(), "Logger initialized successfully")
-	return logger, nil
+	log.Debug(context.Background(), "Logger initialized successfully")
+	return log, nil
 }
 
-func initializePubSub(cfg config.PubSub, logger logger.Logger) (pubSub.PubSub, error) {
+func initializePubSub(cfg config.PubSub, log logger.Logger) (pubSub.PubSub, error) {
 	pubsub, err := pubSub.New(cfg)
 	if err != nil {
 		return nil, fmt.Errorf("failed to initialize pub/sub client: %w", err)
 	}
 
-	logger.Debug(context.Background(), "Pub/Sub client initialized successfully")
+	log.Debug(context.Background(), "Pub/Sub client initialized successfully")
 	return pubsub, nil
 }
 
 func initializeDatabaseInMemory(
 	cfg config.InMemoryDatabase,
 	componentName string,
-	logger logger.Logger,
+	log logger.Logger,
 ) (database.InMemory, error) {
-	conn, err := database.NewInMemory(cfg)
+	conn, err := database.NewInMemory(cfg, log)
 	if err != nil {
 		return nil, fmt.Errorf("failed to initialize %s client: %w", componentName, err)
 	}
@@ -144,11 +144,11 @@ func initializeDatabaseInMemory(
 		return nil, fmt.Errorf("%s client is not ready: %w", componentName, err)
 	}
 
-	logger.Debug(context.Background(), fmt.Sprintf("%s client initialized successfully", componentName))
+	log.Debug(context.Background(), fmt.Sprintf("%s client initialized successfully", componentName))
 	return conn, nil
 }
 
-func initializeDatabase(cfg config.Database, logger logger.Logger) (database.Conn, error) {
+func initializeDatabase(cfg config.Database, log logger.Logger) (database.Conn, error) {
 	conn, err := database.NewConn(cfg)
 	if err != nil {
 		return nil, fmt.Errorf("failed to initialize database connection: %w", err)
@@ -158,6 +158,6 @@ func initializeDatabase(cfg config.Database, logger logger.Logger) (database.Con
 		return nil, fmt.Errorf("database connection is not ready: %w", err)
 	}
 
-	logger.Debug(context.Background(), "Database connection initialized successfully")
+	log.Debug(context.Background(), "Database connection initialized successfully")
 	return conn, nil
 }

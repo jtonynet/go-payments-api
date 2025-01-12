@@ -607,7 +607,6 @@ Agora, [Rodando o Projeto](#run) `payment-api`  em seu ambiente _containerizado_
 docker compose up pushgateway redis-exporter prometheus loki promtail grafana -d
 ```
 
-
 <br/>
 
 <details>
@@ -620,7 +619,7 @@ docker compose up pushgateway redis-exporter prometheus loki promtail grafana -d
 
 <br/>
 
-__Acesse e configure o [Grafana em seu localhost](http://localhost:3000/)__ _(usr/pwd: admin/admin)_
+Agora, acesse e configure o [Grafana em seu localhost](http://localhost:3000/)  (usr/pwd: admin/admin)
 
 <br/>
 <div align="center">. . . . . . . . . . . . . . . . . . . . . . . . . . . .</div>
@@ -647,7 +646,7 @@ A primeira vez que executarmos o Grafana, entramos com `usr/pwd` padrão de `adm
 <br/>
 
 <details>
-  <summary><b>Importando o <u>Dashboard</u></b></summary>
+  <summary><b>Importando o <u>Dashboard RED / USE (wip)</u></b></summary>
   <p>Agora você pode usar o menu <i>`Dashboards > New > Import`</i> para importar o arquivo <b>dash-payments-api.json</b> que está localizado no diretório: <a href="./scripts/grafana-dashboards/">./scripts/grafana-dashboards</a>. Acesse o diretório em seu computador, clique e arraste o arquivo para o campo correto especificado pela tela <b>Upload Dashboard JSON File</b>, selecione o Prometheus previamente configurado como data source e proceda o import</p>
   <img src="./docs/assets/images/screen_captures/grafana_import_dashboard.png">
 </details>
@@ -655,13 +654,34 @@ A primeira vez que executarmos o Grafana, entramos com `usr/pwd` padrão de `adm
 <br/>
 
 <details>
-  <summary><b>Vincule o <u>Dashboard</u> as conexões previamente criadas e acesse-o</b></summary>
+  <summary><b>Vincule o <u>Dashboard</u> às conexões previamente criadas e acesse-o</b></summary>
   <img src="./docs/assets/images/screen_captures/grafana_import_dashboard_prometheus_loki_conn.png">
 </details>
 
 <br/>
 
-Quando adequadamente importado, o Dashboard estará disponível e responderá às solicitações que você pode simular pela [Documentação da API](#api-docs) ou pelos [Testes Carga & Performance](#test-load) (fortemente recomendado rodar em conjunto com a `Observabilidade`).
+<details>
+  <summary><b>Importando o <u>Dashboard REDIS</u></b></summary>
+  <p>Repita os passos de <b><i>Importando o <u>Dashboard RED / USE (wip)</u></i></b> de dashboard anteriores para o arquivo <i>dash-redis.json</i> atentando-se para o fato de que o `Redis` não consome dados do `Loki`</p>
+  <img src="./docs/assets/images/screen_captures/grafana_redis.png"><br/><i>*Imagem retirada durante teste de carga. **Dashboard baixado da <a href="https://grafana.com/grafana/dashboards/763-redis-dashboard-for-prometheus-redis-exporter-1-x/">GrafanaLabs</a></i>
+</details>
+
+<br/>
+
+<details>
+  <summary><b>Consultando Logs no <u>Grafana Loki</u></b></summary>
+  <p>Agora é possível utilizar o `Grafana` para filtrar seus logs de forma mais eficiente. Acesse o menu `Home > Connections > Data sources`, localize a lista de `sources` e, na linha correspondente ao `Loki`, clique no botão `Explore`. Isso abrirá a seção de consultas de logs, permitindo uma análise detalhada dos dados.</p>
+  <p>Essa funcionalidade é especialmente poderosa quando utilizada em conjunto com os <a href="#test-load">Testes de Carga & Performance</a>, proporcionando insights valiosos para otimização e resolução de problemas ainda em desenvolvimento como visto abaixo em um exemplo de <i>Erro 07 por timeOut</i>.</p>
+  <div align="center"><img src="./docs/assets/images/screen_captures/grafana_explore_loki_logs.png" alt="Tela de consulta de logs no Grafana Loki"></div>
+</details>
+
+<br/>
+<div align="center">. . . . . . . . . . . . . . . . . . . . . . . . . . . .</div>
+<br/>
+
+#### Resultado Esperado:
+
+Quando adequadamente importados, os `Dashboards` `REDIS` e `RED / USE (wip)` estarão disponíveis e responderão às solicitações que você pode simular pela [Documentação da API](#api-docs) ou pelos [Testes Carga & Performance](#test-load) (fortemente recomendado rodar em conjunto com a `Observabilidade`) bem como filtors de `logs` através do `Grafana Loki`.
 
 <div align="center">
     <img src="./docs/assets/images/screen_captures/grafana_red.png">
@@ -669,23 +689,7 @@ Quando adequadamente importado, o Dashboard estará disponível e responderá à
 </div>
 
 <br/>
-
-Repita os passos de importação de dashboard anteriores para o arquivo __dash-redis.json__
-
-<div align="center">
-    <img src="./docs/assets/images/screen_captures/grafana_redis.png">
-    <i>*Imagem retirada durante teste de carga. **Dashboard baixado da <a href="https://grafana.com/grafana/dashboards/763-redis-dashboard-for-prometheus-redis-exporter-1-x/">GrafanaLabs</a></i>
-</div>
-
-<br/>
-
-<details>
-  <summary><b>Consultando Logs no <u>Grafana Loki</u></b></summary>
-  <p>Também é possível utilizar o `Grafana` agora para filtrar seus logs através do menu `Home > Connections > Data sources`  e na lista de `sources`, na linha do `Loki`, clique no botão `Explore` para ter acesso à sessão de consultas de `logs`.</p>
-  <img src="./docs/assets/images/screen_captures/grafana_explore_loki_logs.png">
-</details>
-
-<br/>
+ 
 
 [⤴️ de volta ao índice](#index)
 

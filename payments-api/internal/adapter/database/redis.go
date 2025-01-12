@@ -8,7 +8,6 @@ import (
 	"time"
 
 	"github.com/jtonynet/go-payments-api/config"
-	"github.com/jtonynet/go-payments-api/internal/support/logger"
 	redis "github.com/redis/go-redis/v9"
 )
 
@@ -22,11 +21,9 @@ type RedisClient struct {
 	client     *redis.Client
 	strategy   string
 	expiration time.Duration
-
-	Log logger.Logger
 }
 
-func NewRedisClient(cfg config.InMemoryDatabase, log logger.Logger) (*RedisClient, error) {
+func NewRedisClient(cfg config.InMemoryDatabase) (*RedisClient, error) {
 	strAddr := fmt.Sprintf("%s:%s", cfg.Host, cfg.Port)
 
 	client := redis.NewClient(&redis.Options{

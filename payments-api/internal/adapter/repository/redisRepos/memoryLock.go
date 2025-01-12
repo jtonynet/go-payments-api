@@ -10,17 +10,20 @@ import (
 	"github.com/jtonynet/go-payments-api/internal/adapter/database"
 	"github.com/jtonynet/go-payments-api/internal/adapter/pubSub"
 	"github.com/jtonynet/go-payments-api/internal/core/port"
+	"github.com/jtonynet/go-payments-api/internal/support/logger"
 )
 
 type MemoryLock struct {
 	lockConn database.InMemory
 	pubsub   pubSub.PubSub
+	log      logger.Logger
 }
 
-func NewMemoryLock(lockConn database.InMemory, pubsub pubSub.PubSub) (port.MemoryLockRepository, error) {
+func NewMemoryLock(lockConn database.InMemory, pubsub pubSub.PubSub, log logger.Logger) (port.MemoryLockRepository, error) {
 	return &MemoryLock{
-		lockConn,
-		pubsub,
+		lockConn: lockConn,
+		pubsub:   pubsub,
+		log:      log,
 	}, nil
 }
 
@@ -35,7 +38,7 @@ func (ml *MemoryLock) Lock(
 
 	isUnlocked, _ := ml.isUnlocked(ctx, mle)
 	if isUnlocked {
-		// ml.lockConn.Log.Debug(ctx, "Blocked in distributed memory lock")
+		ml.log.Debug(ctx, "Locked in distributed memory lock")
 
 		err = ml.lockConn.Set(ctx, mle.Key, mle.Timestamp, expiration)
 		if err != nil {
@@ -66,6 +69,8 @@ func (ml *MemoryLock) Lock(
 			if err != nil {
 				return port.MemoryLockEntity{}, err
 			}
+
+			ml.log.Debug(ctx, "Locked in distributed memory lock")
 			return mle, nil
 		case <-time.After(time.Until(deadline)):
 			return port.MemoryLockEntity{}, fmt.Errorf("timeout waiting for lock release on key: %s", mle.Key)
@@ -77,6 +82,7 @@ func (ml *MemoryLock) Lock(
 }
 
 func (ml *MemoryLock) Unlock(ctx context.Context, key string) error {
+	ml.log.Debug(ctx, "Unlocked in distributed memory lock")
 	return ml.lockConn.Expire(ctx, key, 0)
 }
 

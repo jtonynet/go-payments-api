@@ -90,7 +90,7 @@ func NewProcessorApp(cfg *config.Config) (*ProcessorApp, error) {
 		return nil, fmt.Errorf("failed to initialize cached merchant repository: %w", err)
 	}
 
-	memoryLockRepo, err := repository.NewMemoryLock(lockClient, pubSubClient)
+	memoryLockRepo, err := repository.NewMemoryLock(lockClient, pubSubClient, log)
 	if err != nil {
 		return nil, fmt.Errorf("failed to initialize memory lock repository: %w", err)
 	}
@@ -135,7 +135,7 @@ func initializeDatabaseInMemory(
 	componentName string,
 	log logger.Logger,
 ) (database.InMemory, error) {
-	conn, err := database.NewInMemory(cfg, log)
+	conn, err := database.NewInMemory(cfg)
 	if err != nil {
 		return nil, fmt.Errorf("failed to initialize %s client: %w", componentName, err)
 	}

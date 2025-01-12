@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"github.com/jtonynet/go-payments-api/config"
-	"github.com/jtonynet/go-payments-api/internal/support/logger"
 )
 
 type Conn interface {
@@ -36,10 +35,10 @@ type InMemory interface {
 	GetClient(ctx context.Context) (interface{}, error)
 }
 
-func NewInMemory(cfg config.InMemoryDatabase, log logger.Logger) (InMemory, error) {
+func NewInMemory(cfg config.InMemoryDatabase) (InMemory, error) {
 	switch cfg.Strategy {
 	case "redis":
-		return NewRedisClient(cfg, log)
+		return NewRedisClient(cfg)
 	default:
 		return nil, fmt.Errorf("InMemoryDB strategy not suported: %s", cfg.Strategy)
 	}

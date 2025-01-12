@@ -10,6 +10,7 @@ import (
 	"github.com/jtonynet/go-payments-api/internal/adapter/repository/gormRepos"
 	"github.com/jtonynet/go-payments-api/internal/adapter/repository/redisRepos"
 	"github.com/jtonynet/go-payments-api/internal/core/port"
+	"github.com/jtonynet/go-payments-api/internal/support/logger"
 )
 
 type AllRepos struct {
@@ -61,7 +62,7 @@ func NewCachedMerchant(cacheConn database.InMemory, mRepository port.MerchantRep
 	}
 }
 
-func NewMemoryLock(lockConn database.InMemory, pubsub pubSub.PubSub) (port.MemoryLockRepository, error) {
+func NewMemoryLock(lockConn database.InMemory, pubsub pubSub.PubSub, log logger.Logger) (port.MemoryLockRepository, error) {
 	var mlr port.MemoryLockRepository
 
 	strategy, err := lockConn.GetStrategy(context.Background())
@@ -71,7 +72,7 @@ func NewMemoryLock(lockConn database.InMemory, pubsub pubSub.PubSub) (port.Memor
 
 	switch strategy {
 	case "redis":
-		return redisRepos.NewMemoryLock(lockConn, pubsub)
+		return redisRepos.NewMemoryLock(lockConn, pubsub, log)
 	default:
 		return mlr, fmt.Errorf("memory lock repository strategy not suported: %s", strategy)
 	}

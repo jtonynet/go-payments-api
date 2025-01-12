@@ -25,7 +25,7 @@ class Payment extends Simulation {
 
   val testPaymentExecute = scenario("Test Payments").exec(paymentExecute)
 
-  private val tps = 25
+  private val tps = 150
   private val window = 5.minutes
   private val activeUsers = (window.toSeconds * tps).toInt
 

@@ -679,7 +679,11 @@ Repita os passos de importação de dashboard anteriores para o arquivo __dash-r
 
 <br/>
 
-Também é possível utilizar o `Grafana` agora para filtrar seus logs através do menu `Home > Connections > Data sources`  e na lista de `sources`, na linha do `Loki`, clique no botão `Explore` para ter acesso à sessão de consultas de `logs`.
+<details>
+  <summary><b>Consultando Logs no <u>Grafana Loki</u></b></summary>
+  <p>Também é possível utilizar o `Grafana` agora para filtrar seus logs através do menu `Home > Connections > Data sources`  e na lista de `sources`, na linha do `Loki`, clique no botão `Explore` para ter acesso à sessão de consultas de `logs`.</p>
+  <img src="./docs/assets/images/screen_captures/grafana_explore_loki_logs.png">
+</details>
 
 <br/>
 

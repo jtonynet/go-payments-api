@@ -86,7 +86,7 @@ func (suite *RedisReposSuite) SetupSuite() {
 		log.Fatalf("cannot load config: %v", err)
 	}
 
-	cacheConn, err := database.NewInMemory(cfg.Cache.ToInMemoryDatabase(), newFakeLog())
+	cacheConn, err := database.NewInMemory(cfg.Cache.ToInMemoryDatabase())
 	if err != nil {
 		log.Fatalf("error: dont instantiate cache client: %v", err)
 	}
@@ -108,7 +108,7 @@ func (suite *RedisReposSuite) SetupSuite() {
 	suite.cacheConn = cacheConn
 	suite.cachedMerchantRepo = cachedMerchantRepo
 
-	lockConn, err := database.NewInMemory(cfg.Lock.ToInMemoryDatabase(), newFakeLog())
+	lockConn, err := database.NewInMemory(cfg.Lock.ToInMemoryDatabase())
 	if err != nil {
 		log.Fatalf("error: dont instantiate lock client: %v", err)
 	}
@@ -122,7 +122,7 @@ func (suite *RedisReposSuite) SetupSuite() {
 		log.Fatalf("error: dont instantiate pubsub client: %v", err)
 	}
 
-	memoryLockRepo, err := NewMemoryLock(lockConn, pubSubUnlock)
+	memoryLockRepo, err := NewMemoryLock(lockConn, pubSubUnlock, newFakeLog())
 	if err != nil {
 		log.Fatalf("error: dont instantiate memory lock repository: %v", err)
 	}

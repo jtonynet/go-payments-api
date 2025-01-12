@@ -600,7 +600,7 @@ LOG_OPT_OUTPUT=loki                   ### text | json | loki
 
 <br/>
 
-Agora, [Rodando o Projeto](#run) `payment-api`  em seu ambiente _containerizado_ com seu `.env` configurado, suba as imagens necessarias com o comando abaixo e reinicie o `transaction-processor` e o `transaction-rest`.
+Agora, [Rodando o Projeto](#run) `payment-api`  em seu ambiente _containerizado_ com seu `.env` configurado, suba as imagens necessárias com o comando abaixo e reinicie o `transaction-processor` e o `transaction-rest`.
 
 ```bash
 # Rodar o pushgateway, redis-exporter, prometheus e grafana

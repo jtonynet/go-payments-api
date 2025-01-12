@@ -28,7 +28,7 @@ import (
 // @Router /payment [post]
 // @Success 200 {object} port.TransactionPaymentResponse
 func PaymentExecution(ctx *gin.Context) {
-	startTIme := time.Now().UnixMilli()
+	startTime := time.Now()
 	code := port.CODE_REJECTED_GENERIC
 	transactionUID := uuid.NewString()
 
@@ -43,8 +43,7 @@ func PaymentExecution(ctx *gin.Context) {
 	)
 
 	defer func() {
-		elapsedTime := time.Now().UnixMilli() - startTIme
-		requestCtx = context.WithValue(requestCtx, logger.CtxExecutionTimeKey, elapsedTime)
+		requestCtx = context.WithValue(requestCtx, logger.CtxExecutionTimeKey, time.Since(startTime))
 		requestCtx = context.WithValue(requestCtx, logger.CtxResponseCodeKey, code)
 		app.Logger.Info(
 			requestCtx,
@@ -55,7 +54,7 @@ func PaymentExecution(ctx *gin.Context) {
 	var transactionRequest port.TransactionPaymentRequest
 	if err := ctx.ShouldBindBodyWith(&transactionRequest, binding.JSON); err != nil {
 		app.Logger.Error(
-			context.Background(),
+			requestCtx,
 			fmt.Sprintf("rejected: %s, error:%s ms\n", port.CODE_REJECTED_GENERIC, err.Error()),
 		)
 

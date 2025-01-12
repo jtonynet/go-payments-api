@@ -163,6 +163,11 @@ func getAdditionalArgs(ctx context.Context, args ...interface{}) []interface{} {
 	finalArgs = append(finalArgs, "instance", os.Getenv("HOSTNAME"))
 	finalArgs = append(finalArgs, "service_name", os.Getenv("SERVICE_NAME"))
 
+	deadline, ok := ctx.Deadline()
+	if ok {
+		finalArgs = append(finalArgs, "timeout_until_deadline", time.Until(deadline))
+	}
+
 	for strKey, ctxKey := range CtxKeysMap {
 		argValue := ctx.Value(ctxKey)
 		if argValue != nil {

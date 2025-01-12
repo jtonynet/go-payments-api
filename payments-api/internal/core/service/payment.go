@@ -16,7 +16,7 @@ type Payment struct {
 	merchantRepository   port.MerchantRepository
 	memoryLockRepository port.MemoryLockRepository
 
-	logger            logger.Logger
+	log               logger.Logger
 	transactionLocked port.MemoryLockEntity
 }
 
@@ -27,7 +27,7 @@ func NewPayment(
 	mRepository port.MerchantRepository,
 	mlRepository port.MemoryLockRepository,
 
-	loggerInstance logger.Logger,
+	log logger.Logger,
 ) *Payment {
 	return &Payment{
 		timeoutSLA:           timeoutSLA,
@@ -35,7 +35,7 @@ func NewPayment(
 		merchantRepository:   mRepository,
 		memoryLockRepository: mlRepository,
 
-		logger: loggerInstance,
+		log: log,
 	}
 }
 
@@ -68,8 +68,7 @@ func (p *Payment) Execute(tpr port.TransactionPaymentRequest) (string, error) {
 		)
 	}
 
-	account := mapAccountEntityToDomain(accountEntity)
-	account.Logger = p.logger
+	account := mapAccountEntityToDomain(accountEntity, p.log)
 
 	var merchant domain.Merchant
 	merchantEntity, err := p.merchantRepository.FindByName(ctx, tpr.Merchant)
@@ -108,27 +107,27 @@ func (p *Payment) Execute(tpr port.TransactionPaymentRequest) (string, error) {
 		)
 	}
 
-	_ = p.memoryLockRepository.Unlock(context.Background(), p.transactionLocked.Key)
+	_ = p.memoryLockRepository.Unlock(ctx, p.transactionLocked.Key)
 
 	return domain.CODE_APPROVED, nil
 }
 
 func (p *Payment) rejectedGenericErr(ctx context.Context, err error) (string, error) {
-	p.logger.Error(ctx, err.Error())
+	p.log.Error(ctx, err.Error())
 
-	_ = p.memoryLockRepository.Unlock(context.Background(), p.transactionLocked.Key)
+	_ = p.memoryLockRepository.Unlock(ctx, p.transactionLocked.Key)
 
 	return domain.CODE_REJECTED_GENERIC, err
 }
 
 func (p *Payment) rejectedCustomErr(ctx context.Context, cErr *domain.CustomError) (string, error) {
 	if cErr.Code == domain.CODE_REJECTED_GENERIC {
-		p.logger.Error(ctx, cErr.Error())
+		p.log.Error(ctx, cErr.Error())
 	} else {
-		p.logger.Warn(ctx, cErr.Error())
+		p.log.Warn(ctx, cErr.Error())
 	}
 
-	_ = p.memoryLockRepository.Unlock(context.Background(), p.transactionLocked.Key)
+	_ = p.memoryLockRepository.Unlock(ctx, p.transactionLocked.Key)
 
 	return cErr.Code, fmt.Errorf("failed to approve transaction: %s", cErr.Message)
 }

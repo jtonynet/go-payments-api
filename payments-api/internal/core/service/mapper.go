@@ -5,6 +5,7 @@ import (
 
 	"github.com/jtonynet/go-payments-api/internal/core/domain"
 	"github.com/jtonynet/go-payments-api/internal/core/port"
+	"github.com/jtonynet/go-payments-api/internal/support/logger"
 	"github.com/shopspring/decimal"
 )
 
@@ -16,7 +17,7 @@ func mapTransactionRequestToMemoryLockEntity(tMemoryLock port.TransactionPayment
 	}
 }
 
-func mapAccountEntityToDomain(aEntity port.AccountEntity) domain.Account {
+func mapAccountEntityToDomain(aEntity port.AccountEntity, log logger.Logger) domain.Account {
 	amountTotal := decimal.NewFromFloat(10)
 
 	transactionItens := make(map[int]domain.TransactionCategory)
@@ -36,6 +37,7 @@ func mapAccountEntityToDomain(aEntity port.AccountEntity) domain.Account {
 	return domain.Account{
 		ID:  aEntity.ID,
 		UID: aEntity.UID,
+		Log: log,
 
 		Balance: domain.Balance{
 			AmountTotal: amountTotal,

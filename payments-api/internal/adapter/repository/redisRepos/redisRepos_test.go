@@ -9,6 +9,7 @@ import (
 	"github.com/jtonynet/go-payments-api/internal/adapter/database"
 	"github.com/jtonynet/go-payments-api/internal/adapter/pubSub"
 	"github.com/jtonynet/go-payments-api/internal/core/port"
+	"github.com/jtonynet/go-payments-api/internal/support/logger"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 )
@@ -24,6 +25,17 @@ type RedisReposSuite struct {
 	lockConn             database.InMemory
 	memoryLockRepository port.MemoryLockRepository
 }
+
+type FakeLog struct{}
+
+func newFakeLog() logger.Logger {
+	return &FakeLog{}
+}
+
+func (fl FakeLog) Info(ctx context.Context, msg string, args ...interface{})  {}
+func (fl FakeLog) Debug(ctx context.Context, msg string, args ...interface{}) {}
+func (fl FakeLog) Warn(ctx context.Context, msg string, args ...interface{})  {}
+func (fl FakeLog) Error(ctx context.Context, msg string, args ...interface{}) {}
 
 type DBfake struct {
 	Merchant map[uint]port.MerchantEntity
@@ -110,7 +122,7 @@ func (suite *RedisReposSuite) SetupSuite() {
 		log.Fatalf("error: dont instantiate pubsub client: %v", err)
 	}
 
-	memoryLockRepo, err := NewMemoryLock(lockConn, pubSubUnlock)
+	memoryLockRepo, err := NewMemoryLock(lockConn, pubSubUnlock, newFakeLog())
 	if err != nil {
 		log.Fatalf("error: dont instantiate memory lock repository: %v", err)
 	}

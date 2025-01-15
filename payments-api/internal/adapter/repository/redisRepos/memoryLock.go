@@ -14,16 +14,18 @@ import (
 )
 
 type MemoryLock struct {
-	lockConn database.InMemory
-	pubsub   pubSub.PubSub
-	log      logger.Logger
+	lockConn   database.InMemory
+	pubsub     pubSub.PubSub
+	log        logger.Logger
+	lockedByMe bool
 }
 
 func NewMemoryLock(lockConn database.InMemory, pubsub pubSub.PubSub, log logger.Logger) (port.MemoryLockRepository, error) {
 	return &MemoryLock{
-		lockConn: lockConn,
-		pubsub:   pubsub,
-		log:      log,
+		lockConn:   lockConn,
+		pubsub:     pubsub,
+		log:        log,
+		lockedByMe: false,
 	}, nil
 }
 
@@ -38,12 +40,13 @@ func (ml *MemoryLock) Lock(
 
 	isUnlocked, _ := ml.isUnlocked(ctx, mle)
 	if isUnlocked {
-		ml.log.Debug(ctx, "Locked in distributed memory lock")
-
 		err = ml.lockConn.Set(ctx, mle.Key, mle.Timestamp, expiration)
 		if err != nil {
 			return port.MemoryLockEntity{}, err
 		}
+
+		ml.lockedByMe = true
+		ml.log.Debug(ctx, "Locked in distributed memory lock")
 
 		return mle, nil
 	}
@@ -70,7 +73,9 @@ func (ml *MemoryLock) Lock(
 				return port.MemoryLockEntity{}, err
 			}
 
+			ml.lockedByMe = true
 			ml.log.Debug(ctx, "Locked in distributed memory lock")
+
 			return mle, nil
 		case <-time.After(time.Until(deadline)):
 			return port.MemoryLockEntity{}, fmt.Errorf("timeout waiting for lock release on key: %s", mle.Key)
@@ -82,8 +87,14 @@ func (ml *MemoryLock) Lock(
 }
 
 func (ml *MemoryLock) Unlock(ctx context.Context, key string) error {
-	ml.log.Debug(ctx, "Unlocked in distributed memory lock")
-	return ml.lockConn.Expire(ctx, key, 0)
+	if ml.lockedByMe {
+		ml.lockedByMe = false
+
+		ml.log.Debug(ctx, "Unlocked in distributed memory lock")
+		return ml.lockConn.Expire(ctx, key, 0)
+	}
+
+	return fmt.Errorf("not locked by this request on key: %s", key)
 }
 
 func (ml *MemoryLock) isUnlocked(ctx context.Context, mle port.MemoryLockEntity) (bool, error) {

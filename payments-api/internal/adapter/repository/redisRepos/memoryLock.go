@@ -33,6 +33,10 @@ func (ml *MemoryLock) Lock(
 	ctx context.Context,
 	mle port.MemoryLockEntity,
 ) (port.MemoryLockEntity, error) {
+	if ml.lockedByMe {
+		return mle, nil
+	}
+
 	expiration, err := ml.lockConn.GetDefaultExpiration(ctx)
 	if err != nil {
 		return port.MemoryLockEntity{}, err
@@ -94,7 +98,7 @@ func (ml *MemoryLock) Unlock(ctx context.Context, key string) error {
 		return ml.lockConn.Expire(ctx, key, 0)
 	}
 
-	return fmt.Errorf("not locked by this request on key: %s", key)
+	return fmt.Errorf("not locked by this request to proceed unlock on key: %s", key)
 }
 
 func (ml *MemoryLock) isUnlocked(ctx context.Context, mle port.MemoryLockEntity) (bool, error) {

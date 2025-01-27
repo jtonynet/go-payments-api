@@ -1256,6 +1256,7 @@ Este desafio me permite consolidar conhecimentos e identificar pontos cegos para
     </a>
 </div>
 
+
 <!--
 docker stop $(docker ps -aq)
 docker rm $(docker ps -aq)
